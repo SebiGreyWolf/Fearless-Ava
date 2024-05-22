@@ -20,11 +20,9 @@ public class SwordController : MonoBehaviour
 
     void Attack()
     {
-        //Trigger Animation
-        animator.SetTrigger("Attack");
-
         // Set flag to indicate that an attack is in progress
         isAttacking = true;
+        animator.SetBool("isAttacking", isAttacking);
     }
 
     // This method is called from the animation event
@@ -45,6 +43,7 @@ public class SwordController : MonoBehaviour
     {
         // Reset flag to indicate that the attack has finished
         isAttacking = false;
+        animator.SetBool("isAttacking", isAttacking);
     }
 
     private void OnDrawGizmosSelected()
