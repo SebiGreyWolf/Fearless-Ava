@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class SimplePlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     //Note that walljumps should just be performed at certain walls
     //adding a wallLayer, changin isTouchingLeftWall
+    public ParticleSystem dust;
+    public HealthBar healthBar;
 
+    public int maxHealth = 16;
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public float maxJumpTime = 0.5f;
@@ -14,6 +17,7 @@ public class SimplePlayerMovement : MonoBehaviour
     public Transform rightWallCheck;
     public LayerMask groundLayer;
 
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool isTouchingLeftWall;
@@ -22,11 +26,14 @@ public class SimplePlayerMovement : MonoBehaviour
     private float jumpTimeCounter;
     private bool isJumping;
     private float originalGravityScale;
+    private int currentHealth;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         originalGravityScale = rb.gravityScale;
+        healthBar.SetMaxHealth(maxHealth);
+        currentHealth = maxHealth;
     }
 
     private void Update()
@@ -115,10 +122,21 @@ public class SimplePlayerMovement : MonoBehaviour
     {
         if (faceRight != isFacingRight)
         {
+            CreateDust();
             isFacingRight = faceRight;
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
         }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        healthBar.SetHealth(currentHealth -= amount);
+    }
+
+    private void CreateDust()
+    {
+        dust.Play();
     }
 }

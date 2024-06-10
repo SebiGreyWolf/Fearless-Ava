@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7482236564092949610}
   - component: {fileID: 1543501122239075567}
   - component: {fileID: 1373044717028560554}
-  m_Layer: 0
-  m_Name: SwordTrail
+  m_Layer: 7
+  m_Name: SwordTrailPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 933688825615333772}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.69, y: 1.17, z: 0}
+  m_LocalPosition: {x: -0.28999996, y: 1.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4840,7 +4840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2122002994808301210}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground Check
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -4873,7 +4873,7 @@ GameObject:
   - component: {fileID: 9147064804335194692}
   - component: {fileID: 2582551591563518372}
   - component: {fileID: 3205862388073256866}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DustPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9701,7 +9701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 841995250893664921}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9733,7 +9733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7686825915115455968}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall Back Check
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -9766,7 +9766,7 @@ GameObject:
   - component: {fileID: 5840559631506761372}
   - component: {fileID: 179252367493836447}
   - component: {fileID: 1146710221692135410}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9873,7 +9873,7 @@ GameObject:
   - component: {fileID: 4256813407108425030}
   - component: {fileID: 5925235445299758866}
   - component: {fileID: 4417179934398790679}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -9984,6 +9984,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e31854def6c3c4a80b5bd3820f0697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dust: {fileID: 2582551591563518372}
+  healthBar: {fileID: 0}
+  maxHealth: 16
   moveSpeed: 12
   jumpForce: 10
   maxJumpTime: 0.5
@@ -10005,7 +10008,7 @@ GameObject:
   - component: {fileID: 164690714088515015}
   - component: {fileID: 2026893742272798188}
   - component: {fileID: 7775732169730015378}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -10095,7 +10098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 372166228326714395}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Checks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10129,7 +10132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5704222883658540487}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10164,7 +10167,7 @@ GameObject:
   - component: {fileID: 1051089962641154855}
   - component: {fileID: 4342441420134174823}
   - component: {fileID: 8717601489623217734}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10180,7 +10183,7 @@ Transform:
   m_GameObject: {fileID: 6814018125466445017}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.34, y: 1.467, z: 0}
+  m_LocalPosition: {x: -0.66, y: 1.467, z: 0}
   m_LocalScale: {x: 0.2696053, y: 0.3356904, z: 0.48413974}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10229,7 +10232,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cfdb7b5720c7f904c8c225293002c8c6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 567cd1da88776c843a9f79cebc5a6cbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10256,6 +10259,7 @@ MonoBehaviour:
   swordTrail: {fileID: 1543501122239075567}
   attackPoint: {fileID: 5824296579433569464}
   attackRange: 0.5
+  attackDamage: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -10289,7 +10293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5824296579433569464}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Attack Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10305,7 +10309,7 @@ Transform:
   m_GameObject: {fileID: 6861448230439652710}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.64, y: 2.89, z: 0}
+  m_LocalPosition: {x: -0.24, y: 2.89, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10320,7 +10324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1410677901972381965}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall Front Check
   m_TagString: Untagged
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}

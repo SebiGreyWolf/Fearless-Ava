@@ -7,6 +7,7 @@ public class SwordController : MonoBehaviour
 
     public Transform attackPoint;
     public float attackRange = 0.5f;
+    public int attackDamage = 5;
     public LayerMask enemyLayer;
 
     private bool isAttacking = false;
@@ -36,7 +37,9 @@ public class SwordController : MonoBehaviour
         // Deal damage to each enemy
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Hit enemy for damage");
+            Enemy e = enemy.GetComponent<Enemy>();
+            e.TakeDamage(attackDamage);
+
         }
     }
 
