@@ -12,6 +12,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public ParticleSystem dust;
+
     //Scriptable object which holds all the player's movement parameters.
     public PlayerData Data;
 
@@ -402,6 +404,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Turn()
     {
+        if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
+        {
+            CreateDust();
+        }
         //stores scale and flips the player along the x axis, 
         Vector3 scale = transform.localScale;
         scale.x *= -1;
@@ -588,6 +594,13 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
         Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
+    }
+    #endregion
+
+    #region PARTICLE
+    private void CreateDust()
+    {
+        dust.Play();
     }
     #endregion
 }

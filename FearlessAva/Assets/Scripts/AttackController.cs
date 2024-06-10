@@ -3,6 +3,7 @@ using UnityEngine;
 public class SwordController : MonoBehaviour
 {
     public Animator animator;
+    public ParticleSystem swordTrail;
 
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -22,6 +23,7 @@ public class SwordController : MonoBehaviour
     {
         // Set flag to indicate that an attack is in progress
         isAttacking = true;
+        swordTrail.Play();
         animator.SetBool("isAttacking", isAttacking);
     }
 
@@ -30,7 +32,7 @@ public class SwordController : MonoBehaviour
     {
         // Detect enemies within the attack range
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
+        swordTrail.Stop();
         // Deal damage to each enemy
         foreach (Collider2D enemy in hitEnemies)
         {
