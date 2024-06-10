@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public Transform rightWallCheck;
     public LayerMask groundLayer;
     public float invulnerabilityDuration = 0.5f;
+    public Vector2 wallJumpForce = new Vector2(2,2);
 
 
     private Rigidbody2D rb;
@@ -103,7 +104,13 @@ public class Player : MonoBehaviour
 
     private void WallJump(int direction)
     {
-        rb.velocity = new Vector2(direction * moveSpeed, jumpForce);
+        Vector2 force = new Vector2(wallJumpForce.x * direction, wallJumpForce.y);
+        Debug.Log(force.x);
+        Debug.Log(force.y);
+
+        rb.AddForce(force, ForceMode2D.Impulse);
+        Debug.Log(rb.velocity);
+
         Flip(direction == 1);
     }
 

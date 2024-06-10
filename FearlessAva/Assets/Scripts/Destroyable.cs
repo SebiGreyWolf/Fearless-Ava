@@ -5,6 +5,8 @@ using UnityEngine;
 public class Destroyable : MonoBehaviour
 {
     public int maxHits = 3;
+    public float fadeDuration = 1f;
+    public float fadeStep = 0.1f;
 
     private int currentHits;
     private SpriteRenderer spriteRenderer;
@@ -35,8 +37,7 @@ public class Destroyable : MonoBehaviour
         boxCollider.enabled = false;
 
         Color originalColor = spriteRenderer.color;
-        float fadeDuration = 1f; // Duration of the fade out
-        float fadeStep = 0.1f; // Time step for each fade iteration
+
         float alphaValue = originalColor.a;
 
         for (float t = 0; t < fadeDuration; t += fadeStep)
@@ -46,17 +47,7 @@ public class Destroyable : MonoBehaviour
             yield return new WaitForSeconds(fadeStep);
         }
 
-        // Ensure the object is completely invisible and destroy it
         spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0);
         Destroy(gameObject);
-    }
-
-    // Optional: Visual feedback for each hit (e.g., changing color or playing an animation)
-    private IEnumerator FlashSprite()
-    {
-        Color originalColor = spriteRenderer.color;
-        spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = originalColor;
     }
 }
