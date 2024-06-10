@@ -97,18 +97,9 @@ public class Enemy : MonoBehaviour
         RaycastHit2D hitLeft = Physics2D.Raycast(origin, leftDiagonal, coneDistance, layerMask);
         Debug.DrawRay(origin, leftDiagonal * coneDistance, Color.yellow);
 
-        Debug.Log("RIGHT");
-        Debug.Log(hitRight);
-        Debug.Log(hitRight.collider);
-        Debug.Log("LEFT");
-        Debug.Log(hitLeft);
-        Debug.Log(hitLeft.collider);
-        Debug.Log("--------------");
-
         if ((hitRight.collider != null && hitRight.collider.CompareTag("Player")) ||
             (hitLeft.collider != null && hitLeft.collider.CompareTag("Player")))
         {
-            Debug.Log("HIT YOU FUCKER");
             return true;
         }
 
@@ -167,29 +158,6 @@ public class Enemy : MonoBehaviour
         // Draw the damage zone box
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(damageZone.position, damageZoneSize);
-
-        // Draw the vision cones
-        //DrawCone(coneAngle);
-    }
-
-    private void DrawCone(float angle)
-    {
-        float coneRadius = coneDistance;
-        Vector3 origin = transform.position;
-
-        // Direction for right diagonal ray
-        Vector3 rightDiagonalDirection = Quaternion.Euler(0, 0, angle) * Vector2.up;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(origin, rightDiagonalDirection * coneRadius);
-
-        // Direction for left diagonal ray
-        Vector3 leftDiagonalDirection = Quaternion.Euler(0, 0, -angle) * Vector2.up;
-        Gizmos.DrawRay(origin, leftDiagonalDirection * coneRadius);
-
-        // Draw the horizontal ray
-        Gizmos.color = Color.red;
-        Vector3 horizontalDirection = Vector2.up;
-        Gizmos.DrawRay(origin, horizontalDirection * coneRadius);
     }
     #endregion
 }

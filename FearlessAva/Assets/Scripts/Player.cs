@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     public Transform leftWallCheck;
     public Transform rightWallCheck;
     public LayerMask groundLayer;
+    public float invulnerabilityDuration = 0.5f;
 
 
     private Rigidbody2D rb;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
     private bool isJumping;
     private float originalGravityScale;
     private int currentHealth;
+    private bool isInvulnerable = false;
 
     private void Awake()
     {
@@ -132,11 +135,27 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        healthBar.SetHealth(currentHealth -= amount);
+        if (!isInvulnerable)
+        {
+            currentHealth -= amount;
+            healthBar.SetHealth(currentHealth);
+            if (currentHealth <= 0)
+            {
+                Debug.Log("YOU ARE FUCKING DEAD! (LOSER)");
+            }
+            StartCoroutine(InvulnerabilityTimer());
+        }
+    }
+    private IEnumerator InvulnerabilityTimer()
+    {
+        isInvulnerable = true;
+        yield return new WaitForSeconds(invulnerabilityDuration);
+        isInvulnerable = false;
     }
 
     private void CreateDust()
     {
-        dust.Play();
+        if (isGrounded)
+            dust.Play();
     }
 }

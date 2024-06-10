@@ -9,6 +9,7 @@ public class SwordController : MonoBehaviour
     public float attackRange = 0.5f;
     public int attackDamage = 5;
     public LayerMask enemyLayer;
+    public LayerMask destroyableLayer;
 
     private bool isAttacking = false;
 
@@ -31,19 +32,30 @@ public class SwordController : MonoBehaviour
     // This method is called from the animation event
     public void PerformAttack()
     {
-        // Detect enemies within the attack range
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, destroyableLayer);
+
         swordTrail.Stop();
-        // Deal damage to each enemy
+
         foreach (Collider2D enemy in hitEnemies)
         {
             Enemy e = enemy.GetComponent<Enemy>();
-            e.TakeDamage(attackDamage);
+            if (e != null)
+            {
+                e.TakeDamage(attackDamage);
+            }
+        }
 
+        foreach (Collider2D destroyable in hitDestroyables)
+        {
+            Destroyable destroyableObject = destroyable.GetComponent<Destroyable>();
+            if (destroyableObject != null)
+            {
+                destroyableObject.TakeHit();
+            }
         }
     }
 
-    // This method is called from the animation event to indicate the end of the attack animation
     public void FinishAttack()
     {
         // Reset flag to indicate that the attack has finished
