@@ -4360,10 +4360,9 @@ Transform:
   - {fileID: 1653720050}
   - {fileID: 243974322}
   - {fileID: 1279190677}
+  - {fileID: 672466030}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
-=======
 --- !u!1 &672466028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4510,11 +4509,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1208759452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!96 &868474922 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 3980971183334417552, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
-  m_PrefabInstance: {fileID: 1830321350}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &902925076
 GameObject:
   m_ObjectHideFlags: 0
@@ -4806,7 +4800,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1753174134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> d70e65c2d61f106feaa952c8cd12d146a734e211
 --- !u!1 &1279190675
 GameObject:
   m_ObjectHideFlags: 0
@@ -5055,7 +5048,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
-<<<<<<< HEAD
 --- !u!4 &1536400665 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5824296579433569464, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
@@ -5067,9 +5059,6 @@ Animator:
   m_PrefabInstance: {fileID: 1830321350}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1653720049
-=======
---- !u!1 &1561627546
->>>>>>> d70e65c2d61f106feaa952c8cd12d146a734e211
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5077,32 +5066,21 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
   - component: {fileID: 1653720050}
   - component: {fileID: 1653720051}
   m_Layer: 0
-  m_Name: bush__test
-=======
-  - component: {fileID: 1561627547}
-  m_Layer: 0
   m_Name: bone_11
->>>>>>> d70e65c2d61f106feaa952c8cd12d146a734e211
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
 --- !u!4 &1653720050
-=======
---- !u!4 &1561627547
->>>>>>> d70e65c2d61f106feaa952c8cd12d146a734e211
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 1653720049}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -5164,17 +5142,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-=======
-  m_GameObject: {fileID: 1561627546}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.78004164, w: 0.6257276}
-  m_LocalPosition: {x: -2.2792933, y: -0.8739865, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1753174134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> d70e65c2d61f106feaa952c8cd12d146a734e211
 --- !u!1 &1753174132
 GameObject:
   m_ObjectHideFlags: 0
@@ -5269,7 +5236,6 @@ Transform:
   - {fileID: 36058503}
   - {fileID: 746901606}
   - {fileID: 1260516807}
-  - {fileID: 1561627547}
   - {fileID: 1781040272}
   - {fileID: 2121479738}
   - {fileID: 571901625}
@@ -5322,7 +5288,7 @@ MonoBehaviour:
   - {fileID: 36058503}
   - {fileID: 746901606}
   - {fileID: 1260516807}
-  - {fileID: 1561627547}
+  - {fileID: 1653720050}
   - {fileID: 1781040272}
   - {fileID: 2121479738}
   - {fileID: 571901625}
