@@ -4,31 +4,36 @@ using UnityEngine;
 
 public class Destroyable : MonoBehaviour
 {
-    public int maxHits = 3;
+    public int maxHealth = 15;
     public float fadeDuration = 1f;
     public float fadeStep = 0.1f;
 
-    private int currentHits;
+    private int currentHealth;
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
 
     private void Start()
     {
-        currentHits = 0;
+        currentHealth = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
     }
 
     // Call this method when the object is hit
-    public void TakeHit()
+    public void TakeDamage(int damage)
     {
-        currentHits++;
+        currentHealth -= damage;
 
-        if (currentHits >= maxHits)
+        if (currentHealth <= 0)
         {
-            StartCoroutine(FadeOutAndDestroy());
+            Destroy();
         }
+    }
+
+    public void Destroy()
+    {
+        StartCoroutine(FadeOutAndDestroy());
     }
 
     private IEnumerator FadeOutAndDestroy()

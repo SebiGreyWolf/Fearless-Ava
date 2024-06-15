@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHealth = 100;
     public int damage = 10;
     public float moveSpeed = 2f;
     public Transform damageZone; 
@@ -14,14 +13,15 @@ public class Enemy : MonoBehaviour
     public float coneDistance = 10f;
     public LayerMask playerLayer;
 
+    public bool isSlowed = false;
+    public float slowTimer = 0f;
+
 
     private bool isFacingRight = true;
-    private int currentHealth;
     private Transform player;
 
     private void Start()
     {
-        currentHealth = maxHealth;
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -30,13 +30,6 @@ public class Enemy : MonoBehaviour
         if (player != null)
         {
             bool wasFacingRight = isFacingRight;
-            bool playerAbove = player.position.y > transform.position.y + sightHight; // Adjust the offset as needed
-
-            if (playerAbove)
-            {
-                IsWaiting();
-                return;
-            }
 
             if (IsPlayerInCone())
             {
@@ -54,13 +47,6 @@ public class Enemy : MonoBehaviour
                     isFacingRight = true;
                 }
             }
-            else if (!playerAbove)
-            {
-                // If player is not within the cone and not above, idle or wait
-                IsWaiting();
-            }
-
-
 
             if (wasFacingRight != isFacingRight)
             {
@@ -73,12 +59,16 @@ public class Enemy : MonoBehaviour
         {
             InflictDamageToPlayer();
         }
-    }
 
-    private void IsWaiting()
-    {
-        //Play Idle Animation/Waiting
-        return;
+        if (isSlowed)
+        {
+            slowTimer -= Time.deltaTime;
+            if (slowTimer <= 0f)
+            {
+                isSlowed = false;
+                moveSpeed *= 2; // Restore original speed
+            }
+        }
     }
 
     private bool IsPlayerInCone()
@@ -130,19 +120,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damageAmount)
+    public void ApplyIceEffect(float slowDuration)
     {
-        currentHealth -= damageAmount;
-        if (currentHealth <= 0)
+        if (!isSlowed)
         {
-            Die();
+            isSlowed = true;
+            slowTimer = slowDuration;
+            moveSpeed /= 2;
         }
-    }
-
-    private void Die()
-    {
-        Debug.Log("DIE DIE DIE DIE DIE HAHAHAHAH");
-        Destroy(gameObject);
     }
 
     private void Flip()

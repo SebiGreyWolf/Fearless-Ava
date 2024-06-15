@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2084129675954638151}
   - component: {fileID: 2313327699667172472}
-  - component: {fileID: 3617787719173751557}
   - component: {fileID: 5614405570716032236}
+  - component: {fileID: 3617787719173751557}
+  - component: {fileID: 2685262464959979596}
   m_Layer: 6
   m_Name: DummyEnemy
   m_TagString: Untagged
@@ -81,29 +82,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.3001924, y: 1.6098964}
   m_EdgeRadius: 0
---- !u!114 &3617787719173751557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6129302143693985869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e10b718d0bc1d8448a2fa0171842ecb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 20
-  damage: 4
-  moveSpeed: 6
-  damageZone: {fileID: 8096532351271468061}
-  damageZoneSize: {x: 1, y: 1}
-  sightHight: 3
-  coneAngle: 85
-  coneDistance: 10
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!50 &5614405570716032236
 Rigidbody2D:
   serializedVersion: 4
@@ -131,6 +109,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3617787719173751557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6129302143693985869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e10b718d0bc1d8448a2fa0171842ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 4
+  moveSpeed: 4
+  damageZone: {fileID: 8096532351271468061}
+  damageZoneSize: {x: 1, y: 1}
+  sightHight: 3
+  coneAngle: 85
+  coneDistance: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  isSlowed: 0
+  slowDuration: 2
+  slowTimer: 0
+--- !u!114 &2685262464959979596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6129302143693985869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7aa92fd04b20443b7068b4dadfb89a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 15
+  fadeDuration: 1
+  fadeStep: 0.1
 --- !u!1 &6239641290903440909
 GameObject:
   m_ObjectHideFlags: 0
