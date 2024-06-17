@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IceAttackAbbility : MonoBehaviour
 {
-    public int attackDamage = 5;
+    public int attackDamage = 2;
     public float attackRange = 0.5f;
     public float cooldown = 1f;
     public Transform attackPoint;
@@ -30,21 +30,20 @@ public class IceAttackAbbility : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && CanAttack())
+        if (Input.GetKeyDown(KeyCode.E) && CanAttack())
         {
-            DoAttack();
+            DoIceAttack();
         }
     }
 
-    private void DoAttack()
+    private void DoIceAttack()
     {
         isAttacking = true;
         animator.SetBool("isIceAbbility", true);
         trailRenderer.emitting = true;
-        PerformAttack();
     }
 
-    public void PerformAttack()
+    public void PerformIceAttack()
     {
         Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         foreach (Collider2D destroyable in hitDestroyables)
@@ -56,19 +55,9 @@ public class IceAttackAbbility : MonoBehaviour
                 ApplyIceEffect(damageable);
             }
         }
-        FinishAttack();
     }
 
-    private void ApplyIceEffect(Destroyable damageable)
-    {
-        Enemy enemy = damageable.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemy.ApplyIceEffect(slowDuration);
-        }
-    }
-
-    private void FinishAttack()
+    public void FinishIceAttack()
     {
         isAttacking = false;
         trailRenderer.emitting = false;
@@ -79,6 +68,15 @@ public class IceAttackAbbility : MonoBehaviour
     private bool CanAttack()
     {
         return (Time.time >= lastAttackTime + cooldown && !isAttacking);
+    }
+    
+    private void ApplyIceEffect(Destroyable damageable)
+    {
+        Enemy enemy = damageable.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.ApplyIceEffect(slowDuration);
+        }
     }
 
     private void OnDrawGizmosSelected()

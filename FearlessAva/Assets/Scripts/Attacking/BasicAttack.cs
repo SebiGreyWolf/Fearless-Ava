@@ -30,21 +30,18 @@ public class BasicAttack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && CanAttack())
         {
-            DoAttack();
+            DoBasicAttack();
         }
     }
 
-    private void DoAttack()
+    private void DoBasicAttack()
     {
-        Debug.Log("DoAttack");
         isAttacking = true;
-        animator.SetFloat("Test", 5.7f);
         animator.SetBool("isBasicAttack", true);
         trailRenderer.emitting = true;
-        PerformAttack();
     }
 
-    public void PerformAttack()
+    public void PerformBasicAttack()
     {
         Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         foreach (Collider2D destroyable in hitDestroyables)
@@ -55,11 +52,11 @@ public class BasicAttack : MonoBehaviour
                 damageable.TakeDamage(attackDamage);
             }
         }
-        FinishAttack();
     }
 
-    private void FinishAttack()
+    public void FinishBasicAttack()
     {
+        Debug.Log("HURENSOHN");
         isAttacking = false;
         trailRenderer.emitting = false;
         animator.SetBool("isBasicAttack", false);

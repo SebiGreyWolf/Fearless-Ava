@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     //adding a wallLayer, changin isTouchingLeftWall
     public ParticleSystem dust;
     public HealthBar healthBar;
+    public AudioClip walkSound;
 
     public int maxHealth = 16;
     public float moveSpeed = 5f;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     public Vector2 wallJumpForce = new Vector2(2,2);
 
 
+    private AudioSource audioSource;
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool isTouchingLeftWall;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         originalGravityScale = rb.gravityScale;
         healthBar.SetMaxHealth(maxHealth);
+        audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth;
     }
 
@@ -49,6 +52,8 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
+        audioSource.clip = walkSound;
+        audioSource.Play();
         float moveInput = Input.GetAxis("Horizontal");
         Vector2 moveVelocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         rb.velocity = moveVelocity;
