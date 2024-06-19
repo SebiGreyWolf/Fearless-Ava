@@ -10,12 +10,16 @@ public class BasicAttack : MonoBehaviour
     public Transform attackPoint;
     public TrailRenderer trailRenderer;
     public Animator animator;
+    public Sprite basicSword;
 
     private bool isAttacking = false;
     private float lastAttackTime = 0f;
+    private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         if (attackPoint == null)
             attackPoint = gameObject.GetComponentInChildren<Transform>();
 
@@ -30,6 +34,7 @@ public class BasicAttack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && CanAttack())
         {
+            spriteRenderer.sprite = basicSword;
             DoBasicAttack();
         }
     }
@@ -56,7 +61,6 @@ public class BasicAttack : MonoBehaviour
 
     public void FinishBasicAttack()
     {
-        Debug.Log("HURENSOHN");
         isAttacking = false;
         trailRenderer.emitting = false;
         animator.SetBool("isBasicAttack", false);

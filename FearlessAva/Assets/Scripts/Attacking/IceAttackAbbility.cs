@@ -11,12 +11,15 @@ public class IceAttackAbbility : MonoBehaviour
     public TrailRenderer trailRenderer;
     public Animator animator;
     public float slowDuration = 2f;
+    public Sprite iceSword;
 
     private bool isAttacking = false;
     private float lastAttackTime = 0f;
+    private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (attackPoint == null)
             attackPoint = this.GetComponentInChildren<Transform>();
@@ -32,6 +35,7 @@ public class IceAttackAbbility : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && CanAttack())
         {
+            spriteRenderer.sprite = iceSword;
             DoIceAttack();
         }
     }
@@ -69,7 +73,7 @@ public class IceAttackAbbility : MonoBehaviour
     {
         return (Time.time >= lastAttackTime + cooldown && !isAttacking);
     }
-    
+
     private void ApplyIceEffect(Destroyable damageable)
     {
         Enemy enemy = damageable.GetComponent<Enemy>();

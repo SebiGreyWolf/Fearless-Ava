@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     public int damage = 10;
     public float moveSpeed = 2f;
-    public Transform damageZone; 
+    public Transform damageZone;
     public Vector2 damageZoneSize = new Vector2(2f, 2f);
     public float sightHight = 3f;
     public float coneAngle = 20f;
@@ -19,9 +19,11 @@ public class Enemy : MonoBehaviour
 
     private bool isFacingRight = true;
     private Transform player;
+    private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -62,11 +64,13 @@ public class Enemy : MonoBehaviour
 
         if (isSlowed)
         {
+            spriteRenderer.color = Color.blue;
             slowTimer -= Time.deltaTime;
             if (slowTimer <= 0f)
             {
                 isSlowed = false;
-                moveSpeed *= 2; // Restore original speed
+                moveSpeed *= 2;
+                spriteRenderer.color = Color.white;
             }
         }
     }
