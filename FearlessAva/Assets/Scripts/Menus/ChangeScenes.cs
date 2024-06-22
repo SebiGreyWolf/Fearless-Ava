@@ -7,6 +7,8 @@ public class ChangeScenes : MonoBehaviour
 {
     public void GoToScenePlay()
     {
+        Debug.Log("Play");
+
         SceneManager.LoadScene("Level1");
     }
 
@@ -18,6 +20,10 @@ public class ChangeScenes : MonoBehaviour
     public void GoToSceneMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+    public void GoToSceneCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 
     public void QuitGame()
