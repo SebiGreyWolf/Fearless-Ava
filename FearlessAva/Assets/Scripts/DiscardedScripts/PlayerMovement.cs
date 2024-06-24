@@ -457,6 +457,7 @@ public class PlayerMovement : MonoBehaviour
         //Unlike in the run we want to use the Impulse mode.
         //The default mode will apply are force instantly ignoring masss
         RB.AddForce(force, ForceMode2D.Impulse);
+        Turn();
         #endregion
     }
     #endregion

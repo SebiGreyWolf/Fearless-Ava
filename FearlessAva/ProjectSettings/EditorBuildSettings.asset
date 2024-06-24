@@ -12,11 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/OptionsMenu.unity
     guid: c4a1e27c464c7c8409337c9b0e15ee52
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 13e9de0ab4c582548917eb91d37f6cd3
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 0
     path: Assets/Scenes/BackupScene/BackupScene.unity
     guid: 72d763aba8b8a9848bbac28857077170
