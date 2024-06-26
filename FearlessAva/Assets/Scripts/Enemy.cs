@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     public bool isSlowed = false;
     public float slowTimer = 0f;
 
-
     private bool isFacingRight = true;
     private Transform player;
     private SpriteRenderer spriteRenderer;
