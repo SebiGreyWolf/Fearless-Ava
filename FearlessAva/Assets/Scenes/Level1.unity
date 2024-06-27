@@ -16222,6 +16222,7 @@ GameObject:
   - component: {fileID: 2142062144}
   - component: {fileID: 2142062143}
   - component: {fileID: 2142062146}
+  - component: {fileID: 2142062147}
   m_Layer: 6
   m_Name: PatrolingEnemy
   m_TagString: Untagged
@@ -16253,7 +16254,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142062141}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -16333,6 +16334,21 @@ MonoBehaviour:
   playerPrefab: {fileID: 83785701}
   enemyPatrol: {fileID: 719143322}
   detectionRange: 1.75
+--- !u!114 &2142062147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142062141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7aa92fd04b20443b7068b4dadfb89a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 15
+  fadeDuration: 1
+  fadeStep: 0.1
 --- !u!1001 &638086514923923224
 PrefabInstance:
   m_ObjectHideFlags: 0
