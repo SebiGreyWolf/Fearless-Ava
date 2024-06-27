@@ -16331,7 +16331,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 83785705}
   playerPrefab: {fileID: 83785701}
-  detectionRange: 5
+  enemyPatrol: {fileID: 719143322}
+  detectionRange: 1.75
 --- !u!1001 &638086514923923224
 PrefabInstance:
   m_ObjectHideFlags: 0

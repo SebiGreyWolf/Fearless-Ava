@@ -16,14 +16,14 @@ public class TurtleEnemy : MonoBehaviour
     public GameObject playerPrefab;
     public Player player;
 
-    private EnemyPatrol enemiyPatrol;
+    private EnemyPatrol enemyPatrol;
 
     private void Awake()
     {
         playerLayer = LayerMask.GetMask("Player");
 
         playerPrefab = GameObject.FindGameObjectWithTag("Player");
-        enemiyPatrol = GetComponentInParent<EnemyPatrol>();
+        enemyPatrol = GetComponentInParent<EnemyPatrol>();
 
         if(playerPrefab != null )
         {
@@ -55,9 +55,9 @@ public class TurtleEnemy : MonoBehaviour
             }
         }
 
-        if(enemiyPatrol != null)
+        if(enemyPatrol != null)
         {
-            enemiyPatrol.enabled = !PlayerInSight();
+            enemyPatrol.enabled = !PlayerInSight();
         }
 
         

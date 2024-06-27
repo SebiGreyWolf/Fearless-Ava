@@ -9,20 +9,41 @@ public class PatrolingEnemy : MonoBehaviour
 {
     public Player player;
     public GameObject playerPrefab;
+    public EnemyPatrol enemyPatrol;
 
-    public float detectionRange = 5;
+    public float detectionRange = 1.75f;
     private float detectionAngle = 45.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float attackCooldown = 2.0f;
+    private int damage = 10;
+    private float cooldownTimer = 1f;
+
 
     // Update is called once per frame
     void Update()
     {
-        isPlayerInRange();
+        cooldownTimer += Time.deltaTime;
+
+        if(isPlayerInRange())
+        {
+
+            if (cooldownTimer >= attackCooldown)
+            {
+                cooldownTimer = 0;
+                DamagePlayer();
+            }
+        }
+
+        if (enemyPatrol != null)
+        {
+            enemyPatrol.enabled = !isPlayerInRange();
+        }
+
+    }
+
+    void DamagePlayer()
+    {
+        player.TakeDamage(damage);
     }
 
     bool isPlayerInRange() 
@@ -40,37 +61,12 @@ public class PatrolingEnemy : MonoBehaviour
 
                 if (angle < detectionAngle)
                 {
-                    Debug.Log("Detected");
-                    Debug.DrawRay(transform.position, directionToTarget * distance);
+                    //Debug.Log("Detected");
+                    //Debug.DrawRay(transform.position, directionToTarget * distance);
                     return true;
                 }
             }
         }
         return false; 
     }
-
-
-    /*
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Vector3 position = transform.position;
-        Vector3 forward = transform.right;
-
-        Debug.DrawRay(position, forward, Color.yellow);
-
-        Vector3 test = new Vector3(1, 1, 0);
-        Vector3 test2 = new Vector3(1, -1, 0);
-
-        // Zeichne die Ränder des Sichtkegels
-        Quaternion leftRayRotation = Quaternion.AngleAxis(-detectionAngle, test2 * transform.localScale.x);
-        Quaternion rightRayRotation = Quaternion.AngleAxis(detectionAngle, test * transform.localScale.x);
-
-        Vector3 leftRayDirection = leftRayRotation * forward;
-        Vector3 rightRayDirection = rightRayRotation * forward;
-
-        Gizmos.DrawRay(position, leftRayDirection * detectionRange);
-        Gizmos.DrawRay(position, rightRayDirection * detectionRange);
-    }
-    */
 }
