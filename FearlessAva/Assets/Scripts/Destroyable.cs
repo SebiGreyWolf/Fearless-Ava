@@ -15,9 +15,8 @@ public class Destroyable : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
-        spriteRenderer = transform.Find("TurtleSprite").GetComponent<SpriteRenderer>();
     }
 
     // Call this method when the object is hit

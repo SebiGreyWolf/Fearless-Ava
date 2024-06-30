@@ -15,10 +15,12 @@ public class BasicAttack : MonoBehaviour
     private bool isAttacking = false;
     private float lastAttackTime = 0f;
     private SpriteRenderer spriteRenderer;
+    private Collider2D playerCollider;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerCollider = GetComponent<Collider2D>();
 
         if (attackPoint == null)
             attackPoint = gameObject.GetComponentInChildren<Transform>();
@@ -51,10 +53,14 @@ public class BasicAttack : MonoBehaviour
         Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         foreach (Collider2D destroyable in hitDestroyables)
         {
-            Destroyable damageable = destroyable.GetComponent<Destroyable>();
-            if (damageable != null)
+            if (destroyable != playerCollider)
             {
-                damageable.TakeDamage(attackDamage);
+                Debug.Log("Hit: " + destroyable.name);
+                Destroyable damageable = destroyable.GetComponent<Destroyable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(attackDamage);
+                }
             }
         }
     }
