@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
@@ -15,10 +16,15 @@ public class EnemyPatrol : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float speed = 2.5f;
+    private float baseSpeed;
     private Vector3 initScale;
     private bool movingLeft = true;
     public bool isSlowed = false;
     public float slowTimer = 0f;
+    private bool wasSlowedBefore = false;
+    public float freezeTimer = 0f;
+    private float freezeDuration = 3f;
+    private bool isFrozen = false;
 
     [Header("Idleing")]
     [SerializeField] private float idleDuration = 1;
@@ -32,6 +38,7 @@ public class EnemyPatrol : MonoBehaviour
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         initScale = enemy.transform.localScale;
+        baseSpeed = speed;
     }
 
 
@@ -65,6 +72,17 @@ public class EnemyPatrol : MonoBehaviour
                     spriteRenderer.color = Color.white;
                 }
             }
+            else if (isFrozen)
+            {
+                spriteRenderer.color = Color.blue;
+                freezeTimer -= Time.deltaTime;
+                if (freezeTimer <= 0f)
+                {
+                    isFrozen = false;
+                    speed = baseSpeed;
+                    spriteRenderer.color = Color.white;
+                }
+            }
         }
     }
 
@@ -89,12 +107,24 @@ public class EnemyPatrol : MonoBehaviour
 
     public void ApplySlow(float slowDuration)
     {
-        if (!isSlowed)
+        if (!wasSlowedBefore)
         {
-            isSlowed = true;
-            slowTimer = slowDuration;
-            speed /= 2;
+            if (!isSlowed)
+            {
+                isSlowed = true;
+                slowTimer = slowDuration;
+                speed /= 2;
+                wasSlowedBefore = true;
+            }
         }
+        else
+        {
+            wasSlowedBefore = false;
+            isFrozen = true;
+            freezeTimer = freezeDuration;
+            speed = 0;
+        }
+        
     }
 
 }
