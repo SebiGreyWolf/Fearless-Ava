@@ -11,17 +11,18 @@ public class EnemyPatrol : MonoBehaviour
 
     [Header("Enemy")]
     [SerializeField] private Transform enemy;
-
+    private SpriteRenderer spriteRenderer;
 
     [Header("Movement")]
     [SerializeField] private float speed = 2.5f;
     private Vector3 initScale;
     private bool movingLeft = true;
+    public bool isSlowed = false;
+    public float slowTimer = 0f;
 
     [Header("Idleing")]
     [SerializeField] private float idleDuration = 1;
     private float idleTimer;
-
 
     [Header("Animator")]
     [SerializeField] private Animator animator;
@@ -29,6 +30,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Awake()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         initScale = enemy.transform.localScale;
     }
 
@@ -51,9 +53,20 @@ public class EnemyPatrol : MonoBehaviour
                 else
                     DirectionChange();
             }
+
+            if (isSlowed)
+            {
+                spriteRenderer.color = Color.blue;
+                slowTimer -= Time.deltaTime;
+                if (slowTimer <= 0f)
+                {
+                    isSlowed = false;
+                    speed *= 2;
+                    spriteRenderer.color = Color.white;
+                }
+            }
         }
     }
-
 
     private void DirectionChange()
     {
@@ -62,8 +75,6 @@ public class EnemyPatrol : MonoBehaviour
         if(idleTimer > idleDuration)
             movingLeft = !movingLeft;
     }
-
-
 
     private void MoveInDirection(int direction)
     {
@@ -76,6 +87,14 @@ public class EnemyPatrol : MonoBehaviour
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime * direction * speed, enemy.position.y, enemy.position.z);
     }
 
-
+    public void ApplySlow(float slowDuration)
+    {
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            slowTimer = slowDuration;
+            speed /= 2;
+        }
+    }
 
 }

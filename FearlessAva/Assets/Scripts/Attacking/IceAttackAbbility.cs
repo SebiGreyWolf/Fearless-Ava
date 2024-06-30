@@ -76,7 +76,7 @@ public class IceAttackAbbility : MonoBehaviour
 
     private void ApplyIceEffect(Destroyable damageable)
     {
-        Enemy enemy = damageable.GetComponent<Enemy>();
+        PatrolingEnemy enemy = damageable.GetComponent<PatrolingEnemy>();
         if (enemy != null)
         {
             enemy.ApplyIceEffect(slowDuration);

@@ -54,6 +54,14 @@ public class PatrolingEnemy : MonoBehaviour
         player.TakeDamage(damage);
     }
 
+    public void ApplyIceEffect(float slowDuration)
+    {
+        if (enemyPatrol != null)
+        {
+            enemyPatrol.ApplySlow(slowDuration);
+        }
+    }
+
     bool isPlayerInRange() 
     {
         if (this != null && player != null)
