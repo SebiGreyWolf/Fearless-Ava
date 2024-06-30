@@ -18,6 +18,14 @@ public class PatrolingEnemy : MonoBehaviour
     private int damage = 10;
     private float cooldownTimer = 1f;
 
+    private void Awake()
+    {
+        if (playerPrefab != null)
+        {
+            player = playerPrefab.GetComponent<Player>();
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -47,8 +55,8 @@ public class PatrolingEnemy : MonoBehaviour
     }
 
     bool isPlayerInRange() 
-    { 
-        if(this != null && player != null)
+    {
+        if (this != null && player != null)
         {
             float distance = Vector3.Distance(transform.position, player.transform.position);
 

@@ -45,9 +45,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        HandleMovement();
-        HandleJump();
-        FlipSprite();
+        //Auskkommentiert weil Movement jetzt vom PlayerMovement-Script gehandeled wird
+
+        //HandleMovement();
+        //HandleJump();
+        //FlipSprite();
     }
 
     private void HandleMovement()
