@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public ParticleSystem dust;
 
+    public Animator animator;
     //Scriptable object which holds all the player's movement parameters.
     public PlayerData Data;
 
@@ -21,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
     //Script to handle all player animations, all references can be safely removed if you're importing into your own project.
     //public PlayerAnimator AnimHandler { get; private set; }
-    public Animator animator;
     #endregion
 
     #region STATE PARAMETERS
@@ -352,8 +352,8 @@ public class PlayerMovement : MonoBehaviour
         float targetSpeed = _moveInput.x * Data.runMaxSpeed;
         //We can reduce are control using Lerp() this smooths changes to are direction and speed
         targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
-
-        animator.SetFloat("Speed", Mathf.Abs(targetSpeed));
+        if (!IsJumping)
+            animator.SetFloat("Speed", Mathf.Abs(targetSpeed));
 
         #region Calculate AccelRate
         float accelRate;
@@ -399,7 +399,7 @@ public class PlayerMovement : MonoBehaviour
 		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);
 		 * Time.fixedDeltaTime is by default in Unity 0.02 seconds equal to 50 FixedUpdate() calls per second
 		*/
-        
+
     }
 
     private void Turn()
@@ -432,6 +432,8 @@ public class PlayerMovement : MonoBehaviour
         if (RB.velocity.y < 0)
             force -= RB.velocity.y;
 
+
+        animator.SetTrigger("Jumping");
         RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         #endregion
     }
@@ -453,11 +455,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
             force.y -= RB.velocity.y;
-
         //Unlike in the run we want to use the Impulse mode.
         //The default mode will apply are force instantly ignoring masss
+
         RB.AddForce(force, ForceMode2D.Impulse);
         Turn();
+
         #endregion
     }
     #endregion
