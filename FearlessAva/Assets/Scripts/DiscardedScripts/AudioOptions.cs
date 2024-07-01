@@ -8,16 +8,19 @@ public class AudioOptions : MonoBehaviour
 {
     public Slider volumeSlider; // Referenz auf den Slider
     public AudioMixer audioMixer; // Referenz auf den AudioMixer
+    private float volume;
 
     void Start()
     {
-        float volume;
 
         volumeSlider.minValue = 0f;
         volumeSlider.maxValue = 100f;
 
-        audioMixer.GetFloat("MasterVolume", out volume);
+        audioMixer.GetFloat("Master", out volume);
         volumeSlider.value = volume;
+
+        Debug.Log("Volume Gotten: " + volume);
+
 
         //Listener, der auf Veränderungen des Sliders reagiert
         volumeSlider.onValueChanged.AddListener(delegate { ChangeVolume(); });
@@ -27,8 +30,15 @@ public class AudioOptions : MonoBehaviour
     {
         float sliderValue = volumeSlider.value;
 
-        float volume = Mathf.Lerp(-80f, 0f, sliderValue / 100);
+        volume = Mathf.Lerp(-80f, 0f, sliderValue / 100);
 
-        audioMixer.SetFloat("MasterVolume", volume);
+        Debug.Log("Volume on Change: " + volume);
+
+        audioMixer.SetFloat("Master", volume);
+
+
+        float test;
+        audioMixer.GetFloat("Master", out test);
+        Debug.Log("Volume on Change Test: " + test);
     }
 }

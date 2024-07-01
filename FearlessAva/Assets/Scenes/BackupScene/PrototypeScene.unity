@@ -830,13 +830,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 1598211958}
     m_Modifications:
     - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 532056008}
+    - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+      propertyPath: destroyable
+      value: 
+      objectReference: {fileID: 270299435}
+    - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: enemyPatrol
       value: 
       objectReference: {fileID: 1598211957}
     - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 532056009}
     - target: {fileID: 862993408976834258, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: m_Name
       value: PatrolingEnemy
@@ -886,6 +894,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+--- !u!114 &270299435 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2112064263952584120, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+  m_PrefabInstance: {fileID: 270299434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7aa92fd04b20443b7068b4dadfb89a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &294170005
 GameObject:
   m_ObjectHideFlags: 0
@@ -5713,6 +5732,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+--- !u!114 &532056008 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4121421869956119536, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+  m_PrefabInstance: {fileID: 532056007}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532056009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51e31854def6c3c4a80b5bd3820f0697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &532056009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5351406364031638354, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+  m_PrefabInstance: {fileID: 532056007}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &559089661
 GameObject:
   m_ObjectHideFlags: 0
@@ -6952,13 +6987,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 2004365055}
     m_Modifications:
     - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 532056008}
+    - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+      propertyPath: destroyable
+      value: 
+      objectReference: {fileID: 1190876801}
+    - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: enemyPatrol
       value: 
       objectReference: {fileID: 2004365054}
     - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 532056009}
     - target: {fileID: 862993408976834258, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: m_Name
       value: PatrolingEnemy
@@ -7008,6 +7051,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+--- !u!114 &1190876801 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2112064263952584120, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+  m_PrefabInstance: {fileID: 1190876800}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7aa92fd04b20443b7068b4dadfb89a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1193148874
 GameObject:
   m_ObjectHideFlags: 0

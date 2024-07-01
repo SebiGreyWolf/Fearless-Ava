@@ -59,7 +59,6 @@ public class PatrolingEnemy : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log(collision.relativeVelocity.y.ToString());
             if (collision.relativeVelocity.y <= -0.5)
             {
                 destroyable.Destroy();
@@ -90,8 +89,6 @@ public class PatrolingEnemy : MonoBehaviour
 
                 if (angle < detectionAngle)
                 {
-                    //Debug.Log("Detected");
-                    //Debug.DrawRay(transform.position, directionToTarget * distance);
                     return true;
                 }
             }

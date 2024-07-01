@@ -545,8 +545,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076294, y: -0.00093842}
-  m_SizeDelta: {x: 800, y: 444.62}
+  m_AnchoredPosition: {x: 0.0000076294, y: -0.00037240982}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &436203307
 MonoBehaviour:
@@ -599,7 +599,6 @@ GameObject:
   - component: {fileID: 714029967}
   - component: {fileID: 714029966}
   - component: {fileID: 714029965}
-  - component: {fileID: 714029971}
   - component: {fileID: 714029970}
   m_Layer: 5
   m_Name: Canvas
@@ -720,20 +719,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 1820246040}
---- !u!114 &714029971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 714029964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e529eef30d172b47a03c7b81c746f8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volumeSlider: {fileID: 773758934}
-  audioMixer: {fileID: 0}
 --- !u!1 &737414352
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,6 +797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773758935}
   - component: {fileID: 773758934}
+  - component: {fileID: 773758936}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -869,7 +855,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 773758936}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: ChangeVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &773758935
 RectTransform:
   m_ObjectHideFlags: 0
@@ -893,6 +891,19 @@ RectTransform:
   m_AnchoredPosition: {x: 165.52, y: 40}
   m_SizeDelta: {x: 271.8419, y: 18.1354}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &773758936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773758933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae26dee602b49e448ecf67959a95284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 773758934}
 --- !u!1 &1256681747
 GameObject:
   m_ObjectHideFlags: 0
