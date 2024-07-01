@@ -20,19 +20,15 @@ public class EnemyPatrol : MonoBehaviour
     private Vector3 initScale;
     private bool movingLeft = true;
     public bool isSlowed = false;
-    public float slowTimer = 0f;
+    private float slowTimer = 0f;
     private bool wasSlowedBefore = false;
-    public float freezeTimer = 0f;
-    private float freezeDuration = 3f;
+    private float freezeTimer = 0f;
+    public float freezeDuration = 3f;
     private bool isFrozen = false;
 
     [Header("Idleing")]
     [SerializeField] private float idleDuration = 1;
     private float idleTimer;
-
-    [Header("Animator")]
-    [SerializeField] private Animator animator;
-
 
     private void Awake()
     {
@@ -96,12 +92,9 @@ public class EnemyPatrol : MonoBehaviour
 
     private void MoveInDirection(int direction)
     {
-        //animator.SetBool("EnemyWalking", true);
-
         idleTimer = 0;
 
         enemy.localScale = new Vector3 (Mathf.Abs(initScale.x) * direction, initScale.y, initScale.z);
-
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime * direction * speed, enemy.position.y, enemy.position.z);
     }
 

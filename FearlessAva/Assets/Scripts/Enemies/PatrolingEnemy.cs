@@ -10,6 +10,7 @@ public class PatrolingEnemy : MonoBehaviour
     public Player player;
     public GameObject playerPrefab;
     public EnemyPatrol enemyPatrol;
+    public Destroyable destroyable;
 
     public float detectionRange = 1.75f;
     private float detectionAngle = 45.0f;
@@ -24,10 +25,10 @@ public class PatrolingEnemy : MonoBehaviour
         {
             player = playerPrefab.GetComponent<Player>();
         }
+
+        destroyable = gameObject.GetComponent<Destroyable>();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         cooldownTimer += Time.deltaTime;
@@ -52,6 +53,18 @@ public class PatrolingEnemy : MonoBehaviour
     void DamagePlayer()
     {
         player.TakeDamage(damage);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log(collision.relativeVelocity.y.ToString());
+            if (collision.relativeVelocity.y <= -0.5)
+            {
+                destroyable.Destroy();
+            }
+        }
     }
 
     public void ApplyIceEffect(float slowDuration)

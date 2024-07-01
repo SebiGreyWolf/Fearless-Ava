@@ -1786,10 +1786,8 @@ MonoBehaviour:
   enemy: {fileID: 2142062142}
   speed: 2
   isSlowed: 0
-  slowTimer: 0
-  freezeTimer: 0
+  freezeDuration: 3
   idleDuration: 1
-  animator: {fileID: 0}
 --- !u!4 &719143323
 Transform:
   m_ObjectHideFlags: 0
@@ -13198,6 +13196,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerPrefab: {fileID: 83785701}
   enemyPatrol: {fileID: 719143322}
+  destroyable: {fileID: 0}
   detectionRange: 1.75
 --- !u!114 &2142062147
 MonoBehaviour:
@@ -13428,5 +13427,5 @@ SceneRoots:
   - {fileID: 1404246731}
   - {fileID: 2073829294}
   - {fileID: 596907163}
-  - {fileID: 719143323}
   - {fileID: 1883375874}
+  - {fileID: 719143323}
