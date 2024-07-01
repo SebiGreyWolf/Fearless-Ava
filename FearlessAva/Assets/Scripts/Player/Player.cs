@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public HealthBar healthBar;
+    public Transform respawnPoint;
 
     public int maxHealth = 16;
     public float invulnerabilityDuration = 0.5f;
@@ -28,6 +29,9 @@ public class Player : MonoBehaviour
             if (currentHealth <= 0)
             {
                 Debug.Log("YOU ARE FUCKING DEAD! (LOSER)");
+                gameObject.transform.position = respawnPoint.transform.position;
+                healthBar.SetHealth(maxHealth);
+                currentHealth = maxHealth;
             }
             StartCoroutine(InvulnerabilityTimer());
         }

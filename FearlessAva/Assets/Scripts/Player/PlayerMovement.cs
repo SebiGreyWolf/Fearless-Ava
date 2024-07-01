@@ -457,6 +457,7 @@ public class PlayerMovement : MonoBehaviour
             force.y -= RB.velocity.y;
         //Unlike in the run we want to use the Impulse mode.
         //The default mode will apply are force instantly ignoring masss
+        animator.SetTrigger("WallJumping");
 
         RB.AddForce(force, ForceMode2D.Impulse);
         Turn();
@@ -536,6 +537,8 @@ public class PlayerMovement : MonoBehaviour
         //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
         //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
         movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+
+        animator.SetTrigger("Sliding");
 
         RB.AddForce(movement * Vector2.up);
     }

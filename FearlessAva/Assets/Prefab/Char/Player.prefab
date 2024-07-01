@@ -5612,7 +5612,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5259422534429769780}
@@ -5825,22 +5825,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e31854def6c3c4a80b5bd3820f0697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dust: {fileID: 2582551591563518372}
   healthBar: {fileID: 0}
-  walkSound: {fileID: 0}
   maxHealth: 16
-  moveSpeed: 5
-  jumpForce: 10
-  maxJumpTime: 0.5
-  gravityScaleAtApex: 3
-  groundCheck: {fileID: 2122002994808301210}
-  leftWallCheck: {fileID: 1410677901972381965}
-  rightWallCheck: {fileID: 7686825915115455968}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
   invulnerabilityDuration: 0.5
-  wallJumpForce: {x: 2, y: 2}
 --- !u!1 &5387587846568486479
 GameObject:
   m_ObjectHideFlags: 0
