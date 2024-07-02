@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     #region LAYERS & TAGS
     [Header("Layers & Tags")]
     [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private LayerMask _destroyableLayer;
     #endregion
 
     private void Awake()
@@ -131,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         if (!IsDashing && !IsJumping)
         {
             //Ground Check
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
+            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)|| Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _destroyableLayer)) //checks if set box overlaps with ground
             {
                 if (LastOnGroundTime < -0.1f)
                 {
@@ -460,7 +461,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("WallJumping");
 
         RB.AddForce(force, ForceMode2D.Impulse);
-        Turn();
+        //Turn();
 
         #endregion
     }
