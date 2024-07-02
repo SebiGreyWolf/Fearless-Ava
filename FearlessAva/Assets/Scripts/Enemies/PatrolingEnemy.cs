@@ -13,10 +13,10 @@ public class PatrolingEnemy : MonoBehaviour
     public Destroyable destroyable;
 
     public float detectionRange = 1.75f;
-    private float detectionAngle = 45.0f;
+    public float detectionAngle = 45.0f;
 
     private float attackCooldown = 2.0f;
-    private int damage = 10;
+    public int damage = 10;
     private float cooldownTimer = 1f;
 
     private void Awake()

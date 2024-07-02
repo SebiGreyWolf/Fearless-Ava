@@ -830,6 +830,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1598211958}
     m_Modifications:
     - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+      propertyPath: damage
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 532056008}
@@ -5688,6 +5692,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368807977}
     - target: {fileID: 4121421869956119536, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4121421869956119536, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
       propertyPath: respawnPoint
       value: 
       objectReference: {fileID: 441082005}
@@ -6990,6 +6998,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2004365055}
     m_Modifications:
+    - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
+      propertyPath: damage
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 198279064229381836, guid: 0ebe16b2093859f4eaf1e609fd01f59b, type: 3}
       propertyPath: player
       value: 
