@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,7 @@ TagManager:
   - Enemy
   - Player
   - Destroyable
-  - 
+  - Wall
   - 
   - 
   - 
@@ -38,6 +40,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2914988593
+    locked: 0
+  - name: UnderPlayerLayer
+    uniqueID: 1584494633
+    locked: 0
+  - name: PlayerLayer
+    uniqueID: 1197970561
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 1895668835
     locked: 0

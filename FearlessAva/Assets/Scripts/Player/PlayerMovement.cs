@@ -132,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         if (!IsDashing && !IsJumping)
         {
             //Ground Check
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)|| Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _destroyableLayer)) //checks if set box overlaps with ground
+            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) || Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _destroyableLayer)) //checks if set box overlaps with ground
             {
                 if (LastOnGroundTime < -0.1f)
                 {
@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
                     || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
                 LastOnWallRightTime = Data.coyoteTime;
 
-            //Right Wall Check
+            //Left Wall Check
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
                 || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
                 LastOnWallLeftTime = Data.coyoteTime;
@@ -218,8 +218,6 @@ public class PlayerMovement : MonoBehaviour
                 _lastDashDir = _moveInput;
             else
                 _lastDashDir = IsFacingRight ? Vector2.right : Vector2.left;
-
-
 
             IsDashing = true;
             IsJumping = false;
@@ -441,29 +439,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump(int dir)
     {
-        //Ensures we can't call Wall Jump multiple times from one press
+        Debug.Log($"WallJump: dir={dir}, velocity before jump: {RB.velocity}");
+
+        // Ensures we can't call Wall Jump multiple times from one press
         LastPressedJumpTime = 0;
         LastOnGroundTime = 0;
         LastOnWallRightTime = 0;
         LastOnWallLeftTime = 0;
 
-        #region Perform Wall Jump
-        Vector2 force = new Vector2(Data.wallJumpForce.x, Data.wallJumpForce.y);
-        force.x *= dir; //apply force in opposite direction of wall
+        // Create the force vector
+        Vector2 force = new Vector2(Data.wallJumpForce.x * dir, Data.wallJumpForce.y);
 
-        if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
-            force.x -= RB.velocity.x;
+        // Clamp the horizontal velocity to prevent excessive speed
+        float clampedVelocityX = Mathf.Clamp(RB.velocity.x, -Data.maxHorizontalVelocity, Data.maxHorizontalVelocity);
 
-        if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
-            force.y -= RB.velocity.y;
-        //Unlike in the run we want to use the Impulse mode.
-        //The default mode will apply are force instantly ignoring masss
-        animator.SetTrigger("WallJumping");
+        // Reset vertical velocity before applying wall jump force
+        RB.velocity = new Vector2(clampedVelocityX, 0);
 
+        // Apply wall jump force
         RB.AddForce(force, ForceMode2D.Impulse);
-        //Turn();
 
-        #endregion
+        Debug.Log($"WallJump: applied force: {force}, velocity after jump: {RB.velocity}");
+
+        // Trigger wall jump animation
+        animator.SetTrigger("WallJumping");
+        //Turn()
     }
     #endregion
 
@@ -541,6 +541,7 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetTrigger("Sliding");
 
+        RB.velocity = new Vector2(RB.velocity.x, 0);
         RB.AddForce(movement * Vector2.up);
     }
     #endregion

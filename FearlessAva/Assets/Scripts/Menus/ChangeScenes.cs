@@ -9,7 +9,7 @@ public class ChangeScenes : MonoBehaviour
     {
         Debug.Log("Play");
 
-        SceneManager.LoadScene("PrototypeScene");
+        SceneManager.LoadScene("Test");
         //SceneManager.LoadScene("Level1");
     }
 
