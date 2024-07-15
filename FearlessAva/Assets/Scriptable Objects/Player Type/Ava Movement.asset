@@ -12,29 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f3b06cd217b2d4784401dd1fb1bd03, type: 3}
   m_Name: Ava Movement
   m_EditorClassIdentifier: 
-  gravityStrength: -24
-  gravityScale: 2.4464831
+  gravityStrength: -40
+  gravityScale: 4.0774717
   fallGravityMult: 2
   maxFallSpeed: 15
   fastFallGravityMult: 1
   maxFastFallSpeed: 20
-  runMaxSpeed: 6
-  runAcceleration: 2
-  runAccelAmount: 16.666666
-  runDecceleration: 2
-  runDeccelAmount: 16.666666
+  runMaxSpeed: 10
+  runAcceleration: 1
+  runAccelAmount: 5
+  runDecceleration: 1
+  runDeccelAmount: 5
   accelInAir: 1
   deccelInAir: 1
   doConserveMomentum: 0
-  jumpHeight: 3
+  jumpHeight: 5
   jumpTimeToApex: 0.5
-  jumpForce: 12
+  jumpForce: 20
   jumpCutGravityMult: 3.5
   jumpHangGravityMult: 0
   jumpHangTimeThreshold: 0
   jumpHangAccelerationMult: 1
   jumpHangMaxSpeedMult: 1
-  wallJumpForce: {x: 5, y: 10}
+  wallJumpForce: {x: 7, y: 12}
   wallJumpRunLerp: 0
   wallJumpTime: 0.5
   doTurnOnWallJump: 0

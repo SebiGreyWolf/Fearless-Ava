@@ -74,6 +74,14 @@ public class PatrolingEnemy : MonoBehaviour
         }
     }
 
+    public void ApplyFireEffect(float amountOfFireDamageOverTime)
+    {
+        if (enemyPatrol != null)
+        {
+            
+        }
+    }
+
     bool isPlayerInRange() 
     {
         if (this != null && player != null)
