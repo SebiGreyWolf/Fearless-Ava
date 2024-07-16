@@ -1194,6 +1194,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 540183750078975086, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883732310638202894, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1938434903739764054, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1234,15 +1242,74 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4121421869956119536, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 368807977}
+    - target: {fileID: 4121421869956119536, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 441082005}
     - target: {fileID: 5351406364031638354, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 883732310638202894, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+    - {fileID: 540183750078975086, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+    - {fileID: 2229432017783844320, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8041936131315060324, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 382548627}
   m_SourcePrefab: {fileID: 100100000, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+--- !u!96 &382548623 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 3980971183334417552, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+  m_PrefabInstance: {fileID: 382548622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &382548624 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2358286368144716793, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+  m_PrefabInstance: {fileID: 382548622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &382548625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8041936131315060324, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+  m_PrefabInstance: {fileID: 382548622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &382548626 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8896560191508955857, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+  m_PrefabInstance: {fileID: 382548622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &382548627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382548625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c911861c278694e9735a969354ac0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 0.5
+  cooldown: 1
+  attackPoint: {fileID: 382548624}
+  trailRenderer: {fileID: 382548623}
+  animator: {fileID: 382548626}
+  basicAttackDamage: 5
+  basicSword: {fileID: 21300000, guid: 567cd1da88776c843a9f79cebc5a6cbc, type: 3}
+  iceAttackDamage: 2
+  slowDuration: 2
+  iceSword: {fileID: 21300000, guid: afde1da30a6212d4aad3aa4953279208, type: 3}
+  fireAttackDamage: 2
+  fireDamage: 1
+  fireSword: {fileID: 21300000, guid: 16709de45bc209844922c39a93de8fe4, type: 3}
 --- !u!1 &407847621
 GameObject:
   m_ObjectHideFlags: 0
