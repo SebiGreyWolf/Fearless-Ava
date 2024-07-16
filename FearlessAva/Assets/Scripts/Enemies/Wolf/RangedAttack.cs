@@ -6,7 +6,7 @@ public class RangedAttack : MonoBehaviour
 {
     public Player player;
     public float targetingDistance = 10f;
-    private float attackCooldown = 2.0f;
+    private float attackCooldown = 0.75f;
     private float cooldownTimer = 1f;
 
     public GameObject projectile;

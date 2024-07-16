@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
 
     public Vector3 startPoint;
     public Vector3 endPoint;
-    public float duration = 1f;
+    public float duration = 0.75f;
     public float curveHeight = 3f;
 
     private float timeElapsed;
@@ -45,12 +45,7 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             player.TakeDamage(2);
+            Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            Debug.Log("Hit Rock Bottom");
-        }
-
-        Destroy(gameObject);
     }
 }
