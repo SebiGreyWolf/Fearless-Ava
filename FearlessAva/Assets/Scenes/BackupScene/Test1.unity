@@ -2027,12 +2027,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  changeDirectionDelay: 0.2
+  jumpForce: 5
+  jumpHoldForce: 1
+  jumpHoldDuration: 0.5
+  gravityScale: 3
+  jumpGravityScale: 2
+  fallGravityScale: 3
+  jumpSpeed: 7
+  backflipForceX: 5
+  backflipForceY: 7
+  backflipGravityScale: 2
   groundCheck: {fileID: 943898063}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  isFacingRight: 1
   animator: {fileID: 485372270}
 --- !u!1 &485372267
 GameObject:
@@ -2595,13 +2605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad04cfd6c98ec14ba3664982f8145c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 5
-  attackRange: 0.5
-  cooldown: 1
-  attackPoint: {fileID: 1593514045}
-  trailRenderer: {fileID: 1716609862}
-  animator: {fileID: 871571429}
-  basicSword: {fileID: 21300000, guid: 567cd1da88776c843a9f79cebc5a6cbc, type: 3}
 --- !u!114 &871571428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2614,14 +2617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745c54699c63f524799f7b160a3d1937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 5
-  attackRange: 0.5
-  cooldown: 1
-  attackPoint: {fileID: 1593514045}
-  trailRenderer: {fileID: 11159709}
-  animator: {fileID: 871571429}
-  slowDuration: 2
-  iceSword: {fileID: 21300000, guid: afde1da30a6212d4aad3aa4953279208, type: 3}
 --- !u!95 &871571429
 Animator:
   serializedVersion: 5
@@ -3251,6 +3246,14 @@ PrefabInstance:
     - target: {fileID: 2148159276873370450, guid: 833760b48aeede2428ddf7107c5fe36d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362699297725021233, guid: 833760b48aeede2428ddf7107c5fe36d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.14719425
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362699297725021233, guid: 833760b48aeede2428ddf7107c5fe36d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1975964
       objectReference: {fileID: 0}
     - target: {fileID: 2362699297725021233, guid: 833760b48aeede2428ddf7107c5fe36d, type: 3}
       propertyPath: m_LocalRotation.w
