@@ -41,9 +41,9 @@ public class Attack : MonoBehaviour
     private bool isAttacking = false;
     public bool isShielded = false;
     private float lastBasicAttackTime = 0f;
-    private float lastIceAttackTime = 0f;
-    private float lastFireAttackTime = 0f;
-    private float lastShieldUseTime = 0f;
+    public float lastIceAttackTime = 0f;
+    public float lastFireAttackTime = 0f;
+    public float lastShieldUseTime = 0f;
     private SpriteRenderer spriteRenderer;
     private SpriteRenderer shieldRenderer;
     private Collider2D playerCollider;
@@ -186,7 +186,7 @@ public class Attack : MonoBehaviour
         lastFireAttackTime = Time.time;
     }
 
-    private bool CanAttack(float lastAttackTime, float cooldown)
+    public bool CanAttack(float lastAttackTime, float cooldown)
     {
         return (Time.time >= lastAttackTime + cooldown && !isAttacking);
     }
