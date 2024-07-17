@@ -191,7 +191,7 @@ public class Attack : MonoBehaviour
         return (Time.time >= lastAttackTime + cooldown && !isAttacking);
     }
 
-    private bool CanUseShield(float lastShieldTime, float cooldown)
+    public bool CanUseShield(float lastShieldTime, float cooldown)
     {
         return (Time.time >= lastShieldTime + cooldown && !isShielded);
     }

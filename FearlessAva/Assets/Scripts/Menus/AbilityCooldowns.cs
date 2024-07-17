@@ -39,5 +39,16 @@ public class AbilityCooldowns : MonoBehaviour
                 image.color = Color.white;
             }
         }
+        else if(name == "ShieldAbility")
+        {
+            if (!attackScript.CanUseShield(attackScript.lastShieldUseTime, attackScript.shieldCooldown))
+            {
+                image.color = Color.grey;
+            }
+            else
+            {
+                image.color = Color.white;
+            }
+        }
     }
 }
