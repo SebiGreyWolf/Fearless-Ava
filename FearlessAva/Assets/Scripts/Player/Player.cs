@@ -9,10 +9,12 @@ public class Player : MonoBehaviour
     public int maxHealth = 16;
     public float invulnerabilityDuration = 0.5f;
 
+    public bool isFullyShieldBlock;
+    public float reducedDamageBlock;
+
     private Rigidbody2D rb;
     private int currentHealth;
     private bool isInvulnerable = false;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,8 +24,13 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (!isInvulnerable)
+        if (!isInvulnerable && !isFullyShieldBlock)
         {
+            if (reducedDamageBlock > 0)
+            {
+                amount = (int)(amount * reducedDamageBlock);
+                Debug.Log(amount);
+            }
             currentHealth -= amount;
             healthBar.SetHealth(currentHealth);
             if (currentHealth <= 0)
@@ -36,6 +43,7 @@ public class Player : MonoBehaviour
             StartCoroutine(InvulnerabilityTimer());
         }
     }
+
     private IEnumerator InvulnerabilityTimer()
     {
         isInvulnerable = true;

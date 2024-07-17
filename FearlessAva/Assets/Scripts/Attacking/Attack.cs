@@ -4,36 +4,58 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    // Common variables
-    public float attackRange = 0.5f;
-    public float cooldown = 1f;
-    public Transform attackPoint;
-    public TrailRenderer trailRenderer;
-    public Animator animator;
-
-    // Basic Attack variables
+    //Basic Attack
     public int basicAttackDamage = 5;
+    public float basicAttackRange = 0.5f;
+    public float basicAttackCooldown = 1f;
     public Sprite basicSword;
 
-    // Ice Attack variables
+    //Ice Attack
     public int iceAttackDamage = 2;
+    public float iceAttackRange = 0.5f;
+    public float iceAttackCooldown = 1f;
     public float slowDuration = 2f;
     public Sprite iceSword;
 
-    // Fire Attack variables
+    //Fire Attack
     public int fireAttackDamage = 2;
+    public float fireAttackRange = 0.5f;
+    public float fireAttackCooldown = 1f;
     public float fireDamage = 1f;
     public Sprite fireSword;
 
+    //Shield
+    public float shieldDuration = 5f;
+    public float fullBlockDuration = 1f;
+    public float damageReduction = 0.5f; // 50% damage reduction after full block
+    public float shieldCooldown = 10f;
+
+    //Common variables
+    public Transform attackPoint;
+    public TrailRenderer trailRenderer;
+    public Animator animator;
+    public GameObject shieldObject;
+
+
+
     private bool isAttacking = false;
-    private float lastAttackTime = 0f;
+    public bool isShielded = false;
+    private float lastBasicAttackTime = 0f;
+    private float lastIceAttackTime = 0f;
+    private float lastFireAttackTime = 0f;
+    private float lastShieldUseTime = 0f;
     private SpriteRenderer spriteRenderer;
+    private SpriteRenderer shieldRenderer;
     private Collider2D playerCollider;
+    private Material originalMaterial;
+    private Player player;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<Collider2D>();
+        originalMaterial = spriteRenderer.material;
+        player = GetComponentInParent<Player>();
 
         if (attackPoint == null)
             attackPoint = gameObject.GetComponentInChildren<Transform>();
@@ -43,66 +65,56 @@ public class Attack : MonoBehaviour
 
         if (trailRenderer == null)
             trailRenderer = gameObject.GetComponent<TrailRenderer>();
+
+        if (shieldObject != null)
+        {
+            shieldRenderer = shieldObject.GetComponentInChildren<SpriteRenderer>();
+            shieldObject.SetActive(false); // Ensure the shield is initially inactive
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && CanAttack())
+        if (Input.GetKeyDown(KeyCode.Mouse0) && CanAttack(lastBasicAttackTime, basicAttackCooldown))
         {
-            PerformAttack(basicSword, basicAttackDamage, "isBasicAttack");
+            spriteRenderer.sprite = basicSword;
+            DoBasicAttack();
         }
-        else if (Input.GetKeyDown(KeyCode.E) && CanAttack())
+        else if (Input.GetKeyDown(KeyCode.E) && CanAttack(lastIceAttackTime, iceAttackCooldown))
         {
-            PerformAttack(iceSword, iceAttackDamage, "isIceAbility");
+            spriteRenderer.sprite = iceSword;
+            DoIceAttack();
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && CanAttack())
+        else if (Input.GetKeyDown(KeyCode.Q) && CanAttack(lastFireAttackTime, fireAttackCooldown))
         {
-            PerformAttack(fireSword, fireAttackDamage, "isFireAbility");
+            spriteRenderer.sprite = fireSword;
+            DoFireAttack();
+        }
+        else if (Input.GetKeyDown(KeyCode.W) && CanUseShield(lastShieldUseTime, shieldCooldown))
+        {
+            StartCoroutine(ActivateShield());
         }
     }
 
-    private void PerformAttack(Sprite swordSprite, int damage, string animationBool)
+    private void DoBasicAttack()
     {
-        spriteRenderer.sprite = swordSprite;
         isAttacking = true;
-        animator.SetBool(animationBool, true);
+        animator.SetBool("isBasicAttack", true);
         trailRenderer.emitting = true;
     }
 
     public void PerformBasicAttack()
     {
-        PerformAttackDamage(basicAttackDamage);
-    }
-
-    public void PerformIceAttack()
-    {
-        PerformAttackDamage(iceAttackDamage, true);
-    }
-
-    public void PerformFireAttack()
-    {
-        PerformAttackDamage(fireAttackDamage, false, true);
-    }
-
-    private void PerformAttackDamage(int damage, bool isIceAttack = false, bool isFireAttack = false)
-    {
-        Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+        Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, basicAttackRange);
         foreach (Collider2D destroyable in hitDestroyables)
         {
             if (destroyable != playerCollider)
             {
+                Debug.Log("Hit: " + destroyable.name);
                 Destroyable damageable = destroyable.GetComponent<Destroyable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(damage);
-                    if (isIceAttack)
-                    {
-                        ApplyIceEffect(damageable);
-                    }
-                    else if (isFireAttack)
-                    {
-                        ApplyFireEffect(damageable);
-                    }
+                    damageable.TakeDamage(basicAttackDamage);
                 }
             }
         }
@@ -110,30 +122,78 @@ public class Attack : MonoBehaviour
 
     public void FinishBasicAttack()
     {
-        FinishAttack("isBasicAttack");
+        isAttacking = false;
+        trailRenderer.emitting = false;
+        animator.SetBool("isBasicAttack", false);
+        lastBasicAttackTime = Time.time;
+    }
+
+    private void DoIceAttack()
+    {
+        isAttacking = true;
+        animator.SetBool("isIceAbility", true);
+        trailRenderer.emitting = true;
+    }
+
+    public void PerformIceAttack()
+    {
+        Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, iceAttackRange);
+        foreach (Collider2D destroyable in hitDestroyables)
+        {
+            Destroyable damageable = destroyable.GetComponent<Destroyable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(iceAttackDamage);
+                ApplyIceEffect(damageable);
+            }
+        }
     }
 
     public void FinishIceAttack()
     {
-        FinishAttack("isIceAbility");
+        isAttacking = false;
+        trailRenderer.emitting = false;
+        animator.SetBool("isIceAbility", false);
+        lastIceAttackTime = Time.time;
+    }
+
+    private void DoFireAttack()
+    {
+        isAttacking = true;
+        animator.SetBool("isFireAbility", true);
+        trailRenderer.emitting = true;
+    }
+
+    public void PerformFireAttack()
+    {
+        Collider2D[] hitDestroyables = Physics2D.OverlapCircleAll(attackPoint.position, fireAttackRange);
+        foreach (Collider2D destroyable in hitDestroyables)
+        {
+            Destroyable damageable = destroyable.GetComponent<Destroyable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(fireAttackDamage);
+                ApplyFireEffect(damageable);
+            }
+        }
     }
 
     public void FinishFireAttack()
     {
-        FinishAttack("isFireAbility");
-    }
-
-    private void FinishAttack(string animationBool)
-    {
         isAttacking = false;
         trailRenderer.emitting = false;
-        animator.SetBool(animationBool, false);
-        lastAttackTime = Time.time;
+        animator.SetBool("isFireAbility", false);
+        lastFireAttackTime = Time.time;
     }
 
-    private bool CanAttack()
+    private bool CanAttack(float lastAttackTime, float cooldown)
     {
         return (Time.time >= lastAttackTime + cooldown && !isAttacking);
+    }
+
+    private bool CanUseShield(float lastShieldTime, float cooldown)
+    {
+        return (Time.time >= lastShieldTime + cooldown && !isShielded);
     }
 
     private void ApplyIceEffect(Destroyable damageable)
@@ -154,12 +214,53 @@ public class Attack : MonoBehaviour
         }
     }
 
+    private IEnumerator ActivateShield()
+    {
+        isShielded = true;
+        lastShieldUseTime = Time.time;
+        float shieldEndTime = Time.time + shieldDuration;
+        float fullBlockEndTime = Time.time + fullBlockDuration;
+
+        shieldObject.SetActive(true);
+        SetShieldAlpha(1f);
+
+        while (Time.time < shieldEndTime)
+        {
+            if (Time.time < fullBlockEndTime)
+            {
+                player.isFullyShieldBlock = true;
+            }
+            else
+            {
+                player.isFullyShieldBlock = false;
+                player.reducedDamageBlock = damageReduction;
+                SetShieldAlpha(0.7f); // Reduce alpha after full block
+            }
+
+            yield return null;
+        }
+        player.reducedDamageBlock = 0;
+        isShielded = false;
+        shieldObject.SetActive(false);
+    }
+
+    private void SetShieldAlpha(float alpha)
+    {
+        if (shieldRenderer != null)
+        {
+            Color color = shieldRenderer.color;
+            color.a = alpha;
+            shieldRenderer.color = color;
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         if (attackPoint == null)
             return;
 
-        // Draw attack range gizmo
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireSphere(attackPoint.position, basicAttackRange);
+        Gizmos.DrawWireSphere(attackPoint.position, iceAttackRange);
+        Gizmos.DrawWireSphere(attackPoint.position, fireAttackRange);
     }
 }
