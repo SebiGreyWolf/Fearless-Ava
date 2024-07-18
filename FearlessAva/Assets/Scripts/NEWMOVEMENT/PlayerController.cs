@@ -11,26 +11,35 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     public float jumpHoldForce = 2.5f;
     public float jumpHoldDuration = 0.1f;
+    public float wallJumpForce = 10f;
+    public float slideSpeed = 2f;
+    public float slideAccel = 10f;
 
-    [SerializeField] private float gravityScale = 2f; // Normal gravity scale
-    [SerializeField] private float jumpGravityScale = 1f; // Gravity scale during jump
-    [SerializeField] private float fallGravityScale = 3f; // Gravity scale when falling
-    [SerializeField] private float jumpSpeed = 5f; // Horizontal speed during jump
-    [SerializeField] private float backflipForceX = 5f; // Horizontal force for backflip
-    [SerializeField] private float backflipForceY = 7f; // Vertical force for backflip
-    [SerializeField] private float backflipGravityScale = 2f; // Gravity scale during backflip
-    [SerializeField] private float backflipBufferTime = 0.2f; // Time buffer to check for backflip
+    [SerializeField] private float gravityScale = 2f;
+    [SerializeField] private float jumpGravityScale = 1f;
+    [SerializeField] private float fallGravityScale = 3f;
+    [SerializeField] private float backflipForceX = 5f;
+    [SerializeField] private float backflipForceY = 7f;
+    [SerializeField] private float backflipGravityScale = 2f;
+    [SerializeField] private float backflipBufferTime = 0.2f;
 
     [Header("Ground Check Settings")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
+    [Header("Wall Check Settings")]
+    public Transform wallCheck;
+    public float wallCheckRadius = 0.2f;
+    public LayerMask wallLayer;
+
     public bool isFacingRight = true;
     public Animator animator;
 
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isTouchingWall;
+    private bool isWallSliding;
     private bool isJumping;
     private bool backflipBufferActive;
     private float jumpTimeCounter;
@@ -40,13 +49,15 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         // Ground check
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // Wall check
+        isTouchingWall = Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
 
         // Handle movement input
         moveInput = Input.GetAxisRaw("Horizontal");
@@ -56,6 +67,9 @@ public class PlayerController : MonoBehaviour
 
         // Handle movement
         Move();
+
+        // Handle wall slide
+        HandleWallSlide();
 
         // Update animator parameters
         animator.SetFloat("WalkingSpeed", Mathf.Abs(rb.velocity.x));
@@ -72,7 +86,19 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Debug.Log($"Update - isFacingRight: {isFacingRight}, moveInput: {moveInput}, isGrounded: {isGrounded}, backflipBufferActive: {backflipBufferActive}");
+        if (Input.GetKeyDown(KeyCode.Space) && isTouchingWall && !isGrounded)
+        {
+            PerformWallJump();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        //Handle Slide
+        if (isWallSliding)
+        {
+            Slide();
+        }
     }
 
     void Move()
@@ -83,11 +109,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // Ensure the player stops moving when there is no input
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
-        // Only flip sprite if not attempting a backflip
         if (!isJumping && !backflipBufferActive)
         {
             FlipPlayerSprite(moveInput);
@@ -98,77 +122,70 @@ public class PlayerController : MonoBehaviour
     {
         if (direction > 0 && !isFacingRight)
         {
-            isFacingRight = true;
-            transform.localScale = new Vector3(1, 1, 1);
+            Flip();
         }
         else if (direction < 0 && isFacingRight)
         {
-            isFacingRight = false;
-            transform.localScale = new Vector3(-1, 1, 1);
+            Flip();
         }
+    }
+
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        transform.localScale = new Vector3(isFacingRight ? 1 : -1, 1, 1);
     }
 
     void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Normal jump initiation
-            isJumping = true;
-            jumpTimeCounter = jumpHoldDuration;
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce); // Apply initial jump force
-            rb.gravityScale = jumpGravityScale; // Apply lower gravity scale during jump
+            if (isGrounded)
+            {
+                isJumping = true;
+                jumpTimeCounter = jumpHoldDuration;
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                rb.gravityScale = jumpGravityScale;
 
-            // Trigger normal jump animation
-            animator.SetTrigger("NormalJumpTrigger");
+                animator.SetTrigger("NormalJumpTrigger");
 
-            // Activate backflip buffer
-            backflipBufferActive = true;
-            backflipBufferCounter = backflipBufferTime;
-
-            Debug.Log("Jump initiated");
+                backflipBufferActive = true;
+                backflipBufferCounter = backflipBufferTime;
+            }
+            else if (isTouchingWall && !isGrounded && rb.velocity.y < 0)
+            {
+                rb.velocity = new Vector2(isFacingRight ? -jumpForce : jumpForce, jumpForce);
+                Flip();
+                animator.SetTrigger("WallJumpTrigger");
+            }
         }
 
         if (Input.GetKey(KeyCode.Space) && isJumping)
         {
             if (jumpTimeCounter > 0)
             {
-                // Apply sustained jump force
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce + jumpHoldForce);
-                jumpTimeCounter -= Time.deltaTime; // Decrease the counter
+                jumpTimeCounter -= Time.deltaTime;
             }
             else
             {
-                // Time's up, stop the sustained jump
                 isJumping = false;
-                rb.gravityScale = gravityScale; // Revert to normal gravity scale
+                rb.gravityScale = gravityScale;
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            // Jump button released, stop the sustained jump
             isJumping = false;
-            rb.gravityScale = gravityScale; // Revert to normal gravity scale
+            rb.gravityScale = gravityScale;
         }
 
-        // Additional condition to stop the jump if player is falling down
         if (rb.velocity.y < 0)
         {
             isJumping = false;
-            rb.gravityScale = fallGravityScale; // Apply higher gravity scale when falling
+            rb.gravityScale = fallGravityScale;
         }
 
-        // Apply horizontal speed during jump
-        if (isJumping || rb.velocity.y < 0)
-        {
-            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x + jumpSpeed * Input.GetAxis("Horizontal"), -jumpSpeed, jumpSpeed), rb.velocity.y);
-        }
-        else
-        {
-            rb.gravityScale = gravityScale; // Ensure normal gravity when grounded
-        }
-
-        // Check if backflip buffer is active and opposite direction is pressed
         if (backflipBufferActive)
         {
             bool isOppositeDirection = (isFacingRight && moveInput < 0) || (!isFacingRight && moveInput > 0);
@@ -177,9 +194,48 @@ public class PlayerController : MonoBehaviour
                 PerformBackflip();
                 backflipBufferActive = false;
             }
-
-            Debug.Log($"Backflip Buffer Active - isOppositeDirection: {isOppositeDirection}");
         }
+    }
+
+    void HandleWallSlide()
+    {
+        bool isMovingTowardsWall = (isFacingRight && moveInput > 0) || (!isFacingRight && moveInput < 0);
+
+        if (isTouchingWall && !isGrounded && isMovingTowardsWall)
+        {
+            isWallSliding = true;
+            rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
+        animator.SetBool("isWallSliding", isWallSliding);
+    }
+
+    void PerformWallJump()
+    {
+        float jumpDirection = isFacingRight ? -1f : 1f;
+        rb.velocity = new Vector2(jumpDirection * wallJumpForce, jumpForce);
+        animator.SetTrigger("WallJumpTrigger");
+    }
+
+    void Slide()
+    {
+        if (rb.velocity.y > 0)
+        {
+            rb.AddForce(-rb.velocity.y * Vector2.up, ForceMode2D.Impulse);
+        }
+
+        float speedDif = slideSpeed - rb.velocity.y;
+        float movement = speedDif * slideAccel;
+        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+
+        animator.SetTrigger("Sliding");
+
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.AddForce(movement * Vector2.up);
     }
 
     void PerformBackflip()
@@ -187,31 +243,16 @@ public class PlayerController : MonoBehaviour
         isJumping = true;
         jumpTimeCounter = jumpHoldDuration;
         float backflipDirection = isFacingRight ? -1 : 1;
-        rb.velocity = new Vector2(backflipForceX * backflipDirection, backflipForceY); // Apply backflip force
-        rb.gravityScale = backflipGravityScale; // Apply backflip gravity scale
-
-        // Trigger backflip animation
+        rb.velocity = new Vector2(backflipForceX * backflipDirection, backflipForceY);
+        rb.gravityScale = backflipGravityScale;
         animator.SetTrigger("BackflipTrigger");
-
-        Debug.Log("Backflip performed");
-    }
-
-    void HandleFastFall()
-    {
-        if (rb.velocity.y < 0 && !isGrounded && Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space))
-        {
-            // Increase fall speed
-            rb.velocity = new Vector2(rb.velocity.x, -jumpForce);
-            rb.gravityScale = fallGravityScale; // Apply higher gravity scale when falling
-        }
     }
 
     void OnDrawGizmosSelected()
     {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(wallCheck.position, wallCheckRadius);
     }
 }
