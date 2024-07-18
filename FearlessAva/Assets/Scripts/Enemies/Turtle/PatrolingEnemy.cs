@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,16 +12,27 @@ public class PatrolingEnemy : MonoBehaviour
     public GameObject playerPrefab;
     public EnemyPatrol enemyPatrol;
     public Destroyable destroyable;
+    private SpriteRenderer spriteRenderer;
 
     public float detectionRange = 1.75f;
     public float detectionAngle = 45.0f;
 
+    [Header("Attacking")]
     private float attackCooldown = 2.0f;
     public int damage = 10;
     private float cooldownTimer = 1f;
 
+    [Header("Fire Damage")]
+    private bool isBurning = false;
+    private float burnDuration = 3f;
+    private float secondsAlreadyBurning = 0f;
+    private float currentBurningDuration = 0f;
+    private int burnDamage = 0;
+
     private void Awake()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         if (playerPrefab != null)
         {
             player = playerPrefab.GetComponent<Player>();
@@ -48,6 +60,7 @@ public class PatrolingEnemy : MonoBehaviour
             enemyPatrol.enabled = !isPlayerInRange();
         }
 
+        DoT();
     }
 
     void DamagePlayer()
@@ -74,11 +87,37 @@ public class PatrolingEnemy : MonoBehaviour
         }
     }
 
-    public void ApplyFireEffect(float amountOfFireDamageOverTime)
+    public void ApplyFireEffect(int amountOfFireDamageOverTime)
     {
         if (enemyPatrol != null)
         {
-            
+            burnDamage = amountOfFireDamageOverTime;
+            isBurning = true;
+            spriteRenderer.color = Color.red;
+        }
+    }
+
+    private void DoT()
+    {
+        if(isBurning)
+        {
+            currentBurningDuration += Time.deltaTime;
+            //Debug.Log(currentBurningDuration);
+            if(currentBurningDuration >= 1 && secondsAlreadyBurning < burnDuration)
+            {
+                Debug.Log("BURN");
+                secondsAlreadyBurning++;
+                destroyable.TakeDamage(burnDamage);
+                currentBurningDuration = 0;
+            }
+            else if(burnDuration == secondsAlreadyBurning)
+            {
+                Debug.Log("Burn Over");
+                currentBurningDuration = 0;
+                secondsAlreadyBurning = 0;
+                isBurning = false;
+                spriteRenderer.color = Color.white;
+            }
         }
     }
 
