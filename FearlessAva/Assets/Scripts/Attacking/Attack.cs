@@ -21,7 +21,7 @@ public class Attack : MonoBehaviour
     public int fireAttackDamage = 2;
     public float fireAttackRange = 0.5f;
     public float fireAttackCooldown = 1f;
-    public float fireDamage = 1f;
+    public int fireDamage = 1;
     public Sprite fireSword;
 
     //Shield
