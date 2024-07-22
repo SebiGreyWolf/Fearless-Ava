@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public ParticleSystem dust;
+    public ParticleSystem walk;
 
     public Animator animator;
     //Scriptable object which holds all the player's movement parameters.
@@ -609,7 +609,7 @@ public class PlayerMovement : MonoBehaviour
     #region PARTICLE
     private void CreateDust()
     {
-        dust.Play();
+        walk.Play();
     }
     #endregion
 }

@@ -9,6 +9,7 @@ public class Attack : MonoBehaviour
     public float basicAttackRange = 0.5f;
     public float basicAttackCooldown = 1f;
     public Sprite basicSword;
+    //public ParticleSystem basicSwordParticle;
 
     //Ice Attack
     public int iceAttackDamage = 2;
@@ -16,6 +17,8 @@ public class Attack : MonoBehaviour
     public float iceAttackCooldown = 1f;
     public float slowDuration = 2f;
     public Sprite iceSword;
+    public ParticleSystem iceSwordParticle;
+    public ParticleSystem iceSwordGlow;
 
     //Fire Attack
     public int fireAttackDamage = 2;
@@ -23,6 +26,8 @@ public class Attack : MonoBehaviour
     public float fireAttackCooldown = 1f;
     public int fireDamage = 1;
     public Sprite fireSword;
+    public ParticleSystem fireSwordParticle;
+    public ParticleSystem fireSwordGlow;
 
     //Shield
     public float shieldDuration = 5f;
@@ -83,11 +88,13 @@ public class Attack : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E) && CanAttack(lastIceAttackTime, iceAttackCooldown))
         {
             spriteRenderer.sprite = iceSword;
+            PlayAbilityParticles(iceSwordParticle,iceSwordGlow);
             DoIceAttack();
         }
         else if (Input.GetKeyDown(KeyCode.Q) && CanAttack(lastFireAttackTime, fireAttackCooldown))
         {
             spriteRenderer.sprite = fireSword;
+            PlayAbilityParticles(fireSwordParticle, fireSwordGlow);
             DoFireAttack();
         }
         else if (Input.GetKeyDown(KeyCode.W) && CanUseShield(lastShieldUseTime, shieldCooldown))
@@ -151,6 +158,7 @@ public class Attack : MonoBehaviour
 
     public void FinishIceAttack()
     {
+        StopAbilityParticles(iceSwordParticle, iceSwordGlow);
         isAttacking = false;
         trailRenderer.emitting = false;
         animator.SetBool("isIceAbility", false);
@@ -180,6 +188,7 @@ public class Attack : MonoBehaviour
 
     public void FinishFireAttack()
     {
+        StopAbilityParticles(fireSwordParticle, fireSwordGlow);
         isAttacking = false;
         trailRenderer.emitting = false;
         animator.SetBool("isFireAbility", false);
@@ -252,6 +261,17 @@ public class Attack : MonoBehaviour
             color.a = alpha;
             shieldRenderer.color = color;
         }
+    }
+
+    private void PlayAbilityParticles(ParticleSystem ps, ParticleSystem glow)
+    {
+        ps.Play();
+        glow.Play();
+    }
+    private void StopAbilityParticles(ParticleSystem ps, ParticleSystem glow)
+    {
+        ps.Play();
+        glow.Play();
     }
 
     private void OnDrawGizmosSelected()
