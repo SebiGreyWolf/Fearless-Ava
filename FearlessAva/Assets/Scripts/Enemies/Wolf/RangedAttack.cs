@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RangedAttack : MonoBehaviour
 {
+
+
     public Player player;
     public float targetingDistance = 15f;
     private float attackCooldown = 0.75f;
@@ -20,9 +22,13 @@ public class RangedAttack : MonoBehaviour
     private float currentBurningDuration = 0f;
     private int burnDamage = 0;
 
+    [Header("Animation")]
+    public Animator animator;
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -36,13 +42,16 @@ public class RangedAttack : MonoBehaviour
 
             if (cooldownTimer >= attackCooldown)
             {
+                animator.SetBool("isThrowing", true);
                 cooldownTimer = 0;
                 GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
                 newProjectile.SetActive(true);
             }
-        }
-
-
+            else
+            {
+                animator.SetBool("isThrowing", false);
+            }
+        }   
         //Debug.DrawLine(transform.position, player.transform.position);
     }
 
