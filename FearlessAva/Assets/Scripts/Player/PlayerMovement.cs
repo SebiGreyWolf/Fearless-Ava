@@ -54,6 +54,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _lastDashDir;
     private bool _isDashAttacking;
 
+
+    [Header("Audio Footsteps")]
+    public float footstepInterval = 0.5f; // Time interval between footsteps
+    private float nextFootstepTime = 0f;
     #endregion
 
     #region INPUT PARAMETERS
@@ -351,8 +355,15 @@ public class PlayerMovement : MonoBehaviour
         float targetSpeed = _moveInput.x * Data.runMaxSpeed;
         //We can reduce are control using Lerp() this smooths changes to are direction and speed
         targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
-        if (!IsJumping)
+        if (!IsJumping && !IsSliding)
+        {
             animator.SetFloat("Speed", Mathf.Abs(targetSpeed));
+            if (Time.time >= nextFootstepTime && Mathf.Abs(targetSpeed) > 0.1f)
+            {
+                FindObjectOfType<AudioManagement>().PlaySound("Footsteps");
+                nextFootstepTime = Time.time + footstepInterval;
+            }
+        }
 
         #region Calculate AccelRate
         float accelRate;
@@ -392,7 +403,6 @@ public class PlayerMovement : MonoBehaviour
 
         //Convert this to a vector and apply to rigidbody
         RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-
         /*
 		 * For those interested here is what AddForce() will do
 		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);

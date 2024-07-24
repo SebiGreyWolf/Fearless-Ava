@@ -46,6 +46,7 @@ public class RangedAttack : MonoBehaviour
                 cooldownTimer = 0;
                 GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
                 newProjectile.SetActive(true);
+                FindObjectOfType<AudioManagement>().PlaySound("BoneThrow");
             }
             else
             {

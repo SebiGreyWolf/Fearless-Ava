@@ -108,6 +108,9 @@ public class Attack : MonoBehaviour
         isAttacking = true;
         animator.SetBool("isBasicAttack", true);
         trailRenderer.emitting = true;
+        AudioManagement g = FindObjectOfType<AudioManagement>();
+        Debug.Log(g);
+        g.PlaySound("Attack");
     }
 
     public void PerformBasicAttack()
@@ -140,6 +143,7 @@ public class Attack : MonoBehaviour
         isAttacking = true;
         animator.SetBool("isIceAbility", true);
         trailRenderer.emitting = true;
+        FindObjectOfType<AudioManagement>().PlaySound("Attack");
     }
 
     public void PerformIceAttack()
@@ -170,6 +174,7 @@ public class Attack : MonoBehaviour
         isAttacking = true;
         animator.SetBool("isFireAbility", true);
         trailRenderer.emitting = true;
+        FindObjectOfType<AudioManagement>().PlaySound("Attack");
     }
 
     public void PerformFireAttack()
@@ -229,6 +234,7 @@ public class Attack : MonoBehaviour
         lastShieldUseTime = Time.time;
         float shieldEndTime = Time.time + shieldDuration;
         float fullBlockEndTime = Time.time + fullBlockDuration;
+        FindObjectOfType<AudioManagement>().PlaySound("ShieldActive");
 
         shieldObject.SetActive(true);
         SetShieldAlpha(1f);
@@ -244,6 +250,7 @@ public class Attack : MonoBehaviour
                 player.isFullyShieldBlock = false;
                 player.reducedDamageBlock = damageReduction;
                 SetShieldAlpha(0.7f); // Reduce alpha after full block
+                FindObjectOfType<AudioManagement>().PlaySound("ShieldWeakening");
             }
 
             yield return null;
@@ -251,6 +258,7 @@ public class Attack : MonoBehaviour
         player.reducedDamageBlock = 0;
         isShielded = false;
         shieldObject.SetActive(false);
+        FindObjectOfType<AudioManagement>().PlaySound("ShieldDeactive");
     }
 
     private void SetShieldAlpha(float alpha)
