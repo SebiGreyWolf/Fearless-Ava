@@ -30,6 +30,6 @@ EditorBuildSettings:
     path: Assets/Scenes/BackupScene/Test1.unity
     guid: b5a992d2ecef7f14a985e221d706fa3e
   - enabled: 1
-    path: Assets/Scenes/PlaySavesMenu.unity
+    path: Assets/Scenes/SaveSlotsMenu.unity
     guid: 2bf7f2732e1002d48a1a6ec25ba14a08
   m_configObjects: {}
