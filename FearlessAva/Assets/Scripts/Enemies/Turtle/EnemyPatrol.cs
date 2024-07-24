@@ -30,9 +30,12 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float idleDuration = 1;
     private float idleTimer;
 
+    public Animator animation;
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animation = GetComponentInChildren<Animator>();
         initScale = enemy.transform.localScale;
         baseSpeed = speed;
     }
@@ -96,6 +99,8 @@ public class EnemyPatrol : MonoBehaviour
 
         enemy.localScale = new Vector3 (Mathf.Abs(initScale.x) * direction, initScale.y, initScale.z);
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime * direction * speed, enemy.position.y, enemy.position.z);
+
+        animation.SetFloat("EnemyWalkingSpeed", speed);
     }
 
     public void ApplySlow(float slowDuration)
