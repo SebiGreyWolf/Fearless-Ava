@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDataPersistance
 {
     public HealthBar healthBar;
     public Transform respawnPoint;
@@ -13,13 +14,18 @@ public class Player : MonoBehaviour
     public float reducedDamageBlock;
 
     private Rigidbody2D rb;
-    private int currentHealth;
+    public int currentHealth;
     private bool isInvulnerable = false;
+
+    //SaveData
+    public string currentLevel;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
+        currentLevel = SceneManager.GetActiveScene().ToString();
     }
 
     public void TakeDamage(int amount)
@@ -49,5 +55,21 @@ public class Player : MonoBehaviour
         isInvulnerable = true;
         yield return new WaitForSeconds(invulnerabilityDuration);
         isInvulnerable = false;
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.currentLevel = data.level;
+        this.currentHealth = data.health;
+        this.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.level = this.currentLevel;
+        data.health = this.currentHealth;
+        data.position[0] = this.transform.position.x;
+        data.position[1] = this.transform.position.y;
+        data.position[2] = this.transform.position.z;
     }
 }
