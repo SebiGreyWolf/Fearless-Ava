@@ -14,7 +14,7 @@ public class PatrolingEnemy : MonoBehaviour
     public Destroyable destroyable;
     private SpriteRenderer[] spriteRenderer;
 
-    public float detectionRange = 1.75f;
+    private float detectionRange = 4f;
     public float detectionAngle = 45.0f;
 
     [Header("Attacking")]
@@ -139,8 +139,11 @@ public class PatrolingEnemy : MonoBehaviour
                 Vector3 referenceForward = transform.right * transform.localScale.x;
                 float angle = Vector3.Angle(referenceForward, directionToTarget);
 
+                //Debug.DrawLine(this.transform.position, player.transform.position);
+                Debug.Log(angle);
 
-                if (angle < detectionAngle)
+
+                if (angle > 180-detectionAngle)
                 {
                     return true;
                 }
