@@ -40,7 +40,7 @@ public class Attack : MonoBehaviour
     public TrailRenderer trailRenderer;
     public Animator animator;
     public GameObject shieldObject;
-
+    public ParticleSystem hitParticles;
 
 
     private bool isAttacking = false;
@@ -125,6 +125,7 @@ public class Attack : MonoBehaviour
                 if (damageable != null)
                 {
                     damageable.TakeDamage(basicAttackDamage);
+                    PlayHitParticles(damageable.gameObject);
                 }
             }
         }
@@ -156,6 +157,7 @@ public class Attack : MonoBehaviour
             {
                 damageable.TakeDamage(iceAttackDamage);
                 ApplyIceEffect(damageable);
+                PlayHitParticles(damageable.gameObject);
             }
         }
     }
@@ -187,6 +189,7 @@ public class Attack : MonoBehaviour
             {
                 damageable.TakeDamage(fireAttackDamage);
                 ApplyFireEffect(damageable);
+                PlayHitParticles(damageable.gameObject);
             }
         }
     }
@@ -275,6 +278,11 @@ public class Attack : MonoBehaviour
     {
         ps.Play();
         glow.Play();
+    }
+    private void PlayHitParticles(GameObject hitEnemy)
+    {
+        hitParticles.transform.position = hitEnemy.transform.position;
+        hitParticles.Play();
     }
     private void StopAbilityParticles(ParticleSystem ps, ParticleSystem glow)
     {

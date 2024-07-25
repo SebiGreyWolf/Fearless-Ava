@@ -29,20 +29,20 @@ MonoBehaviour:
   jumpHeight: 5
   jumpTimeToApex: 0.5
   jumpForce: 20
-  jumpCutGravityMult: 3.5
+  jumpCutGravityMult: 5
   jumpHangGravityMult: 0
   jumpHangTimeThreshold: 0
   jumpHangAccelerationMult: 1
   jumpHangMaxSpeedMult: 1
-  wallJumpForce: {x: 10, y: 15}
+  wallJumpForce: {x: 20, y: 15}
   wallJumpRunLerp: 0
-  wallJumpTime: 0.5
+  wallJumpTime: 0.05
   doTurnOnWallJump: 0
   maxHorizontalVelocity: 3.5
   slideSpeed: -2
-  slideAccel: 0
-  coyoteTime: 0.2
-  jumpInputBufferTime: 0.2
+  slideAccel: 0.1
+  coyoteTime: 0.108
+  jumpInputBufferTime: 0.099
   dashAmount: 0
   dashSpeed: 0
   dashSleepTime: 0
