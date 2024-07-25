@@ -20,10 +20,10 @@ public class AudioManagement : MonoBehaviour
 
     public void PlaySound(string name)
     {
-        Debug.Log("Playing Sound!");
+        //Debug.Log("Playing Sound!");
 
         SoundClass s = Array.Find(soundClasses, sound => sound.name == name);
-        Debug.Log("Playing Sound:" + s.name);
+        //Debug.Log("Playing Sound:" + s.name);
         if (s == null)
             return;
 
