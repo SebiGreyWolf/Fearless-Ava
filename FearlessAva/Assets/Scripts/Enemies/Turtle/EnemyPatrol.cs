@@ -12,7 +12,7 @@ public class EnemyPatrol : MonoBehaviour
 
     [Header("Enemy")]
     [SerializeField] private Transform enemy;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer[] spriteRenderer;
 
     [Header("Movement")]
     [SerializeField] private float speed = 2.5f;
@@ -30,12 +30,16 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float idleDuration = 1;
     private float idleTimer;
 
-    public Animator animation;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
+
 
     private void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        animation = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
         initScale = enemy.transform.localScale;
         baseSpeed = speed;
     }
@@ -62,24 +66,25 @@ public class EnemyPatrol : MonoBehaviour
 
             if (isSlowed)
             {
-                spriteRenderer.color = Color.blue;
+                ColorAllSprites(Color.blue);
                 slowTimer -= Time.deltaTime;
                 if (slowTimer <= 0f)
                 {
                     isSlowed = false;
                     speed *= 2;
-                    spriteRenderer.color = Color.white;
+                    ColorAllSprites(Color.white);
                 }
             }
             else if (isFrozen)
             {
-                spriteRenderer.color = Color.blue;
+                ColorAllSprites(Color.blue);
                 freezeTimer -= Time.deltaTime;
+
                 if (freezeTimer <= 0f)
                 {
                     isFrozen = false;
                     speed = baseSpeed;
-                    spriteRenderer.color = Color.white;
+                    ColorAllSprites(Color.white);
                 }
             }
         }
@@ -89,8 +94,12 @@ public class EnemyPatrol : MonoBehaviour
     {
         idleTimer += Time.deltaTime;
 
-        if(idleTimer > idleDuration)
+        animator.SetFloat("EnemyWalkingSpeed", 0);
+
+        if (idleTimer > idleDuration)
+        {
             movingLeft = !movingLeft;
+        }
     }
 
     private void MoveInDirection(int direction)
@@ -100,7 +109,7 @@ public class EnemyPatrol : MonoBehaviour
         enemy.localScale = new Vector3 (Mathf.Abs(initScale.x) * direction, initScale.y, initScale.z);
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime * direction * speed, enemy.position.y, enemy.position.z);
 
-        animation.SetFloat("EnemyWalkingSpeed", speed);
+        animator.SetFloat("EnemyWalkingSpeed", speed);
     }
 
     public void ApplySlow(float slowDuration)
@@ -124,5 +133,14 @@ public class EnemyPatrol : MonoBehaviour
         }
         
     }
+
+    private void ColorAllSprites(Color color)
+    {
+        foreach (SpriteRenderer renderer in spriteRenderer)
+        {
+            renderer.color = color;
+        }
+    }
+
 
 }

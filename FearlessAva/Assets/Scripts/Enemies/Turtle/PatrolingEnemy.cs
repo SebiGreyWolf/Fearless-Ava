@@ -12,7 +12,7 @@ public class PatrolingEnemy : MonoBehaviour
     public GameObject playerPrefab;
     public EnemyPatrol enemyPatrol;
     public Destroyable destroyable;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer[] spriteRenderer;
 
     public float detectionRange = 1.75f;
     public float detectionAngle = 45.0f;
@@ -29,9 +29,10 @@ public class PatrolingEnemy : MonoBehaviour
     private float currentBurningDuration = 0f;
     private int burnDamage = 0;
 
+
     private void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
 
         if (playerPrefab != null)
         {
@@ -47,7 +48,6 @@ public class PatrolingEnemy : MonoBehaviour
 
         if(isPlayerInRange())
         {
-
             if (cooldownTimer >= attackCooldown)
             {
                 cooldownTimer = 0;
@@ -93,7 +93,10 @@ public class PatrolingEnemy : MonoBehaviour
         {
             burnDamage = amountOfFireDamageOverTime;
             isBurning = true;
-            spriteRenderer.color = Color.red;
+            foreach (SpriteRenderer renderer in spriteRenderer)
+            {
+                renderer.color = Color.red;
+            }
         }
     }
 
@@ -116,7 +119,10 @@ public class PatrolingEnemy : MonoBehaviour
                 currentBurningDuration = 0;
                 secondsAlreadyBurning = 0;
                 isBurning = false;
-                spriteRenderer.color = Color.white;
+                foreach (SpriteRenderer renderer in spriteRenderer)
+                {
+                    renderer.color = Color.white;
+                }
             }
         }
     }

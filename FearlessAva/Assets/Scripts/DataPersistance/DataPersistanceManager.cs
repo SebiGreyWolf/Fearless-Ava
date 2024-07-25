@@ -141,4 +141,8 @@ public class DataPersistanceManager : MonoBehaviour
         return dataHandler.LoadAllProfiles();
     }
 
+    public GameData GetGameData()
+    {
+        return gameData;
+    }
 }

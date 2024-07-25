@@ -26,7 +26,7 @@ public class SaveSlotsMenu : MonoBehaviour
             DataPersistanceManager.Instance.NewGame();
         }
         
-        SceneManager.LoadSceneAsync("Level1");
+        SceneManager.LoadSceneAsync(DataPersistanceManager.Instance.GetGameData().level);
     }
 
     public void OnDeleteSaveClicked(SaveSlot saveSlot)
