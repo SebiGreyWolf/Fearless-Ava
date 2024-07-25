@@ -10,6 +10,11 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
+    public GameObject HealthBar;
+    public GameObject FireAbility;
+    public GameObject ShieldAbility;
+    public GameObject IceAbility;
+
 
     void Update()
     {
@@ -32,6 +37,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+        toggleUIElements(true);
     }
 
     void Pause()
@@ -39,6 +45,20 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+        toggleUIElements(false);
+    }
+
+    private void toggleUIElements(bool toggle)
+    {
+        HealthBar.SetActive(toggle);
+        FireAbility.SetActive(toggle);
+        ShieldAbility.SetActive(toggle);
+        IceAbility.SetActive(toggle);
+    }
+
+    public void SaveGameButton()
+    {
+        DataPersistanceManager.Instance.SaveGame();
     }
 
     public void QuitGame()
