@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedAttack : MonoBehaviour
+public class WolfEnemy : MonoBehaviour
 {
-
-
     public Player player;
     public float targetingDistance = 15f;
-    private float attackCooldown = 0.75f;
+    private float attackCooldown = 1f;
     private float cooldownTimer = 1f;
     private SpriteRenderer spriteRenderer;
     public Destroyable destroyable;
@@ -29,6 +27,7 @@ public class RangedAttack : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        destroyable = gameObject.GetComponent<Destroyable>();
     }
 
     void Update()
@@ -42,18 +41,26 @@ public class RangedAttack : MonoBehaviour
 
             if (cooldownTimer >= attackCooldown)
             {
+                animator.StopPlayback();
+                animator.Play("WurfAnimation");
                 animator.SetBool("isThrowing", true);
+
+                Debug.Log("Throwing");
+
                 cooldownTimer = 0;
                 GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
                 newProjectile.SetActive(true);
                 FindObjectOfType<AudioManagement>().PlaySound("BoneThrow");
             }
-            else
-            {
-                animator.SetBool("isThrowing", false);
-            }
-        }   
-        //Debug.DrawLine(transform.position, player.transform.position);
+        }
+
+        DoT();
+    }
+
+    public void OnThrowingAnimFinished()
+    {
+        animator.SetBool("isThrowing", false);
+        animator.Play("WolfIdle");
     }
 
     public void ApplyFireEffect(int amountOfFireDamageOverTime)
@@ -70,7 +77,7 @@ public class RangedAttack : MonoBehaviour
         if (isBurning)
         {
             currentBurningDuration += Time.deltaTime;
-            //Debug.Log(currentBurningDuration);
+
             if (currentBurningDuration >= 1 && secondsAlreadyBurning < burnDuration)
             {
                 Debug.Log("BURN");
