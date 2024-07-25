@@ -25,6 +25,7 @@ public class OwlSpawner : MonoBehaviour
             owlsSpawnedAlready++;
             GameObject newOwl = Instantiate(owl, transform.position, Quaternion.identity);
             newOwl.SetActive(true);
+            FindObjectOfType<AudioManagement>().PlaySound("Owl");
         }
     }
 

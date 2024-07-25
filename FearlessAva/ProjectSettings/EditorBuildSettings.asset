@@ -23,10 +23,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BackupScene/BackupScene.unity
     guid: 72d763aba8b8a9848bbac28857077170
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BackupScene/Test.unity
     guid: 622220bdc813d954fac00695410ec5ac
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BackupScene/Test1.unity
     guid: b5a992d2ecef7f14a985e221d706fa3e
   - enabled: 1

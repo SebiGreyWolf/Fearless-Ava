@@ -449,8 +449,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump(int dir)
     {
-        Debug.Log($"WallJump: dir={dir}, velocity before jump: {RB.velocity}");
-
         // Ensures we can't call Wall Jump multiple times from one press
         LastPressedJumpTime = 0;
         LastOnGroundTime = 0;
@@ -468,8 +466,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Apply wall jump force
         RB.AddForce(force, ForceMode2D.Impulse);
-
-        Debug.Log($"WallJump: applied force: {force}, velocity after jump: {RB.velocity}");
 
         // Trigger wall jump animation
         animator.SetTrigger("WallJumping");

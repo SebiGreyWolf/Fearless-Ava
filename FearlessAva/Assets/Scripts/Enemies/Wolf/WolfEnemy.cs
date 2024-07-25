@@ -26,7 +26,7 @@ public class WolfEnemy : MonoBehaviour
     private void Start()
     {
         spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         destroyable = gameObject.GetComponent<Destroyable>();
     }
 

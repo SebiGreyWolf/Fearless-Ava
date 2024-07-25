@@ -109,7 +109,6 @@ public class Attack : MonoBehaviour
         animator.SetBool("isBasicAttack", true);
         trailRenderer.emitting = true;
         AudioManagement g = FindObjectOfType<AudioManagement>();
-        //Debug.Log(g);
         g.PlaySound("Attack");
     }
 
@@ -121,11 +120,15 @@ public class Attack : MonoBehaviour
             if (destroyable != playerCollider)
             {
                 Destroyable damageable = destroyable.GetComponent<Destroyable>();
-                Debug.Log("Hit: " + destroyable.name);
+                Debug.Log(damageable.name);
                 if (damageable != null)
                 {
                     damageable.TakeDamage(basicAttackDamage);
                     PlayHitParticles(damageable.gameObject);
+                    if (damageable.name.Contains("baumstumpf"))
+                    {
+                        FindObjectOfType<AudioManagement>().PlaySound("TreeBreak");
+                    }
                 }
             }
         }

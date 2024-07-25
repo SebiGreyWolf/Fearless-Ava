@@ -140,7 +140,6 @@ public class PatrolingEnemy : MonoBehaviour
                 float angle = Vector3.Angle(referenceForward, directionToTarget);
 
                 //Debug.DrawLine(this.transform.position, player.transform.position);
-                Debug.Log(angle);
 
 
                 if (angle > 180-detectionAngle)
