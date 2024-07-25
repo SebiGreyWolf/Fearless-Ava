@@ -22675,6 +22675,105 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1241452081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1241452083}
+  - component: {fileID: 1241452082}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1241452082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241452081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e90d84e8d793740bc4a3448c74339f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClasses:
+  - name: Attack
+    audioClip: {fileID: 8300000, guid: 429af4a49078d95438df4f78f0c4df69, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: TreeBreak
+    audioClip: {fileID: 8300000, guid: e367e7ec9cd1224469052023a6eed3ae, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: BoneThrow
+    audioClip: {fileID: 8300000, guid: 5d5faa478d0ddf14fa4942666e2355c7, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: Bush
+    audioClip: {fileID: 8300000, guid: c41c895b7acb47642b6e846bd25963d1, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: Footsteps
+    audioClip: {fileID: 8300000, guid: ae3cda3ca413c6d49bd7f13faf85d2e2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: Owl
+    audioClip: {fileID: 8300000, guid: e9c85a8762c3ba643b0e1ecd85e422b1, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: ShieldActive
+    audioClip: {fileID: 8300000, guid: bc3a626add1697248bb11c5de1610f2f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: ShieldWeakening
+    audioClip: {fileID: 8300000, guid: 9d273159e5892a6458fbf1ca96f5deaa, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: ShieldDeactive
+    audioClip: {fileID: 8300000, guid: 68f38306517abbb4ea17b46aea1072f5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+--- !u!4 &1241452083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241452081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1245340784
 GameObject:
   m_ObjectHideFlags: 0
@@ -63693,8 +63792,16 @@ PrefabInstance:
       value: 0.09889461
       objectReference: {fileID: 0}
     - target: {fileID: 5797762405043731519, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5797762405043731519, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
       propertyPath: MaxDistance
       value: 13.45194
+      objectReference: {fileID: 0}
+    - target: {fileID: 5797762405043731519, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6301776291888630953, guid: 716cfb6e78ba2484c8c8b3138cbfaeb2, type: 3}
       propertyPath: m_LocalRotation.z
@@ -71611,6 +71718,8 @@ SceneRoots:
   - {fileID: 227477839}
   - {fileID: 596907163}
   - {fileID: 1883375874}
+  - {fileID: 1241452083}
+  - {fileID: 751856125}
   - {fileID: 719143323}
   - {fileID: 1896843398}
   - {fileID: 1891989312}
@@ -71630,3 +71739,4 @@ SceneRoots:
   - {fileID: 2053191995}
   - {fileID: 34340345}
   - {fileID: 1012041312}
+
