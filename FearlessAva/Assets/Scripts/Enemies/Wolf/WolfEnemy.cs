@@ -8,7 +8,7 @@ public class WolfEnemy : MonoBehaviour
     public float targetingDistance = 15f;
     private float attackCooldown = 1f;
     private float cooldownTimer = 1f;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer[] spriteRenderer;
     public Destroyable destroyable;
 
     public GameObject projectile;
@@ -25,14 +25,14 @@ public class WolfEnemy : MonoBehaviour
 
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
         animator = GetComponent<Animator>();
         destroyable = gameObject.GetComponent<Destroyable>();
     }
 
     void Update()
     {
-        Flip();
+        //Flip();
 
         cooldownTimer += Time.deltaTime;
 
@@ -68,8 +68,11 @@ public class WolfEnemy : MonoBehaviour
 
         burnDamage = amountOfFireDamageOverTime;
         isBurning = true;
-        spriteRenderer.color = Color.red;
 
+        foreach(SpriteRenderer renderer in spriteRenderer)
+        {
+            renderer.color = Color.red;
+        }
     }
 
     private void DoT()
@@ -91,11 +94,14 @@ public class WolfEnemy : MonoBehaviour
                 currentBurningDuration = 0;
                 secondsAlreadyBurning = 0;
                 isBurning = false;
-                spriteRenderer.color = Color.white;
+                foreach (SpriteRenderer renderer in spriteRenderer)
+                {
+                    renderer.color = Color.white;
+                }
             }
         }
     }
-
+    /*
     private void Flip()
     {
         if (player.transform.position.x > transform.position.x)
@@ -107,7 +113,7 @@ public class WolfEnemy : MonoBehaviour
             spriteRenderer.flipX = false;
         }
     }
-
+    */
     public bool PlayerInTargetingDistance()
     {
         if (Vector3.Distance(player.transform.position, transform.position) <= targetingDistance)

@@ -30,11 +30,8 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float idleDuration = 1;
     private float idleTimer;
 
-
     [Header("Animation")]
     [SerializeField] private Animator animator;
-
-
 
     private void Awake()
     {

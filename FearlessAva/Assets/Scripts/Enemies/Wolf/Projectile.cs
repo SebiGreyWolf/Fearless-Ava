@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public Player player;
     private float travelTime;
-
+    [SerializeField] private int damage;
 
     public Vector3 startPoint;
     public Vector3 endPoint;
@@ -44,7 +44,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            player.TakeDamage(2);
+            player.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
