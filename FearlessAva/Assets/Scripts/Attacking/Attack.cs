@@ -109,7 +109,7 @@ public class Attack : MonoBehaviour
         animator.SetBool("isBasicAttack", true);
         trailRenderer.emitting = true;
         AudioManagement g = FindObjectOfType<AudioManagement>();
-        Debug.Log(g);
+        //Debug.Log(g);
         g.PlaySound("Attack");
     }
 
@@ -120,8 +120,8 @@ public class Attack : MonoBehaviour
         {
             if (destroyable != playerCollider)
             {
-                Debug.Log("Hit: " + destroyable.name);
                 Destroyable damageable = destroyable.GetComponent<Destroyable>();
+                Debug.Log("Hit: " + destroyable.name);
                 if (damageable != null)
                 {
                     damageable.TakeDamage(basicAttackDamage);
@@ -215,19 +215,29 @@ public class Attack : MonoBehaviour
 
     private void ApplyIceEffect(Destroyable damageable)
     {
-        PatrolingEnemy enemy = damageable.GetComponent<PatrolingEnemy>();
-        if (enemy != null)
+        PatrolingEnemy turtle = damageable.GetComponent<PatrolingEnemy>();
+        if (turtle != null)
         {
-            enemy.ApplyIceEffect(slowDuration);
+            turtle.ApplyIceEffect(slowDuration);
+        }
+        WolfEnemy wolf = damageable.GetComponent<WolfEnemy>();
+        if (wolf != null)
+        {
+            //wolf.ApplyIceEffect(slowDuration);
         }
     }
 
     private void ApplyFireEffect(Destroyable damageable)
     {
-        PatrolingEnemy enemy = damageable.GetComponent<PatrolingEnemy>();
-        if (enemy != null)
+        PatrolingEnemy turtle = damageable.GetComponent<PatrolingEnemy>();
+        if (turtle != null)
         {
-            enemy.ApplyFireEffect(fireDamage);
+            turtle.ApplyFireEffect(fireDamage);
+        }
+        WolfEnemy wolf = damageable.GetComponent<WolfEnemy>();
+        if (wolf != null)
+        {
+            wolf.ApplyFireEffect(fireDamage);
         }
     }
 
