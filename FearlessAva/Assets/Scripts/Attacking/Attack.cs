@@ -120,7 +120,6 @@ public class Attack : MonoBehaviour
             if (destroyable != playerCollider)
             {
                 Destroyable damageable = destroyable.GetComponent<Destroyable>();
-                Debug.Log(damageable.name);
                 if (damageable != null)
                 {
                     damageable.TakeDamage(basicAttackDamage);
