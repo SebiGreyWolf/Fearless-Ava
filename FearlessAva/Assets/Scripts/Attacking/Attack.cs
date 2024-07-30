@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
     //Ice Attack
     public int iceAttackDamage = 2;
     public float iceAttackRange = 0.5f;
-    public float iceAttackCooldown = 1f;
+    public float iceAttackCooldown = 3f;
     public float slowDuration = 2f;
     public Sprite iceSword;
     public ParticleSystem iceSwordParticle;
