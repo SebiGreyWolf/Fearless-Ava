@@ -9,7 +9,6 @@ public class Attack : MonoBehaviour
     public float basicAttackRange = 0.5f;
     public float basicAttackCooldown = 1f;
     public Sprite basicSword;
-    //public ParticleSystem basicSwordParticle;
 
     //Ice Attack
     public int iceAttackDamage = 2;
@@ -42,7 +41,6 @@ public class Attack : MonoBehaviour
     public GameObject shieldObject;
     public ParticleSystem hitParticles;
 
-
     private bool isAttacking = false;
     public bool isShielded = false;
     private float lastBasicAttackTime = 0f;
@@ -54,6 +52,18 @@ public class Attack : MonoBehaviour
     private Collider2D playerCollider;
     private Material originalMaterial;
     private Player player;
+    private PlayerMovement playerMovement;
+    private Rigidbody2D rb;
+    private Vector2 direction;
+    private bool collided;
+    private bool downwardStrike;
+
+    [SerializeField]
+    private float upwardsForce = 10f;
+    [SerializeField]
+    private float defaultForce = 5f;
+    [SerializeField]
+    private float movementTime = 0.1f;
 
     private void Start()
     {
@@ -61,6 +71,8 @@ public class Attack : MonoBehaviour
         playerCollider = GetComponent<Collider2D>();
         originalMaterial = spriteRenderer.material;
         player = GetComponentInParent<Player>();
+        playerMovement = GetComponentInParent<PlayerMovement>();
+        rb = GetComponent<Rigidbody2D>();
 
         if (attackPoint == null)
             attackPoint = gameObject.GetComponentInChildren<Transform>();
@@ -88,7 +100,7 @@ public class Attack : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E) && CanAttack(lastIceAttackTime, iceAttackCooldown))
         {
             spriteRenderer.sprite = iceSword;
-            PlayAbilityParticles(iceSwordParticle,iceSwordGlow);
+            PlayAbilityParticles(iceSwordParticle, iceSwordGlow);
             DoIceAttack();
         }
         else if (Input.GetKeyDown(KeyCode.Q) && CanAttack(lastFireAttackTime, fireAttackCooldown))
@@ -128,6 +140,7 @@ public class Attack : MonoBehaviour
                     {
                         FindObjectOfType<AudioManagement>().PlaySound("TreeBreak");
                     }
+                    HandleCollision(damageable.GetComponent<EnemyHealth>());
                 }
             }
         }
@@ -160,6 +173,7 @@ public class Attack : MonoBehaviour
                 damageable.TakeDamage(iceAttackDamage);
                 ApplyIceEffect(damageable);
                 PlayHitParticles(damageable.gameObject);
+                HandleCollision(damageable.GetComponent<EnemyHealth>());
             }
         }
     }
@@ -192,6 +206,7 @@ public class Attack : MonoBehaviour
                 damageable.TakeDamage(fireAttackDamage);
                 ApplyFireEffect(damageable);
                 PlayHitParticles(damageable.gameObject);
+                HandleCollision(damageable.GetComponent<EnemyHealth>());
             }
         }
     }
@@ -291,11 +306,13 @@ public class Attack : MonoBehaviour
         ps.Play();
         glow.Play();
     }
+
     private void PlayHitParticles(GameObject hitEnemy)
     {
         hitParticles.transform.position = hitEnemy.transform.position;
         hitParticles.Play();
     }
+
     private void StopAbilityParticles(ParticleSystem ps, ParticleSystem glow)
     {
         ps.Play();
@@ -310,5 +327,85 @@ public class Attack : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, basicAttackRange);
         Gizmos.DrawWireSphere(attackPoint.position, iceAttackRange);
         Gizmos.DrawWireSphere(attackPoint.position, fireAttackRange);
+    }
+
+    private void FixedUpdate()
+    {
+        //Uses the Rigidbody2D AddForce method to move the player in the correct direction
+        HandleMovement();
+    }
+
+    private void HandleCollision(EnemyHealth objHealth)
+    {
+        if (objHealth == null) return;
+
+        //Checks to see if the GameObject allows for upward force and if the strike is downward as well as grounded
+        if (objHealth.giveUpwardForce && Input.GetAxis("Vertical") < 0 && !playerMovement.IsGrounded)
+        {
+            //Sets the direction variable to up
+            direction = Vector2.up;
+            //Sets downwardStrike to true
+            downwardStrike = true;
+            //Sets collided to true
+            collided = true;
+        }
+        if (Input.GetAxis("Vertical") > 0 && !playerMovement.IsGrounded)
+        {
+            //Sets the direction variable to down
+            direction = Vector2.down;
+            //Sets collided to true
+            collided = true;
+        }
+        //Checks to see if the melee attack is a standard melee attack
+        if ((Input.GetAxis("Vertical") <= 0 && playerMovement.IsGrounded) || Input.GetAxis("Vertical") == 0)
+        {
+            //Checks to see if the player is facing left; if you don't have a character script, the commented out line of code can also check for that
+            if (!playerMovement.IsFacingRight) //(transform.parent.localScale.x < 0)
+            {
+                //Sets the direction variable to right
+                direction = Vector2.right;
+            }
+            else
+            {
+                //Sets the direction variable to left
+                direction = Vector2.left;
+            }
+            //Sets collided to true
+            collided = true;
+        }
+        //Deals damage in the amount of damageAmount
+        objHealth.Damage(basicAttackDamage); // Assuming basicAttackDamage is the damageAmount
+        //Coroutine that turns off all the bools related to melee attack collision and direction
+        StartCoroutine(NoLongerColliding());
+    }
+
+    private void HandleMovement()
+    {
+        //Checks to see if the GameObject should allow the player to move when melee attack collides
+        if (collided)
+        {
+            //If the attack was in a downward direction
+            if (downwardStrike)
+            {
+                //Propels the player upwards by the amount of upwardsForce in the meleeAttackManager script
+                rb.AddForce(direction * upwardsForce);
+            }
+            else
+            {
+                //Propels the player backwards by the amount of defaultForce in the meleeAttackManager script
+                rb.AddForce(direction * defaultForce);
+            }
+        }
+    }
+
+    //Coroutine that turns off all the bools that allow movement from the HandleMovement method
+    private IEnumerator NoLongerColliding()
+    {
+        //Waits in the amount of time setup by the meleeAttackManager script; this is by default .1 seconds
+        yield return new WaitForSeconds(movementTime);
+        //Turns off the collided bool
+        collided = false;
+        //Turns off the downwardStrike bool
+        downwardStrike = false;
     }
 }

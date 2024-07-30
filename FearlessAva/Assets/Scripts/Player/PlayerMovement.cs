@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     public float LastOnWallTime { get; private set; }
     public float LastOnWallRightTime { get; private set; }
     public float LastOnWallLeftTime { get; private set; }
+    public bool IsGrounded { get; private set; }
+
 
     //Jump
     private bool _isJumpCut;
@@ -138,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) || Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _destroyableLayer)) //checks if set box overlaps with ground
             {
+                IsGrounded = true;
                 if (LastOnGroundTime < -0.1f)
                 {
                     //AnimHandler.justLanded = true;
@@ -190,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
                 IsWallJumping = false;
                 _isJumpCut = false;
                 _isJumpFalling = false;
+                IsGrounded = false;
                 Jump();
 
                 //AnimHandler.startedJumping = true;
@@ -201,6 +205,7 @@ public class PlayerMovement : MonoBehaviour
                 IsJumping = false;
                 _isJumpCut = false;
                 _isJumpFalling = false;
+                IsGrounded = false;
 
                 _wallJumpStartTime = Time.time;
                 _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
@@ -235,7 +240,10 @@ public class PlayerMovement : MonoBehaviour
 
         #region SLIDE CHECKS
         if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+        {
             IsSliding = true;
+            IsGrounded = false;
+        }
         else
             IsSliding = false;
         #endregion
