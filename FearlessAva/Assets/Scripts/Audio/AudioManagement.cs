@@ -29,4 +29,24 @@ public class AudioManagement : MonoBehaviour
 
         s.audioSource.Play();
     }
+
+    public void PauseSound(string name)
+    {
+        SoundClass s = Array.Find(soundClasses, sound => sound.name == name);
+        //Debug.Log("Playing Sound:" + s.name);
+        if (s == null)
+            return;
+
+        s.audioSource.Pause();
+    }
+
+    public void UnPauseSound(string name)
+    {
+        SoundClass s = Array.Find(soundClasses, sound => sound.name == name);
+        //Debug.Log("Playing Sound:" + s.name);
+        if (s == null)
+            return;
+
+        s.audioSource.UnPause();
+    }
 }
