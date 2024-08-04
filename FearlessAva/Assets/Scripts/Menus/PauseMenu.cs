@@ -9,16 +9,17 @@ public class PauseMenu : MonoBehaviour
 
 
     public GameObject pauseMenuUI;
+    public GameObject DialogueUI;
 
     public GameObject HealthBar;
     public GameObject FireAbility;
     public GameObject ShieldAbility;
     public GameObject IceAbility;
-
+    public GameObject QuestList;
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape) && !DialogueUI.activeSelf)
         {
             if(GameIsPaused)
             {
@@ -48,12 +49,13 @@ public class PauseMenu : MonoBehaviour
         toggleUIElements(false);
     }
 
-    private void toggleUIElements(bool toggle)
+    public void toggleUIElements(bool toggle)
     {
         HealthBar.SetActive(toggle);
         FireAbility.SetActive(toggle);
         ShieldAbility.SetActive(toggle);
         IceAbility.SetActive(toggle);
+        QuestList.SetActive(toggle);
     }
 
     public void SaveGameButton()

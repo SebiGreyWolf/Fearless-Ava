@@ -5,27 +5,41 @@ using UnityEngine;
 public class TextBoxProximity : MonoBehaviour
 {
     [SerializeField] private Player player;
-    [SerializeField] private GameObject textBox;
+    [SerializeField] private GameObject InteractUI;
     [SerializeField] private float detectionRange;
 
-    private void Start()
-    {
-        FindObjectOfType<AudioManagement>().PlaySound("ProximityBoxTest");
-        FindObjectOfType<AudioManagement>().PauseSound("ProximityBoxTest");
-    }
+    [SerializeField] private DialogueTrigger trigger;
+    [SerializeField] private GameObject DialogueUI;
+    [SerializeField] private PauseMenu pause;
 
     void Update()
     {
         if (isPlayerInRange())
         {
-            textBox.SetActive(true);
-            FindObjectOfType<AudioManagement>().UnPauseSound("ProximityBoxTest");
+            InteractUI.SetActive(true);
+            if(Input.GetKeyUp(KeyCode.F))
+            {
+                pause.toggleUIElements(false);
+                DialogueUI.SetActive(true);
+                Time.timeScale = 0f;
+                trigger.TriggerDialogue();
+            }
+            else if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                disableDialogueUI();
+            }
         }
         else
         {
-            textBox.SetActive(false);
-            FindObjectOfType<AudioManagement>().PauseSound("ProximityBoxTest");
+            InteractUI.SetActive(false);
         }
+    }
+
+    public void disableDialogueUI()
+    {
+        pause.toggleUIElements(true);
+        DialogueUI.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     bool isPlayerInRange()
