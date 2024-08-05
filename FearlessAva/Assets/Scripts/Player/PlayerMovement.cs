@@ -225,44 +225,44 @@ public class PlayerMovement : MonoBehaviour
                 //AnimHandler.startedJumping = true;
             }
             //WALL JUMP
-            else if (CanWallJump() && LastPressedJumpTime > 0)
-            {
-                IsWallJumping = true;
-                IsJumping = false;
-                _isJumpCut = false;
-                _isJumpFalling = false;
-                IsGrounded = false;
+            //else if (CanWallJump() && LastPressedJumpTime > 0)
+            //{
+            //    IsWallJumping = true;
+            //    IsJumping = false;
+            //    _isJumpCut = false;
+            //    _isJumpFalling = false;
+            //    IsGrounded = false;
 
-                _wallJumpStartTime = Time.time;
-                _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
+            //    _wallJumpStartTime = Time.time;
+            //    _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
 
-                WallJump(_lastWallJumpDir);
-            }
+            //    WallJump(_lastWallJumpDir);
+            //}
         }
         #endregion
 
-        #region DASH CHECKS
+        //#region DASH CHECKS
 
-        if (CanDash() && LastPressedDashTime > 0)
-        {
-            //Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
-            Sleep(Data.dashSleepTime);
+        //if (CanDash() && LastPressedDashTime > 0)
+        //{
+        //    //Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
+        //    Sleep(Data.dashSleepTime);
 
-            //If not direction pressed, dash forward
-            if (_moveInput != Vector2.zero)
-                _lastDashDir = _moveInput;
-            else
-                _lastDashDir = IsFacingRight ? Vector2.right : Vector2.left;
+        //    //If not direction pressed, dash forward
+        //    if (_moveInput != Vector2.zero)
+        //        _lastDashDir = _moveInput;
+        //    else
+        //        _lastDashDir = IsFacingRight ? Vector2.right : Vector2.left;
 
-            IsDashing = true;
-            IsJumping = false;
-            IsWallJumping = false;
-            _isJumpCut = false;
+        //    IsDashing = true;
+        //    IsJumping = false;
+        //    IsWallJumping = false;
+        //    _isJumpCut = false;
 
-            StartCoroutine(nameof(StartDash), _lastDashDir);
-        }
+        //    StartCoroutine(nameof(StartDash), _lastDashDir);
+        //}
 
-        #endregion
+        //#endregion
 
         #region SLIDE CHECKS
         if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
@@ -336,8 +336,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Handle Slide
-        if (IsSliding)
-            Slide();
+        //if (IsSliding)
+        //    Slide();
     }
 
     #region INPUT CALLBACKS
@@ -481,110 +481,110 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
-    private void WallJump(int dir)
-    {
-        // Ensures we can't call Wall Jump multiple times from one press
-        LastPressedJumpTime = 0;
-        LastOnGroundTime = 0;
-        LastOnWallRightTime = 0;
-        LastOnWallLeftTime = 0;
+    //private void WallJump(int dir)
+    //{
+    //    Ensures we can't call Wall Jump multiple times from one press
+    //    LastPressedJumpTime = 0;
+    //    LastOnGroundTime = 0;
+    //    LastOnWallRightTime = 0;
+    //    LastOnWallLeftTime = 0;
 
-        // Create the force vector
-        Vector2 force = new Vector2(Data.wallJumpForce.x * dir, Data.wallJumpForce.y);
+    //    Create the force vector
+    //    Vector2 force = new Vector2(Data.wallJumpForce.x * dir, Data.wallJumpForce.y);
 
-        // Clamp the horizontal velocity to prevent excessive speed
-        float clampedVelocityX = Mathf.Clamp(RB.velocity.x, -Data.maxHorizontalVelocity, Data.maxHorizontalVelocity);
+    //    Clamp the horizontal velocity to prevent excessive speed
+    //    float clampedVelocityX = Mathf.Clamp(RB.velocity.x, -Data.maxHorizontalVelocity, Data.maxHorizontalVelocity);
 
-        // Reset vertical velocity before applying wall jump force
-        RB.velocity = new Vector2(clampedVelocityX, 0);
+    //    Reset vertical velocity before applying wall jump force
+    //    RB.velocity = new Vector2(clampedVelocityX, 0);
 
-        // Apply wall jump force
-        RB.AddForce(force, ForceMode2D.Impulse);
+    //    Apply wall jump force
+    //    RB.AddForce(force, ForceMode2D.Impulse);
 
-        // Trigger wall jump animation
-        animator.SetTrigger("WallJumping");
-        //Turn()
-    }
+    //    Trigger wall jump animation
+    //    animator.SetTrigger("WallJumping");
+    //    Turn()
+    //}
     #endregion
 
-    #region DASH METHODS
+    //#region DASH METHODS
 
-    //Dash Coroutine
-    private IEnumerator StartDash(Vector2 dir)
-    {
-        //Overall this method of dashing aims to mimic Celeste, if you're looking for
-        // a more physics-based approach try a method similar to that used in the jump
+    ////Dash Coroutine
+    //private IEnumerator StartDash(Vector2 dir)
+    //{
+    //    //Overall this method of dashing aims to mimic Celeste, if you're looking for
+    //    // a more physics-based approach try a method similar to that used in the jump
 
-        LastOnGroundTime = 0;
-        LastPressedDashTime = 0;
+    //    LastOnGroundTime = 0;
+    //    LastPressedDashTime = 0;
 
-        float startTime = Time.time;
+    //    float startTime = Time.time;
 
-        _dashesLeft--;
-        _isDashAttacking = true;
+    //    _dashesLeft--;
+    //    _isDashAttacking = true;
 
-        SetGravityScale(0);
+    //    SetGravityScale(0);
 
-        //We keep the player's velocity at the dash speed during the "attack" phase (in celeste the first 0.15s)
-        while (Time.time - startTime <= Data.dashAttackTime)
-        {
-            RB.velocity = dir.normalized * Data.dashSpeed;
-            //Pauses the loop until the next frame, creating something of a Update loop. 
-            //This is a cleaner implementation opposed to multiple timers and this coroutine approach is actually what is used in Celeste :D
-            yield return null;
-        }
+    //    //We keep the player's velocity at the dash speed during the "attack" phase (in celeste the first 0.15s)
+    //    while (Time.time - startTime <= Data.dashAttackTime)
+    //    {
+    //        RB.velocity = dir.normalized * Data.dashSpeed;
+    //        //Pauses the loop until the next frame, creating something of a Update loop. 
+    //        //This is a cleaner implementation opposed to multiple timers and this coroutine approach is actually what is used in Celeste :D
+    //        yield return null;
+    //    }
 
-        startTime = Time.time;
+    //    startTime = Time.time;
 
-        _isDashAttacking = false;
+    //    _isDashAttacking = false;
 
-        //Begins the "end" of our dash where we return some control to the player but still limit run acceleration (see Update() and Run())
-        SetGravityScale(Data.gravityScale);
-        RB.velocity = Data.dashEndSpeed * dir.normalized;
+    //    //Begins the "end" of our dash where we return some control to the player but still limit run acceleration (see Update() and Run())
+    //    SetGravityScale(Data.gravityScale);
+    //    RB.velocity = Data.dashEndSpeed * dir.normalized;
 
-        while (Time.time - startTime <= Data.dashEndTime)
-        {
-            yield return null;
-        }
+    //    while (Time.time - startTime <= Data.dashEndTime)
+    //    {
+    //        yield return null;
+    //    }
 
-        //Dash over
-        IsDashing = false;
-    }
+    //    //Dash over
+    //    IsDashing = false;
+    //}
 
-    //Short period before the player is able to dash again
-    private IEnumerator RefillDash(int amount)
-    {
-        //SHoet cooldown, so we can't constantly dash along the ground, again this is the implementation in Celeste, feel free to change it up
-        _dashRefilling = true;
-        yield return new WaitForSeconds(Data.dashRefillTime);
-        _dashRefilling = false;
-        _dashesLeft = Mathf.Min(Data.dashAmount, _dashesLeft + 1);
-    }
-    #endregion
+    ////Short period before the player is able to dash again
+    //private IEnumerator RefillDash(int amount)
+    //{
+    //    //SHoet cooldown, so we can't constantly dash along the ground, again this is the implementation in Celeste, feel free to change it up
+    //    _dashRefilling = true;
+    //    yield return new WaitForSeconds(Data.dashRefillTime);
+    //    _dashRefilling = false;
+    //    _dashesLeft = Mathf.Min(Data.dashAmount, _dashesLeft + 1);
+    //}
+    //#endregion
 
-    #region OTHER MOVEMENT METHODS
-    private void Slide()
-    {
-        //We remove the remaining upwards Impulse to prevent upwards sliding
-        if (RB.velocity.y > 0)
-        {
-            RB.AddForce(-RB.velocity.y * Vector2.up, ForceMode2D.Impulse);
-        }
+    //#region OTHER MOVEMENT METHODS
+    //private void Slide()
+    //{
+    //    //We remove the remaining upwards Impulse to prevent upwards sliding
+    //    if (RB.velocity.y > 0)
+    //    {
+    //        RB.AddForce(-RB.velocity.y * Vector2.up, ForceMode2D.Impulse);
+    //    }
 
-        //Works the same as the Run but only in the y-axis
-        //THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
-        float speedDif = Data.slideSpeed - RB.velocity.y;
-        float movement = speedDif * Data.slideAccel;
-        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
-        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+    //    //Works the same as the Run but only in the y-axis
+    //    //THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
+    //    float speedDif = Data.slideSpeed - RB.velocity.y;
+    //    float movement = speedDif * Data.slideAccel;
+    //    //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
+    //    //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
+    //    movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
-        animator.SetTrigger("Sliding");
+    //    animator.SetTrigger("Sliding");
 
-        RB.velocity = new Vector2(RB.velocity.x, 0);
-        RB.AddForce(movement * Vector2.up);
-    }
-    #endregion
+    //    RB.velocity = new Vector2(RB.velocity.x, 0);
+    //    RB.AddForce(movement * Vector2.up);
+    //}
+    //#endregion
 
 
     #region CHECK METHODS
@@ -615,15 +615,15 @@ public class PlayerMovement : MonoBehaviour
         return IsWallJumping && RB.velocity.y > 0;
     }
 
-    private bool CanDash()
-    {
-        if (!IsDashing && _dashesLeft < Data.dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
-        {
-            StartCoroutine(nameof(RefillDash), 1);
-        }
+    //private bool CanDash()
+    //{
+    //    if (!IsDashing && _dashesLeft < Data.dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
+    //    {
+    //        StartCoroutine(nameof(RefillDash), 1);
+    //    }
 
-        return _dashesLeft > 0;
-    }
+    //    return _dashesLeft > 0;
+    //}
 
     public bool CanSlide()
     {
@@ -644,8 +644,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SlopeCheckHorizontal(Vector2 checkPos)
     {
-        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, whatIsGround);
-        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, whatIsGround);
+        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, _groundLayer);
+        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, _groundLayer);
 
         if (slopeHitFront || slopeHitBack)
         {
@@ -660,7 +660,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void SlopeCheckVertical(Vector2 checkPos)
-    {
+    {/*
         RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, whatIsGround);
 
         if (hit)
@@ -675,7 +675,7 @@ public class PlayerMovement : MonoBehaviour
         canWalkOnSlope = slopeDownAngle <= maxSlopeAngle && slopeSideAngle <= maxSlopeAngle;
 
         // Apply appropriate friction based on slope and movement state
-        RB.sharedMaterial = isOnSlope && canWalkOnSlope && xInput == 0.0f ? fullFriction : noFriction;
+        RB.sharedMaterial = isOnSlope && canWalkOnSlope && xInput == 0.0f ? fullFriction : noFriction;*/
     }
 
     #region EDITOR METHODS
