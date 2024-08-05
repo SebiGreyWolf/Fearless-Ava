@@ -87,10 +87,36 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _destroyableLayer;
     #endregion
 
+    #region slopeCheck
+
+    [SerializeField]
+    private float slopeCheckDistance;
+    [SerializeField]
+    private PhysicsMaterial2D noFriction;
+    [SerializeField]
+    private PhysicsMaterial2D fullFriction;
+
+
+    private float slopeDownAngle;
+    private float slopeSideAngle;
+    private float lastSlopeAngle;
+
+    private bool isOnSlope;
+    private bool canWalkOnSlope;
+
+    private BoxCollider2D bc;
+
+    private Vector2 slopeNormalPerp;
+    private Vector2 boxColliderSize;
+    #endregion
+
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
         //AnimHandler = GetComponent<PlayerAnimator>();
+        bc = GetComponent<BoxCollider2D>();
+
+        boxColliderSize = bc.size;
     }
 
     private void Start()
@@ -608,6 +634,49 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+    private void SlopeCheck()
+    {
+        Vector2 checkPos = transform.position - (Vector3)(new Vector2(0.0f, bc.size.y / 2));
+
+        SlopeCheckHorizontal(checkPos);
+        SlopeCheckVertical(checkPos);
+    }
+
+    private void SlopeCheckHorizontal(Vector2 checkPos)
+    {
+        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, whatIsGround);
+        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, whatIsGround);
+
+        if (slopeHitFront || slopeHitBack)
+        {
+            isOnSlope = true;
+            slopeSideAngle = Vector2.Angle(slopeHitFront ? slopeHitFront.normal : slopeHitBack.normal, Vector2.up);
+        }
+        else
+        {
+            isOnSlope = false;
+            slopeSideAngle = 0.0f;
+        }
+    }
+
+    private void SlopeCheckVertical(Vector2 checkPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, whatIsGround);
+
+        if (hit)
+        {
+            slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
+            slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+            isOnSlope = slopeDownAngle != lastSlopeAngle;
+            lastSlopeAngle = slopeDownAngle;
+        }
+
+        canWalkOnSlope = slopeDownAngle <= maxSlopeAngle && slopeSideAngle <= maxSlopeAngle;
+
+        // Apply appropriate friction based on slope and movement state
+        RB.sharedMaterial = isOnSlope && canWalkOnSlope && xInput == 0.0f ? fullFriction : noFriction;
+    }
 
     #region EDITOR METHODS
     private void OnDrawGizmosSelected()
