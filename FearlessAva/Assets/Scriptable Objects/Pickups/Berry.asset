@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Berry
   m_EditorClassIdentifier: 
   itemName: Berry
-  itemIcon: {fileID: -1530779068, guid: 89b7c5f2cb6550543819697560bfa484, type: 3}
-  maxCount: 7
+  maxCount: 5
