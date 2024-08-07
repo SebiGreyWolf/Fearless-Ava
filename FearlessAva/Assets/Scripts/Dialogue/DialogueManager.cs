@@ -34,20 +34,7 @@ public class DialogueManager : MonoBehaviour
         sentencesQueue = new Queue<string>();
     }
 
-<<<<<<< Updated upstream
-    private void Update()
-    {
-        if(DialogueUI.activeSelf && Input.GetKeyUp(KeyCode.Space))
-        {
-            DisplayNextSentence();
-        }
-    }
-
-    public void StartDialogue(Dialogue dialogue)
-=======
-    // Start a dialogue by loading speakers and sentences into the queues
     public void StartDialogue(string[] speakers, string[] sentences, Quest addedQuest)
->>>>>>> Stashed changes
     {
         speakersList.Clear();
         sentencesQueue.Clear();
@@ -89,7 +76,7 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeSentence(string sentence)
     {
         string[] subs = sentence.Split(' ', 2);
-        NPCName.text = subs[0];
+        //NPCName.text = subs[0];
         dialogueText.text = "";
         foreach (char letter in subs[1].ToCharArray())
         {
