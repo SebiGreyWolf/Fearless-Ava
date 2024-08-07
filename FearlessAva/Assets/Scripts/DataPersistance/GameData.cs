@@ -9,13 +9,15 @@ public class GameData
     public int health;
     public float[] position;
 
-    public SerializeableDictionary<string, bool> enemiesKilled;
+    public SerializeableDictionary<string, bool> tasksCompleted;
+    public SerializeableList<Item> itemsToSave;
 
     public GameData() 
     {
         level = "Level1";
         health = 100;
         position = new float[] {0, 0, 0};
-        enemiesKilled = new SerializeableDictionary<string, bool>();
+        tasksCompleted = new SerializeableDictionary<string, bool>();
+        itemsToSave = new SerializeableList<Item>();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPersistance : MonoBehaviour, IDataPersistance
+public class GameObjectPersistance : MonoBehaviour, IDataPersistance
 {
     [SerializeField] private string id;
     [ContextMenu("Generate guid for id")]
@@ -11,13 +11,13 @@ public class EnemyPersistance : MonoBehaviour, IDataPersistance
         id = System.Guid.NewGuid().ToString();
     }
 
-    private bool isKilled = false;
+    private bool isCompleted = false;
 
 
     public void LoadData(GameData data)
     {
-        data.enemiesKilled.TryGetValue(id, out isKilled);
-        if(isKilled)
+        data.tasksCompleted.TryGetValue(id, out isCompleted);
+        if(isCompleted)
         {
             gameObject.SetActive(false);
         }
@@ -25,15 +25,15 @@ public class EnemyPersistance : MonoBehaviour, IDataPersistance
 
     public void SaveData(ref GameData data)
     {
-        if(data.enemiesKilled.ContainsKey(id))
+        if(data.tasksCompleted.ContainsKey(id))
         {
-            data.enemiesKilled.Remove(id);
+            data.tasksCompleted.Remove(id);
         }
-        data.enemiesKilled.Add(id, isKilled);
+        data.tasksCompleted.Add(id, isCompleted);
     }
 
     private void OnDestroy()
     {
-        isKilled = true;
+        isCompleted = true;
     }
 }

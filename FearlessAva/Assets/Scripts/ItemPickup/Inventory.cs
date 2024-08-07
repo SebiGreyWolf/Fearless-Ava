@@ -1,13 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+[Serializable]
+public class Inventory : MonoBehaviour, IDataPersistance
 {
     public static Inventory instance;
-    public List<Item> items;
-    public Dictionary<string, int> itemCounts;
+    public SerializeableList<Item> items;
     public Text inventoryText;
 
     void Awake()
@@ -15,7 +16,7 @@ public class Inventory : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            itemCounts = new Dictionary<string, int>();
+            items = new SerializeableList<Item>();
             UpdateInventoryUI();
         }
         else
@@ -24,21 +25,33 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(Item item)
+    public void AddItem(Item itemToAdd)
     {
-        if (!itemCounts.ContainsKey(item.itemName))
+        bool itemAlreadyContained = false;
+        foreach (Item item in items) 
         {
-            itemCounts[item.itemName] = 0;
+            if(item.itemName == itemToAdd.itemName)
+            {
+                itemAlreadyContained = true;
+            }
         }
 
-        if (itemCounts[item.itemName] < item.maxCount)
+        if (!itemAlreadyContained)
         {
-            itemCounts[item.itemName]++;
-            UpdateInventoryUI();
+            items.Add(itemToAdd);
         }
-        else
+
+        foreach (Item item in items)
         {
-            Debug.Log("Max count reached for " + item.itemName);
+            if(item.itemName == itemToAdd.itemName && item.currentCount < item.maxCount)
+            {
+                item.currentCount++;
+                UpdateInventoryUI();
+            }
+            else
+            {
+                Debug.Log("Max count reached for " + item.itemName);
+            }
         }
     }
 
@@ -47,8 +60,25 @@ public class Inventory : MonoBehaviour
         inventoryText.text = "";
         foreach (var item in items)
         {
-            int count = itemCounts.ContainsKey(item.itemName) ? itemCounts[item.itemName] : 0;
-            inventoryText.text += $"{item.itemName}: {count}/{item.maxCount}\n";
+            inventoryText.text += $"{item.itemName}: {item.currentCount}/{item.maxCount}\n";
+        }
+    }
+
+    public void LoadData(GameData data)
+    {
+        foreach (var item in data.itemsToSave)
+        {
+            items.Add(item);
+        }
+        UpdateInventoryUI();
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.itemsToSave.Clear();
+        foreach (Item item in items)
+        {
+            data.itemsToSave.Add(item);
         }
     }
 }

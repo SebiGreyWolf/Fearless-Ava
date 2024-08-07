@@ -27,5 +27,4 @@ public class SerializeableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, I
             this.Add(keys[i], values[i]);
         }
     }
-
 }
