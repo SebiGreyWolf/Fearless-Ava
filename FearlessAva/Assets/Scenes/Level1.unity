@@ -10116,11 +10116,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 72511984}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 11, y: 55}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10.9999695, y: -11.7}
+  m_SizeDelta: {x: 218.07, y: 229.6}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &279887584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10154,7 +10154,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: List
+  m_Text: 
 --- !u!222 &279887585
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18660,7 +18660,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 621879680}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.0000016391277, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0000016093252, w: 1}
   m_LocalPosition: {x: 0.88, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21580,7 +21580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &826627227
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23451,7 +23451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970003767}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.13232362, w: 0.9912066}
+  m_LocalRotation: {x: -0, y: -0, z: 0.13232349, w: 0.99120665}
   m_LocalPosition: {x: 1.45, y: -0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33903,6 +33903,7 @@ GameObject:
   - component: {fileID: 1365695266}
   - component: {fileID: 1365695268}
   - component: {fileID: 1365695269}
+  - component: {fileID: 1365695270}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -33985,7 +33986,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365695265}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40ad296c0f69a6148bd83a2de134f7cc, type: 3}
   m_Name: 
@@ -34008,15 +34009,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43fed00c07de304caf9d6efeb7b0013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue:
-    NPCName: Demo NPC
-    sentences:
-    - 'Husband:
-
-      Ava, darling I wanted to say again how nice it is to have
-      you back. Me and the kids missed you a lot. '
-    - Its Me jkneroirhgoeuwsnbhfgoihnbworeiugnhboiurhgnoiuhngoiwhngouhngoiuhoiwrhjgoiwhvnuowhnoijgivjmngiowghbnoligvjhnwoilgjhoi
-    - The Demo NPC lkjohegoiutrfnhbgionhbeswrouirwnhbiornifronbepionjbmfeipokbejnoibehjneoibhjbneroibhnbeknjebroierhjndsiobklhnbiounhdsonh
+  speakers:
+  - Husband
+  - Ava
+  sentences:
+  - "Ava, darling I wanted to say again how nice it is to have you back. Me and the
+    kids missed you a lot.\_"
+  - I feel the same way.
+  - "By the way I have a question the same question as before. Why are you back all
+    of a sudden? Normally you send me a letter in advance\u2026"
+  - "*Unsure* I told you already\u2026 I well... I was homesick and I missed you
+    guys..."
+  - "Are you sure that's all? Be honest with me Ava, please, I feel like you aren\u2019t
+    telling me something."
+  - 'That''s all darling. I missed you and that''s why I''m here. Well... and maybe
+    because my sword broke on my last adventure and you''re the best blacksmith I
+    know. I well need it to get some meet on the table.  '
+  - "*smiles* Alright if that\u2019s all then I'll be happy to fix your sword, my
+    sweet. Just give me a little time. "
+  - Thank you. In the meantime, I'd like to take a look around, you know, see what's
+    changed recently.
+  - 'Maybe you can look around the Deepwood Forest first and get us some berries,
+    spices and some syrup for the grill party tonight. '
+  - "Alright\u2026 I\xB4ll get them for you. "
+  questToAdd:
+    questName: Collect Berries
+    description: Collect 5 Berries
+    isCompleted: 0
+    requiredItems:
+    - {fileID: 11400000, guid: 5c48f08d2a0e64744bf8211df313832e, type: 2}
+--- !u!61 &1365695270
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365695265}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.44416904, y: 1.3091302}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 1.65}
+    newSize: {x: 2.56, y: 1.65}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 8.373167, y: 4.6422977}
+  m_EdgeRadius: 0
 --- !u!1 &1366231842
 GameObject:
   m_ObjectHideFlags: 0
@@ -34520,7 +34586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2323024258548401387, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.18916105
+      value: -0.18916108
       objectReference: {fileID: 0}
     - target: {fileID: -2323024258548401387, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.y
@@ -34596,7 +34662,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2015287661806188099, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.04799467
+      value: 0.047994725
       objectReference: {fileID: 0}
     - target: {fileID: 2079023556622627560, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -34604,7 +34670,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2c1d677937f82084495f0fa141e4222e, type: 2}
     - target: {fileID: 2471920254983572574, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97738343
+      value: 0.9773834
       objectReference: {fileID: 0}
     - target: {fileID: 2471920254983572574, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.x
@@ -34616,7 +34682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2471920254983572574, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.21147522
+      value: -0.21147507
       objectReference: {fileID: 0}
     - target: {fileID: 3396447818448123606, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -34660,11 +34726,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7693355417021534197, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.2146686
+      value: -0.21466854
       objectReference: {fileID: 0}
     - target: {fileID: 7796712431219789332, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7297802
+      value: 0.72978014
       objectReference: {fileID: 0}
     - target: {fileID: 7796712431219789332, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.x
@@ -34676,7 +34742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7796712431219789332, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.6836819
+      value: -0.68368196
       objectReference: {fileID: 0}
     - target: {fileID: 7796712431219789332, guid: 8084beeea66a33e4cb088aa819eecabf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -36847,10 +36913,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d076d7070541a4a49b6d3ed121a6c004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NPCName: {fileID: 949363312}
+  nameText: {fileID: 949363312}
   dialogueText: {fileID: 11448983}
-  DialogueUI: {fileID: 765966827}
-  pause: {fileID: 72511980}
+  dialogue: {fileID: 765966827}
 --- !u!4 &1581177966
 Transform:
   m_ObjectHideFlags: 0
@@ -36859,12 +36924,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581177964}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 574.9967, y: 227.56235, z: -3.898886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1883375874}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1586184882
 GameObject:
@@ -39632,7 +39697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768941085}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.1705937, w: 0.9853414}
+  m_LocalRotation: {x: -0, y: -0, z: -0.17059377, w: 0.9853414}
   m_LocalPosition: {x: 1.38, y: -0.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41701,6 +41766,7 @@ GameObject:
   - component: {fileID: 1883375874}
   - component: {fileID: 1883375875}
   - component: {fileID: 1883375876}
+  - component: {fileID: 1883375877}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -41725,6 +41791,7 @@ Transform:
   - {fileID: 1157005068}
   - {fileID: 29880529}
   - {fileID: 118340295}
+  - {fileID: 1581177966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1883375875
@@ -41754,9 +41821,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d98cd40c03321a41b4c4535e7be9e3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-    values: []
-  inventoryText: {fileID: 279887584}
+  items: []
+--- !u!114 &1883375877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883375873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a52463ba6f4f41429a5a7773967bb48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quests: []
+  questUI: {fileID: 279887584}
 --- !u!1 &1891989310
 GameObject:
   m_ObjectHideFlags: 0
@@ -47210,7 +47289,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 4889095633330618160}
   - {fileID: 1967526367}
-  - {fileID: 1581177966}
   - {fileID: 1883375874}
   - {fileID: 1241452083}
   - {fileID: 72511984}

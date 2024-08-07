@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    public Dialogue dialogue;
+    [SerializeField] private string[] speakers;  // Names of speakers in the conversation
+    [SerializeField] private string[] sentences; // Sentences spoken by the speakers in order
+    [SerializeField] public Quest questToAdd;
 
-    public void TriggerDialogue()
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        Debug.Log("In here here");
+        if (collision.gameObject.GetComponent<Player>() && Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("Got in here");
+            DialogueManager.Instance.StartDialogue(speakers, sentences, questToAdd);
+        }
     }
 }

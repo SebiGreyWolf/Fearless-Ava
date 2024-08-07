@@ -22,7 +22,7 @@ public class TextBoxProximity : MonoBehaviour
                 pause.toggleUIElements(false);
                 DialogueUI.SetActive(true);
                 Time.timeScale = 0f;
-                trigger.TriggerDialogue();
+                //trigger.TriggerDialogue();
             }
             else if (Input.GetKeyUp(KeyCode.Escape))
             {

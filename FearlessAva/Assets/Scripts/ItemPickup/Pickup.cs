@@ -9,15 +9,10 @@ public class Pickup : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        canvers.SetActive(true);
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+        if (other.gameObject.GetComponent<Player>() && Input.GetKeyDown(KeyCode.F))
         {
             Inventory.instance.AddItem(item);
             Destroy(gameObject);
         }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        canvers.SetActive(false);
     }
 }

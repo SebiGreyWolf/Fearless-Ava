@@ -6,20 +6,35 @@ using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
-    public Text NPCName;
-    public Text dialogueText;
+    public Text nameText;         // UI text to display the speaker's name
+    public Text dialogueText;     // UI text to display the dialogue sentence
+    public GameObject dialogue;
+    
 
-    private Queue<string> sentences;
+    private List<string> speakersList; // Queue to manage the order of speakers
+    private Queue<string> sentencesQueue; // Queue to manage the order of sentences
+    private int currentSpeakerIndex;
+    private Quest quest;
 
-    [SerializeField] private GameObject DialogueUI;
-    [SerializeField] private PauseMenu pause;
+    public static DialogueManager Instance { get; private set; }
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        sentences = new Queue<string>();
+        // Singleton pattern to ensure only one instance of DialogueManager exists
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        speakersList = new List<string>();
+        sentencesQueue = new Queue<string>();
     }
 
+<<<<<<< Updated upstream
     private void Update()
     {
         if(DialogueUI.activeSelf && Input.GetKeyUp(KeyCode.Space))
@@ -29,33 +44,49 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartDialogue(Dialogue dialogue)
+=======
+    // Start a dialogue by loading speakers and sentences into the queues
+    public void StartDialogue(string[] speakers, string[] sentences, Quest addedQuest)
+>>>>>>> Stashed changes
     {
-        NPCName.text = dialogue.NPCName;
-        sentences.Clear();
+        speakersList.Clear();
+        sentencesQueue.Clear();
 
-        foreach (string sentence in dialogue.sentences)
+        speakersList.AddRange(speakers);
+
+        dialogue.SetActive(true);
+        quest = addedQuest;
+
+        foreach (string sentence in sentences)
         {
-            sentences.Enqueue(sentence);
+            sentencesQueue.Enqueue(sentence);
         }
 
         DisplayNextSentence();
     }
 
+    // Display the next sentence in the dialogue
     public void DisplayNextSentence()
     {
-        if(sentences.Count == 0)
+        if (sentencesQueue.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        string sentence = sentences.Dequeue();
+        // Rotate through the speakers
+        string speaker = speakersList[currentSpeakerIndex];
+        currentSpeakerIndex = (currentSpeakerIndex + 1) % speakersList.Count;
+
+        string sentence = sentencesQueue.Dequeue();
+
+        nameText.text = speaker;
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
-
     }
 
-    IEnumerator TypeSentence (string sentence)
+    // Coroutine to type out the sentence letter by letter
+    IEnumerator TypeSentence(string sentence)
     {
         string[] subs = sentence.Split(' ', 2);
         NPCName.text = subs[0];
@@ -63,15 +94,18 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in subs[1].ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSecondsRealtime(0.05f);
+            yield return null;
         }
     }
 
+    // End the dialogue
     void EndDialogue()
     {
-        Debug.Log("End of Conversation");
-        pause.toggleUIElements(true);
-        DialogueUI.SetActive(false);
-        Time.timeScale = 1f;
+        dialogue.SetActive(false);
+        if (quest != null)
+        {
+            QuestManager.instance.AddQuest(quest);
+            QuestManager.instance.UpdateQuestUI();  // Assuming QuestManager has this method to update the UI
+        }
     }
 }

@@ -8,16 +8,15 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour, IDataPersistance
 {
     public static Inventory instance;
-    public SerializeableList<Item> items;
-    public Text inventoryText;
+    public List<Item> items;
 
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            items = new SerializeableList<Item>();
-            UpdateInventoryUI();
+            items = new List<Item>();
+            QuestManager.instance.UpdateQuestUI();
         }
         else
         {
@@ -28,9 +27,9 @@ public class Inventory : MonoBehaviour, IDataPersistance
     public void AddItem(Item itemToAdd)
     {
         bool itemAlreadyContained = false;
-        foreach (Item item in items) 
+        foreach (Item item in items)
         {
-            if(item.itemName == itemToAdd.itemName)
+            if (item.itemName == itemToAdd.itemName)
             {
                 itemAlreadyContained = true;
             }
@@ -43,10 +42,13 @@ public class Inventory : MonoBehaviour, IDataPersistance
 
         foreach (Item item in items)
         {
-            if(item.itemName == itemToAdd.itemName && item.currentCount < item.maxCount)
+            if (item.itemName == itemToAdd.itemName && item.currentCount < item.maxCount)
             {
                 item.currentCount++;
-                UpdateInventoryUI();
+                QuestManager.instance.UpdateQuestUI();
+
+                // Notify QuestManager that an item has been added or updated
+                QuestManager.instance.CheckQuestsCompletion(items);
             }
             else
             {
@@ -55,13 +57,16 @@ public class Inventory : MonoBehaviour, IDataPersistance
         }
     }
 
-    void UpdateInventoryUI()
+    public int GetItemCount(string itemName)
     {
-        inventoryText.text = "";
-        foreach (var item in items)
+        foreach (Item item in items)
         {
-            inventoryText.text += $"{item.itemName}: {item.currentCount}/{item.maxCount}\n";
+            if (item.itemName == itemName)
+            {
+                return item.currentCount;
+            }
         }
+        return 0; // If item is not found, return 0
     }
 
     public void LoadData(GameData data)
@@ -70,7 +75,7 @@ public class Inventory : MonoBehaviour, IDataPersistance
         {
             items.Add(item);
         }
-        UpdateInventoryUI();
+        QuestManager.instance.UpdateQuestUI();
     }
 
     public void SaveData(ref GameData data)
