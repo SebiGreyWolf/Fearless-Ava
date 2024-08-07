@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -17,6 +18,14 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         sentences = new Queue<string>();
+    }
+
+    private void Update()
+    {
+        if(DialogueUI.activeSelf && Input.GetKeyUp(KeyCode.Space))
+        {
+            DisplayNextSentence();
+        }
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -48,8 +57,10 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence (string sentence)
     {
+        string[] subs = sentence.Split(' ', 2);
+        NPCName.text = subs[0];
         dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        foreach (char letter in subs[1].ToCharArray())
         {
             dialogueText.text += letter;
             yield return new WaitForSecondsRealtime(0.05f);
