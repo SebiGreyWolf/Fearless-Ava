@@ -35,18 +35,39 @@ public class QuestManager : MonoBehaviour
         UpdateQuestUI();
     }
 
-    // Check all quests for completion
+
     public void CheckQuestsCompletion(List<Item> inventory)
     {
         foreach (Quest quest in quests)
         {
-            if (!quest.isCompleted && quest.CheckCompletion(inventory))
+            if (!quest.isCompleted)
             {
-                Debug.Log($"Quest '{quest.questName}' completed!");
-                // Optionally trigger a reward or next step here
+                // Update the current count of required items in the quest based on the inventory
+                foreach (var requirement in quest.requiredItems)
+                {
+                    // Find the corresponding item in the inventory
+                    Item inventoryItem = inventory.Find(item => item.itemName == requirement.itemName);
+
+                    if (inventoryItem != null)
+                    {
+                        // Update the current count in the quest based on the inventory
+                        requirement.currentCount = inventoryItem.currentCount;
+                    }
+                    else
+                    {
+                        // If the item is not found in the inventory, set the current count to 0
+                        requirement.currentCount = 0;
+                    }
+                }
+
+                // Check if the quest is completed after updating the counts
+                if (quest.CheckCompletion(inventory))
+                {
+                    Debug.Log($"Quest '{quest.questName}' completed!");
+                    // Optionally trigger a reward or next step here
+                }
             }
         }
-        //UpdateQuestUI();
     }
 
     // Update the quest UI
