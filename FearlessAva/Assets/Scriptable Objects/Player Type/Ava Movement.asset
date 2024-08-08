@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f3b06cd217b2d4784401dd1fb1bd03, type: 3}
   m_Name: Ava Movement
   m_EditorClassIdentifier: 
-  gravityStrength: -40
-  gravityScale: 4.0774717
+  gravityStrength: -56
+  gravityScale: 5.7084603
   fallGravityMult: 2
   maxFallSpeed: 15
   fastFallGravityMult: 1
@@ -26,9 +26,9 @@ MonoBehaviour:
   accelInAir: 1
   deccelInAir: 1
   doConserveMomentum: 0
-  jumpHeight: 5
+  jumpHeight: 7
   jumpTimeToApex: 0.5
-  jumpForce: 20
+  jumpForce: 28
   jumpCutGravityMult: 5
   jumpHangGravityMult: 0
   jumpHangTimeThreshold: 0
