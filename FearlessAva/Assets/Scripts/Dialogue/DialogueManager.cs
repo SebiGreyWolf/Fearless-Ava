@@ -10,11 +10,13 @@ public class DialogueManager : MonoBehaviour
     public Text dialogueText;     // UI text to display the dialogue sentence
     public GameObject dialogue;
 
-
     private List<string> speakersList; // Queue to manage the order of speakers
     private Queue<string> sentencesQueue; // Queue to manage the order of sentences
     private int currentSpeakerIndex;
     private Quest quest;
+
+    //ONLY TEMP REMOVE AFTER FRIDAY
+    public Quest TEMPnextQuestAfterDone;
 
     //UI Toggle
     public PauseMenu pauseMenu;
@@ -102,6 +104,12 @@ public class DialogueManager : MonoBehaviour
     // End the dialogue
     void EndDialogue()
     {
+        if (quest.isCompleted && dialogue.activeInHierarchy)
+        {
+            QuestManager.instance.RemoveQuest(quest);
+            QuestManager.instance.AddQuest(TEMPnextQuestAfterDone);
+        }
+
         dialogue.SetActive(false);
         Time.timeScale = 1f;
         pauseMenu.toggleUIElements(true);
@@ -109,10 +117,6 @@ public class DialogueManager : MonoBehaviour
         if (quest != null)
         {
             QuestManager.instance.AddQuest(quest);
-        }
-        if (quest.isCompleted)
-        {
-            QuestManager.instance.RemoveQuest(quest);
         }
     }
 }

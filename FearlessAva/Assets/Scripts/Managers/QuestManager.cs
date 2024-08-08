@@ -52,6 +52,8 @@ public class QuestManager : MonoBehaviour
     // Update the quest UI
     public void UpdateQuestUI()
     {
+        questUI.text = "";
+
         foreach (Quest quest in quests)
         {
             Debug.Log(quests.Count);

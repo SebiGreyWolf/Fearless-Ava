@@ -26,10 +26,24 @@ public class Pickup : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.F))
+        if (isPlayerInTrigger)
         {
-            Inventory.instance.AddItem(item);
-            Destroy(gameObject);
+            if (canvers != null)
+                canvers.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Inventory.instance.AddItem(item);
+                Destroy(gameObject);
+
+                if (canvers != null)
+                    canvers.SetActive(false);
+            }
+        }
+        else
+        {
+            if (canvers != null)
+                canvers.SetActive(false);
         }
     }
 }
