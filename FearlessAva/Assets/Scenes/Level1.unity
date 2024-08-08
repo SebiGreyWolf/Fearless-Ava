@@ -23119,6 +23119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1911421127}
   DialogueUI: {fileID: 1634312762}
+  SaveButtonText: {fileID: 0}
   HealthBar: {fileID: 1625058265}
   FireAbility: {fileID: 1370320009}
   ShieldAbility: {fileID: 623338595}
@@ -23677,7 +23678,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 100}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &711409569
 MonoBehaviour:
@@ -28037,6 +28038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1304525102}
   DialogueUI: {fileID: 804410207}
+  SaveButtonText: {fileID: 1823028016}
   HealthBar: {fileID: 2129914148}
   FireAbility: {fileID: 1975699736}
   ShieldAbility: {fileID: 409795030}
@@ -36493,7 +36495,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 120}
-  m_SizeDelta: {x: 400, y: 100}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1343024583
 MonoBehaviour:
@@ -39752,7 +39754,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -120}
-  m_SizeDelta: {x: 400, y: 100}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1590070650
 MonoBehaviour:

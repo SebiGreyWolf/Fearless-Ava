@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject DialogueUI;
+    public Text SaveButtonText;
 
     public GameObject HealthBar;
     public GameObject FireAbility;
@@ -61,6 +63,15 @@ public class PauseMenu : MonoBehaviour
     public void SaveGameButton()
     {
         DataPersistanceManager.Instance.SaveGame();
+
+        StartCoroutine(GameSaved());
+    }
+
+    IEnumerator GameSaved()
+    {
+        SaveButtonText.text = "Game Saved";
+        yield return new WaitForSecondsRealtime(1);
+        SaveButtonText.text = "Save";
     }
 
     public void QuitGame()
