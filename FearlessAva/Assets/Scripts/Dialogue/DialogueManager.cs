@@ -16,6 +16,9 @@ public class DialogueManager : MonoBehaviour
     private int currentSpeakerIndex;
     private Quest quest;
 
+    //UI Toggle
+    public PauseMenu pauseMenu;
+
     public static DialogueManager Instance { get; private set; }
 
     void Awake()
@@ -50,6 +53,9 @@ public class DialogueManager : MonoBehaviour
         speakersList.AddRange(speakers);
 
         dialogue.SetActive(true);
+        Time.timeScale = 0f;
+        pauseMenu.toggleUIElements(false);
+
         quest = addedQuest;
 
         foreach (string sentence in sentences)
@@ -83,13 +89,13 @@ public class DialogueManager : MonoBehaviour
     // Coroutine to type out the sentence letter by letter
     IEnumerator TypeSentence(string sentence)
     {
-        string[] subs = sentence.Split(' ', 2);
+        //string[] subs = sentence.Split(' ', 2);
         //NPCName.text = subs[0];
         dialogueText.text = "";
-        foreach (char letter in subs[1].ToCharArray())
+        foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.03f);
         }
     }
 
@@ -97,6 +103,9 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogue.SetActive(false);
+        Time.timeScale = 1f;
+        pauseMenu.toggleUIElements(true);
+
         if (quest != null)
         {
             QuestManager.instance.AddQuest(quest);
