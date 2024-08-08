@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
-public class QuestManager : MonoBehaviour
+public class QuestManager : MonoBehaviour, IDataPersistance
 {
     public static QuestManager instance;
-    public List<Quest> quests;
+    public SerializeableList<Quest> quests;
     public Text questUI; // Reference to the UI element to display active quests
 
     void Awake()
@@ -14,7 +15,7 @@ public class QuestManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            quests = new List<Quest>();
+            quests = new SerializeableList<Quest>();
         }
         else
         {
@@ -95,5 +96,23 @@ public class QuestManager : MonoBehaviour
     {
         quests.Remove(currentQuest);
         questUI.text = "";
+    }
+
+    public void LoadData(GameData data)
+    {
+        foreach (var quest in data.questsToSave)
+        {
+            quests.Add(quest);
+        }
+        this.UpdateQuestUI();
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.questsToSave.Clear();
+        foreach (Quest quest in quests)
+        {
+            data.questsToSave.Add(quest);
+        }
     }
 }
