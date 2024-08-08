@@ -16,7 +16,8 @@ public class Inventory : MonoBehaviour, IDataPersistance
         {
             instance = this;
             items = new List<Item>();
-            QuestManager.instance.UpdateQuestUI();
+            if (QuestManager.instance != null)
+                QuestManager.instance.UpdateQuestUI();
         }
         else
         {

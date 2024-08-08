@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
     public Text nameText;         // UI text to display the speaker's name
     public Text dialogueText;     // UI text to display the dialogue sentence
     public GameObject dialogue;
-    
+
 
     private List<string> speakersList; // Queue to manage the order of speakers
     private Queue<string> sentencesQueue; // Queue to manage the order of sentences
@@ -32,6 +32,14 @@ public class DialogueManager : MonoBehaviour
 
         speakersList = new List<string>();
         sentencesQueue = new Queue<string>();
+    }
+
+    private void Update()
+    {
+        if (speakersList.Count > 0 && Input.GetKeyDown(KeyCode.Space))
+        {
+            DisplayNextSentence();
+        }
     }
 
     public void StartDialogue(string[] speakers, string[] sentences, Quest addedQuest)
@@ -92,7 +100,10 @@ public class DialogueManager : MonoBehaviour
         if (quest != null)
         {
             QuestManager.instance.AddQuest(quest);
-            QuestManager.instance.UpdateQuestUI();  // Assuming QuestManager has this method to update the UI
+        }
+        if (quest.isCompleted)
+        {
+            QuestManager.instance.RemoveQuest(quest);
         }
     }
 }

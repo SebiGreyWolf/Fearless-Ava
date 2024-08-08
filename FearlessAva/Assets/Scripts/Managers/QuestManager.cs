@@ -21,10 +21,16 @@ public class QuestManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    public bool HasQuest(Quest questToAdd)
+    {
+        return quests.Contains(questToAdd);
+    }
     // Add a new quest to the quest list and update the UI
     public void AddQuest(Quest newQuest)
     {
+        if (quests.Contains(newQuest))
+            return;
+
         quests.Add(newQuest);
         UpdateQuestUI();
     }
@@ -40,7 +46,7 @@ public class QuestManager : MonoBehaviour
                 // Optionally trigger a reward or next step here
             }
         }
-        UpdateQuestUI();
+        //UpdateQuestUI();
     }
 
     // Update the quest UI
@@ -48,6 +54,7 @@ public class QuestManager : MonoBehaviour
     {
         foreach (Quest quest in quests)
         {
+            Debug.Log(quests.Count);
             if (!quest.isCompleted)
             {
                 string questProgress = "";
@@ -59,5 +66,11 @@ public class QuestManager : MonoBehaviour
                 questUI.text += $"{questProgress}\n";
             }
         }
+    }
+
+    public void RemoveQuest(Quest currentQuest)
+    {
+        quests.Remove(currentQuest);
+        questUI.text = "";
     }
 }
