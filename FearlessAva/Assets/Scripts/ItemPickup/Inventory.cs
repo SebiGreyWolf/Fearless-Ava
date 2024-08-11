@@ -46,10 +46,11 @@ public class Inventory : MonoBehaviour, IDataPersistance
             if (item.itemName == itemToAdd.itemName && item.currentCount < item.maxCount)
             {
                 item.currentCount++;
-                QuestManager.instance.UpdateQuestUI();
+
 
                 // Notify QuestManager that an item has been added or updated
                 QuestManager.instance.CheckQuestsCompletion(items);
+                QuestManager.instance.UpdateQuestUI();
             }
             else
             {

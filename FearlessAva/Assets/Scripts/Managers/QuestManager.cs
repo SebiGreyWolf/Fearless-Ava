@@ -76,8 +76,7 @@ public class QuestManager : MonoBehaviour, IDataPersistance
         questUI.text = "";
 
         foreach (Quest quest in quests)
-        {
-            Debug.Log(quests.Count);
+        { 
             if (!quest.isCompleted)
             {
                 string questProgress = "";
