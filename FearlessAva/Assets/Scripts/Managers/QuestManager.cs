@@ -23,7 +23,12 @@ public class QuestManager : MonoBehaviour, IDataPersistance
     }
     public bool HasQuest(Quest questToAdd)
     {
-        return quests.Contains(questToAdd);
+        bool questContained = false;
+        foreach (Quest questx in quests)
+        {
+           questContained  = quests.Find(quest => quest.questName == questx.questName) != null;
+        }
+        return questContained;
     }
     // Add a new quest to the quest list and update the UI
     public void AddQuest(Quest newQuest)
@@ -63,6 +68,7 @@ public class QuestManager : MonoBehaviour, IDataPersistance
                 // Check if the quest is completed after updating the counts
                 if (quest.CheckCompletion(inventory))
                 {
+                    quest.isActive = false;
                     Debug.Log($"Quest '{quest.questName}' completed!");
                     // Optionally trigger a reward or next step here
                 }
@@ -76,7 +82,7 @@ public class QuestManager : MonoBehaviour, IDataPersistance
         questUI.text = "";
 
         foreach (Quest quest in quests)
-        { 
+        {
             if (!quest.isCompleted)
             {
                 string questProgress = "";

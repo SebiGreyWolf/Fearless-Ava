@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour, IDataPersistance
 {
     public Text nameText;         // UI text to display the speaker's name
     public Text dialogueText;     // UI text to display the dialogue sentence
@@ -47,7 +47,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(string[] speakers, string[] sentences, Quest addedQuest)
+    public void StartDialogue(string[] speakers, string[] sentences, Quest addedQuest, bool addsNewQuest)
     {
         speakersList.Clear();
         sentencesQueue.Clear();
@@ -58,7 +58,10 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 0f;
         pauseMenu.toggleUIElements(false);
 
-        quest = addedQuest;
+        if(addsNewQuest)
+        {
+            quest = addedQuest;
+        }
 
         foreach (string sentence in sentences)
         {
@@ -118,5 +121,15 @@ public class DialogueManager : MonoBehaviour
         {
             QuestManager.instance.AddQuest(quest);
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.quest = data.questsToSave.Find(quest => quest.isActive == true);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        //Nothing to be done here
     }
 }

@@ -41,17 +41,17 @@ public class DialogueTrigger : MonoBehaviour
                 if (questToAdd.isCompleted)
                 {
                     // Quest completed dialogues
-                    DialogueManager.Instance.StartDialogue(speakersCompleted, sentencesCompleted, questToAdd);
+                    DialogueManager.Instance.StartDialogue(speakersCompleted, sentencesCompleted, questToAdd, true);
                 }
                 else if (QuestManager.instance.HasQuest(questToAdd))
                 {
                     // Quest is active but not completed dialogues
-                    DialogueManager.Instance.StartDialogue(speakersActive, sentencesActive, questToAdd);
+                    DialogueManager.Instance.StartDialogue(speakersActive, sentencesActive, questToAdd, false);
                 }
                 else
                 {
                     // Default dialogues before quest is accepted
-                    DialogueManager.Instance.StartDialogue(speakersDefault, sentencesDefault, questToAdd);
+                    DialogueManager.Instance.StartDialogue(speakersDefault, sentencesDefault, questToAdd, true);
                 }
             }
         }

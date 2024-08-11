@@ -44329,6 +44329,7 @@ MonoBehaviour:
     questName: Collect basics
     description: Collect 5 Berries, Collect 5 Flowers, Collect Sirup
     isCompleted: 0
+    isActive: 1
     requiredItems:
     - {fileID: 11400000, guid: 5c48f08d2a0e64744bf8211df313832e, type: 2}
     - {fileID: 11400000, guid: afc85e77455879d429d81c31c418fc7b, type: 2}
@@ -47318,6 +47319,7 @@ MonoBehaviour:
     questName: Talk
     description: Talk to all three children
     isCompleted: 0
+    isActive: 0
     requiredItems:
     - {fileID: 11400000, guid: da5140c5939cc3f4597e4868892e6f09, type: 2}
   pauseMenu: {fileID: 1072313180}

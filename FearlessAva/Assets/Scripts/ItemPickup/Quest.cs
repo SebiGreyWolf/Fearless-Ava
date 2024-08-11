@@ -8,6 +8,7 @@ public class Quest
     public string questName;
     public string description;
     public bool isCompleted;
+    public bool isActive = true;
     public List<Item> requiredItems;
 
     // Constructor
@@ -17,6 +18,7 @@ public class Quest
         description = desc;
         requiredItems = itemsRequired;
         isCompleted = false;
+        isActive = true;
     }
 
     // Method to check if the quest is completed
