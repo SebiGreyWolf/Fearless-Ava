@@ -14,8 +14,10 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private string[] sentencesCompleted; // Sentences spoken when quest is completed
 
     [SerializeField] public Quest questToAdd;
+    [SerializeField] private GameObject rewardObject; // The reward object to activate upon quest completion
 
     private bool isPlayerInTrigger = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Player>())
@@ -38,10 +40,19 @@ public class DialogueTrigger : MonoBehaviour
         {
             if (questToAdd != null)
             {
-                if (questToAdd.isCompleted)
+                if (QuestManager.instance.HasCompletedQuest(questToAdd))
                 {
-                    // Quest completed dialogues
+                    // Quest completed dialogues and activate reward
                     DialogueManager.Instance.StartDialogue(speakersCompleted, sentencesCompleted, questToAdd, true);
+
+                    // Activate the reward object
+                    if (rewardObject != null)
+                    {
+                        rewardObject.SetActive(true);
+                    }
+
+                    // Remove or mark the quest as completed in the quest manager
+                    QuestManager.instance.RemoveQuest(questToAdd);
                 }
                 else if (QuestManager.instance.HasQuest(questToAdd))
                 {
@@ -50,8 +61,9 @@ public class DialogueTrigger : MonoBehaviour
                 }
                 else
                 {
-                    // Default dialogues before quest is accepted
+                    // Default dialogues before quest is accepted and add the quest
                     DialogueManager.Instance.StartDialogue(speakersDefault, sentencesDefault, questToAdd, true);
+                    QuestManager.instance.AddQuest(questToAdd);
                 }
             }
         }

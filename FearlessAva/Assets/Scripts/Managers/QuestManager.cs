@@ -21,25 +21,25 @@ public class QuestManager : MonoBehaviour, IDataPersistance
             Destroy(gameObject);
         }
     }
-    public bool HasQuest(Quest questToAdd)
+
+    public bool HasQuest(Quest questToCheck)
     {
-        bool questContained = false;
-        foreach (Quest questx in quests)
-        {
-           questContained  = quests.Find(quest => quest.questName == questx.questName) != null;
-        }
-        return questContained;
+        return quests.Exists(q => q.questName == questToCheck.questName && !q.isCompleted);
     }
-    // Add a new quest to the quest list and update the UI
+
+    public bool HasCompletedQuest(Quest questToCheck)
+    {
+        return quests.Exists(q => q.questName == questToCheck.questName && q.isCompleted);
+    }
+
     public void AddQuest(Quest newQuest)
     {
-        if (quests.Contains(newQuest))
-            return;
-
-        quests.Add(newQuest);
-        UpdateQuestUI();
+        if (!quests.Contains(newQuest))
+        {
+            quests.Add(newQuest);
+            UpdateQuestUI();
+        }
     }
-
 
     public void CheckQuestsCompletion(List<Item> inventory)
     {
@@ -47,36 +47,33 @@ public class QuestManager : MonoBehaviour, IDataPersistance
         {
             if (!quest.isCompleted)
             {
-                // Update the current count of required items in the quest based on the inventory
                 foreach (var requirement in quest.requiredItems)
                 {
-                    // Find the corresponding item in the inventory
                     Item inventoryItem = inventory.Find(item => item.itemName == requirement.itemName);
 
                     if (inventoryItem != null)
                     {
-                        // Update the current count in the quest based on the inventory
                         requirement.currentCount = inventoryItem.currentCount;
                     }
                     else
                     {
-                        // If the item is not found in the inventory, set the current count to 0
                         requirement.currentCount = 0;
                     }
                 }
 
-                // Check if the quest is completed after updating the counts
                 if (quest.CheckCompletion(inventory))
                 {
                     quest.isActive = false;
+                    quest.isCompleted = true; // Mark the quest as completed
                     Debug.Log($"Quest '{quest.questName}' completed!");
                     // Optionally trigger a reward or next step here
                 }
             }
         }
+
+        UpdateQuestUI();
     }
 
-    // Update the quest UI
     public void UpdateQuestUI()
     {
         questUI.text = "";
@@ -91,7 +88,7 @@ public class QuestManager : MonoBehaviour, IDataPersistance
                     Debug.Log($"{requirement.itemName}: {requirement.currentCount}/{requirement.maxCount}");
                     questProgress += $"{requirement.itemName}: {requirement.currentCount}/{requirement.maxCount}\n";
                 }
-                questUI.text += $"{questProgress}\n";
+                questUI.text += $"{quest.questName}:\n{questProgress}\n";
             }
         }
     }
@@ -99,24 +96,17 @@ public class QuestManager : MonoBehaviour, IDataPersistance
     public void RemoveQuest(Quest currentQuest)
     {
         quests.Remove(currentQuest);
-        questUI.text = "";
+        UpdateQuestUI();
     }
 
     public void LoadData(GameData data)
     {
-        foreach (var quest in data.questsToSave)
-        {
-            quests.Add(quest);
-        }
-        this.UpdateQuestUI();
+        quests = data.questsToSave; // Assuming questsToSave is of type SerializeableList<Quest>
+        UpdateQuestUI();
     }
 
     public void SaveData(ref GameData data)
     {
-        data.questsToSave.Clear();
-        foreach (Quest quest in quests)
-        {
-            data.questsToSave.Add(quest);
-        }
+        data.questsToSave = quests; // Save the current list of quests
     }
 }
