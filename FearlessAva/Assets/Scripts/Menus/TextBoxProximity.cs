@@ -8,38 +8,16 @@ public class TextBoxProximity : MonoBehaviour
     [SerializeField] private GameObject InteractUI;
     [SerializeField] private float detectionRange;
 
-    [SerializeField] private DialogueTrigger trigger;
-    [SerializeField] private GameObject DialogueUI;
-    [SerializeField] private PauseMenu pause;
-
     void Update()
     {
         if (isPlayerInRange())
         {
             InteractUI.SetActive(true);
-            if(Input.GetKeyUp(KeyCode.F))
-            {
-                pause.toggleUIElements(false);
-                DialogueUI.SetActive(true);
-                Time.timeScale = 0f;
-                //trigger.TriggerDialogue();
-            }
-            else if (Input.GetKeyUp(KeyCode.Escape))
-            {
-                disableDialogueUI();
-            }
         }
         else
         {
             InteractUI.SetActive(false);
         }
-    }
-
-    public void disableDialogueUI()
-    {
-        pause.toggleUIElements(true);
-        DialogueUI.SetActive(false);
-        Time.timeScale = 1f;
     }
 
     bool isPlayerInRange()
