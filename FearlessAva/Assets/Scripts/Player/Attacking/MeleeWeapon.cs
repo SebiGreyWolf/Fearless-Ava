@@ -44,6 +44,10 @@ public class MeleeWeapon : MonoBehaviour
             //Method that checks to see what force can be applied to the player when melee attacking
             HandleCollision(collision.GetComponent<EnemyHealth>());
         }
+        if (collision.GetComponent<Destroyable>())
+        {
+            collision.GetComponent<Destroyable>().TakeDamage(damageAmount);
+        }
     }
 
     private void HandleCollision(EnemyHealth objHealth)

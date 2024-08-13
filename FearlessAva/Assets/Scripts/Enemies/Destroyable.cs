@@ -33,6 +33,9 @@ public class Destroyable : MonoBehaviour
     public void Destroy()
     {
         StartCoroutine(FadeOutAndDestroy());
+
+        if (GetComponent<Pickup>())
+            GetComponent<Pickup>().AutoPickup();
     }
 
     private IEnumerator FadeOutAndDestroy()

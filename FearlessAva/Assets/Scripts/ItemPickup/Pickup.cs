@@ -64,13 +64,4 @@ public class Pickup : MonoBehaviour
             PickupItem();
         }
     }
-
-    // Optional: If you want the item to automatically be picked up when the enemy is destroyed
-    private void OnDestroy()
-    {
-        if (!isPlayerInTrigger)
-        {
-            AutoPickup();
-        }
-    }
 }
