@@ -1,91 +1,59 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [Serializable]
-public class Inventory : MonoBehaviour, IDataPersistance
+public class Inventory : MonoBehaviour
 {
-    public static Inventory instance;
-    public List<Item> items;
+    public List<Item> items = new List<Item>();
+    public delegate void InventoryChanged();
+    public event InventoryChanged OnInventoryChanged;
 
-    void Awake()
+    private void Start()
     {
-        if (instance == null)
+        foreach (var item in items)
         {
-            instance = this;
-            items = new List<Item>();
-            if (QuestManager.instance != null)
-                QuestManager.instance.UpdateQuestUI();
+            item.ResetItemState();
+        }
+    }
+    public void AddItem(Item item)
+    {
+        Item existingItem = items.Find(i => i.name == item.name);
+        if (existingItem != null && existingItem.currentCount < existingItem.maxCount)
+        {
+            existingItem.currentCount += item.currentCount;
         }
         else
         {
-            Destroy(gameObject);
+            items.Add(item);
+            item.currentCount++;
+        }
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void RemoveItem(Item item)
+    {
+        Item existingItem = items.Find(i => i.name == item.name);
+        if (existingItem != null)
+        {
+            existingItem.currentCount -= item.currentCount;
+            if (existingItem.currentCount <= 0)
+            {
+                items.Remove(existingItem);
+            }
+            OnInventoryChanged?.Invoke();
         }
     }
 
-    public void AddItem(Item itemToAdd)
+    public bool HasItem(string itemName, int amount)
     {
-        bool itemAlreadyContained = false;
-        foreach (Item item in items)
-        {
-            if (item.itemName == itemToAdd.itemName)
-            {
-                itemAlreadyContained = true;
-            }
-        }
-
-        if (!itemAlreadyContained)
-        {
-            items.Add(itemToAdd);
-        }
-
-        foreach (Item item in items)
-        {
-            if (item.itemName == itemToAdd.itemName && item.currentCount < item.maxCount)
-            {
-                item.currentCount++;
-
-
-                // Notify QuestManager that an item has been added or updated
-                QuestManager.instance.CheckQuestsCompletion(items);
-                QuestManager.instance.UpdateQuestUI();
-            }
-            else
-            {
-                Debug.Log("Max count reached for " + item.itemName);
-            }
-        }
+        Item existingItem = items.Find(i => i.name == itemName);
+        return existingItem != null && existingItem.currentCount >= amount;
     }
 
     public int GetItemCount(string itemName)
     {
-        foreach (Item item in items)
-        {
-            if (item.itemName == itemName)
-            {
-                return item.currentCount;
-            }
-        }
-        return 0; // If item is not found, return 0
-    }
-
-    public void LoadData(GameData data)
-    {
-        foreach (var item in data.itemsToSave)
-        {
-            items.Add(item);
-        }
-        QuestManager.instance.UpdateQuestUI();
-    }
-
-    public void SaveData(ref GameData data)
-    {
-        data.itemsToSave.Clear();
-        foreach (Item item in items)
-        {
-            data.itemsToSave.Add(item);
-        }
+        Item existingItem = items.Find(i => i.name == itemName);
+        return existingItem != null ? existingItem.currentCount : 0;
     }
 }

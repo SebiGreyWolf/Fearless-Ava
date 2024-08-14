@@ -4,10 +4,25 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    public Item item;
-    public GameObject canvers;
+    public Item item; // The item this pickup represents
+    public GameObject canvas; // UI element to show when player is in range
 
     private bool isPlayerInTrigger = false;
+    private Inventory inventory;
+
+    private void Start()
+    {
+        // Find the GameManager and get the Inventory component
+        GameObject gameManager = GameObject.Find("GameManager");
+        if (gameManager != null)
+        {
+            inventory = gameManager.GetComponent<Inventory>();
+        }
+        else
+        {
+            Debug.LogError("GameManager not found in the scene.");
+        }
+    }
 
     // Detect when the player enters the trigger zone
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,8 +47,8 @@ public class Pickup : MonoBehaviour
     {
         if (isPlayerInTrigger)
         {
-            if (canvers != null)
-                canvers.SetActive(true);
+            if (canvas != null)
+                canvas.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -42,18 +57,25 @@ public class Pickup : MonoBehaviour
         }
         else
         {
-            if (canvers != null)
-                canvers.SetActive(false);
+            if (canvas != null)
+                canvas.SetActive(false);
         }
     }
 
     // Method to handle item pickup and adding it to the inventory
     public void PickupItem()
     {
-        Inventory.instance.AddItem(item);
-        Destroy(gameObject);  // Destroy the pickup item after it's collected
-        if (canvers != null)
-            canvers.SetActive(false);
+        if (inventory != null)
+        {
+            inventory.AddItem(item);
+            Destroy(gameObject);  // Destroy the pickup item after it's collected
+            if (canvas != null)
+                canvas.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Inventory not found. Make sure the GameManager has an Inventory component.");
+        }
     }
 
     // Call this method when the enemy is defeated to auto-pickup the item

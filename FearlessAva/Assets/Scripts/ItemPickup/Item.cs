@@ -10,4 +10,14 @@ public class Item : ScriptableObject
     //public Sprite itemIcon;
     public int currentCount;
     public int maxCount;
+
+
+    public bool shouldResetOnPlay = true;
+    public void ResetItemState()
+    {
+        if (shouldResetOnPlay)
+        {
+            currentCount = 0;
+        }
+    }
 }

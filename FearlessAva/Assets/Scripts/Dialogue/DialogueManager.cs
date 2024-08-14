@@ -2,134 +2,102 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
-public class DialogueManager : MonoBehaviour, IDataPersistance
+public class DialogueManager : MonoBehaviour
 {
-    public Text nameText;         // UI text to display the speaker's name
-    public Text dialogueText;     // UI text to display the dialogue sentence
-    public GameObject dialogue;
+    public Text nameText;
+    public Text dialogueText;
+    public GameObject dialogueBox;
+    public GameObject questUI;
+    public Text questListText; // Reference to the UI Text component that displays the quest list
+    private Queue<string> sentences;
 
-    private List<string> speakersList; // Queue to manage the order of speakers
-    private Queue<string> sentencesQueue; // Queue to manage the order of sentences
-    private int currentSpeakerIndex;
-    private Quest quest;
-
-    //ONLY TEMP REMOVE AFTER FRIDAY
-    public Quest TEMPnextQuestAfterDone;
-
-    //UI Toggle
-    public PauseMenu pauseMenu;
-
-    public static DialogueManager Instance { get; private set; }
-
-    void Awake()
+    private DialogueTrigger currentDialogueTrigger;
+    void Start()
     {
-        // Singleton pattern to ensure only one instance of DialogueManager exists
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        speakersList = new List<string>();
-        sentencesQueue = new Queue<string>();
+        sentences = new Queue<string>();
     }
 
-    private void Update()
+    public void StartDialogue(DialogueTrigger dialogueTrigger)
     {
-        if (speakersList.Count > 0 && Input.GetKeyDown(KeyCode.Space))
+        dialogueBox.SetActive(true); // Activate the dialogue box
+        currentDialogueTrigger = dialogueTrigger;
+
+        nameText.text = dialogueTrigger.GetCurrentSpeakerName();
+        sentences.Clear();
+
+        foreach (string sentence in dialogueTrigger.GetCurrentSentences())
         {
-            DisplayNextSentence();
-        }
-    }
-
-    public void StartDialogue(string[] speakers, string[] sentences, Quest addedQuest, bool addsNewQuest)
-    {
-        speakersList.Clear();
-        sentencesQueue.Clear();
-
-        speakersList.AddRange(speakers);
-
-        dialogue.SetActive(true);
-        Time.timeScale = 0f;
-        pauseMenu.toggleUIElements(false);
-
-        if(addsNewQuest)
-        {
-            quest = addedQuest;
-        }
-
-        foreach (string sentence in sentences)
-        {
-            sentencesQueue.Enqueue(sentence);
+            sentences.Enqueue(sentence);
         }
 
         DisplayNextSentence();
     }
 
-    // Display the next sentence in the dialogue
     public void DisplayNextSentence()
     {
-        if (sentencesQueue.Count == 0)
+        if (sentences.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        // Rotate through the speakers
-        string speaker = speakersList[currentSpeakerIndex];
-        currentSpeakerIndex = (currentSpeakerIndex + 1) % speakersList.Count;
-
-        string sentence = sentencesQueue.Dequeue();
-
-        nameText.text = speaker;
+        string sentence = sentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
     }
 
-    // Coroutine to type out the sentence letter by letter
     IEnumerator TypeSentence(string sentence)
     {
-        //string[] subs = sentence.Split(' ', 2);
-        //NPCName.text = subs[0];
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSecondsRealtime(0.03f);
+            yield return null;
         }
     }
 
-    // End the dialogue
     void EndDialogue()
     {
-        if (quest.isCompleted && dialogue.activeInHierarchy)
+        dialogueBox.SetActive(false);
+        if (currentDialogueTrigger != null)
         {
-            QuestManager.instance.RemoveQuest(quest);
-            QuestManager.instance.AddQuest(TEMPnextQuestAfterDone);
-        }
-
-        dialogue.SetActive(false);
-        Time.timeScale = 1f;
-        pauseMenu.toggleUIElements(true);
-
-        if (quest != null)
-        {
-            QuestManager.instance.AddQuest(quest);
+            currentDialogueTrigger.ActivateQuest();
+            if (currentDialogueTrigger.RemoveQuest())
+            {
+                ClearQuestUI();
+            }
         }
     }
 
-    public void LoadData(GameData data)
+    public void UpdateQuestUI(Quest quest)
     {
-        this.quest = data.questsToSave.Find(quest => quest.isActive == true);
+        ClearQuestUI();
+
+        string questText = "";
+
+        if (quest.isCompleted)
+        {
+            questText += "<s>"; // Start strikethrough tag
+        }
+
+        questText += $"<b>{quest.questName}</b>:\n"; // Quest name in bold
+
+        foreach (Item item in quest.requiredItems)
+        {
+            questText += $"{item.name}: {item.currentCount}/{item.maxCount}\n"; // Item name and amount
+        }
+
+        if (quest.isCompleted)
+        {
+            questText += "</s>"; // End strikethrough tag
+        }
+
+        questListText.text += questText + "\n"; // Append quest text to the quest list UI
     }
 
-    public void SaveData(ref GameData data)
+    public void ClearQuestUI()
     {
-        //Nothing to be done here
+        questListText.text = ""; // Clear the quest list UI when needed
     }
 }

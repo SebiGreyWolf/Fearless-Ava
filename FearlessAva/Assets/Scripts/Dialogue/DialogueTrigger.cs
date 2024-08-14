@@ -1,71 +1,77 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    [SerializeField] private string[] speakersDefault;  // Names of speakers before quest is accepted
-    [SerializeField] private string[] sentencesDefault; // Sentences spoken before quest is accepted
+    public string[] speakers;
+    public string[] questStartSentences; // Sentences when the quest is first taken
+    public string[] questActiveSentences; // Sentences when the quest is active but not completed
+    public string[] questCompleteSentences; // Sentences when the quest is completed
+    public Quest quest;
 
-    [SerializeField] private string[] speakersActive;  // Names of speakers when quest is active but not completed
-    [SerializeField] private string[] sentencesActive; // Sentences spoken when quest is active but not completed
+    private int currentSentenceIndex = 0;
+    private bool questActivated = false;
 
-    [SerializeField] private string[] speakersCompleted;  // Names of speakers when quest is completed
-    [SerializeField] private string[] sentencesCompleted; // Sentences spoken when quest is completed
-
-    [SerializeField] public Quest questToAdd;
-    [SerializeField] private GameObject rewardObject; // The reward object to activate upon quest completion
-
-    private bool isPlayerInTrigger = false;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
-        if (collision.gameObject.GetComponent<Player>())
+        if (quest != null)
+            quest.ResetQuestState();
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Player>() && Input.GetKeyDown(KeyCode.F))
         {
-            isPlayerInTrigger = true;
+            FindObjectOfType<DialogueManager>().StartDialogue(this);
+        }
+    }
+    public void ActivateQuest()
+    {
+        if (!questActivated && quest != null)
+        {
+            FindObjectOfType<QuestManager>().ActivateQuest(quest);
+            questActivated = true;
+        }
+    }
+    public bool RemoveQuest()
+    {
+        if (quest.isCompleted && quest != null)
+        {
+            FindObjectOfType<QuestManager>().RemoveQuest(quest);
+            questActivated = false;
+        }
+        return quest.isCompleted;
+    }
+
+    public string GetCurrentSpeakerName()
+    {
+        return speakers[currentSentenceIndex % speakers.Length];
+    }
+
+    public string[] GetCurrentSentences()
+    {
+        if (quest.isCompleted)
+        {
+            return FormatSentences(questCompleteSentences); // Sentences for a completed quest
+        }
+        else if (quest.isActive)
+        {
+            return FormatSentences(questActiveSentences); // Sentences for an active but incomplete quest
+        }
+        else
+        {
+            return FormatSentences(questStartSentences); // Sentences for when the quest is being activated
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private string[] FormatSentences(string[] sentences)
     {
-        if (collision.gameObject.GetComponent<Player>())
+        for (int i = 0; i < sentences.Length; i++)
         {
-            isPlayerInTrigger = false;
+            sentences[i] = sentences[i].Replace("[b]", "<b>").Replace("[/b]", "</b>");
+            sentences[i] = sentences[i].Replace("[i]", "<i>").Replace("[/i]", "</i>");
         }
-    }
-
-    void Update()
-    {
-        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.F))
-        {
-            if (questToAdd != null)
-            {
-                if (QuestManager.instance.HasCompletedQuest(questToAdd))
-                {
-                    // Quest completed dialogues and activate reward
-                    DialogueManager.Instance.StartDialogue(speakersCompleted, sentencesCompleted, questToAdd, true);
-
-                    // Activate the reward object
-                    if (rewardObject != null)
-                    {
-                        rewardObject.SetActive(true);
-                    }
-
-                    // Remove or mark the quest as completed in the quest manager
-                    QuestManager.instance.RemoveQuest(questToAdd);
-                }
-                else if (QuestManager.instance.HasQuest(questToAdd))
-                {
-                    // Quest is active but not completed dialogues
-                    DialogueManager.Instance.StartDialogue(speakersActive, sentencesActive, questToAdd, false);
-                }
-                else
-                {
-                    // Default dialogues before quest is accepted and add the quest
-                    DialogueManager.Instance.StartDialogue(speakersDefault, sentencesDefault, questToAdd, true);
-                    QuestManager.instance.AddQuest(questToAdd);
-                }
-            }
-        }
+        return sentences;
     }
 }
