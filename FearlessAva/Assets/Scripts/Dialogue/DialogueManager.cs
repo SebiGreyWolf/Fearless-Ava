@@ -15,12 +15,14 @@ public class DialogueManager : MonoBehaviour
 
     private DialogueTrigger currentDialogueTrigger;
     private PlayerMovement playerMovement;
+    private Rigidbody2D playerRigidbody;
     void Start()
     {
         sentences = new Queue<string>();
         ClearQuestUI();
 
         playerMovement = FindObjectOfType<PlayerMovement>();
+        playerRigidbody = playerMovement.GetComponent<Rigidbody2D>();
     }
     void Update()
     {
@@ -42,6 +44,7 @@ public class DialogueManager : MonoBehaviour
         if (playerMovement != null)
         {
             playerMovement.enabled = false;
+            playerRigidbody.velocity = Vector2.zero;
         }
 
         foreach (string sentence in dialogueTrigger.GetCurrentSentences())

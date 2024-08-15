@@ -11,6 +11,7 @@ Library: D:\Github\Fearless-Ava\FearlessAva\Temp\BurstOutput\Data\Plugins\x86_64
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Unity.2D.IK.Runtime;
 --assembly-defines=Unity.RenderPipelines.Core.Runtime;
+--assembly-defines=Unity.Postprocessing.Runtime;
 --assembly-defines=Unity.RenderPipelines.Universal.Config.Runtime;
 --assembly-defines=Unity.VisualScripting.Flow;
 --assembly-defines=Unity.RenderPipelines.Core.ShaderLibrary;
@@ -114,6 +115,7 @@ Library: D:\Github\Fearless-Ava\FearlessAva\Temp\BurstOutput\Data\Plugins\x86_64
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Unity.2D.IK.Runtime;
 --assembly-defines=Unity.RenderPipelines.Core.Runtime;
+--assembly-defines=Unity.Postprocessing.Runtime;
 --assembly-defines=Unity.RenderPipelines.Universal.Config.Runtime;
 --assembly-defines=Unity.VisualScripting.Flow;
 --assembly-defines=Unity.RenderPipelines.Core.ShaderLibrary;
@@ -219,6 +221,7 @@ Library: D:\Github\Fearless-Ava\FearlessAva\Temp\BurstOutput\Data\Plugins\x86_64
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Unity.2D.IK.Runtime;
 --assembly-defines=Unity.RenderPipelines.Core.Runtime;
+--assembly-defines=Unity.Postprocessing.Runtime;
 --assembly-defines=Unity.RenderPipelines.Universal.Config.Runtime;
 --assembly-defines=Unity.VisualScripting.Flow;
 --assembly-defines=Unity.RenderPipelines.Core.ShaderLibrary;
@@ -290,6 +293,7 @@ Library: D:\Github\Fearless-Ava\FearlessAva\Temp\BurstOutput\Data\Plugins\x86_64
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Unity.2D.IK.Runtime;
 --assembly-defines=Unity.RenderPipelines.Core.Runtime;
+--assembly-defines=Unity.Postprocessing.Runtime;
 --assembly-defines=Unity.RenderPipelines.Universal.Config.Runtime;
 --assembly-defines=Unity.VisualScripting.Flow;
 --assembly-defines=Unity.RenderPipelines.Core.ShaderLibrary;
