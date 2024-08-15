@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Wall
+  - Dragon
   layers:
   - Default
   - TransparentFX

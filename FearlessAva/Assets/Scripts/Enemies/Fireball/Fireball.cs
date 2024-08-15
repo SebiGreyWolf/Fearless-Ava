@@ -8,7 +8,7 @@ public class Fireball : MonoBehaviour
     public Player player;
     public float distanceToDespawn;
     public int damage;
-    public int direction = -1;
+    public int direction = 1;
     public float speed;
 
     Vector3 startPoint;
@@ -17,11 +17,12 @@ public class Fireball : MonoBehaviour
     private void Awake()
     {
         startPoint = transform.position;
+
+        //setDirection();
     }
 
     void Update()
     {
-        setDirection();
         transform.position = new Vector3(transform.position.x + speed * direction , transform.position.y, transform.position.z);
 
         if (isFireballTooFarFromPlayer())
