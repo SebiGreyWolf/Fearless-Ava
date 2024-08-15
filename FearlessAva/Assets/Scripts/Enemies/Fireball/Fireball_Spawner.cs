@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
+using System;
 
 public class FireballSpawner : MonoBehaviour
 {
     public Player player;
+    public Dragon dragon;
 
     public GameObject fireball;
     public Vector3[] spawnPositions;
     public float delayInSeconds;
-    private float timeSinceLastSpawn = 0;
     public float detectionRange;
+    private float[] timeSinceLastSpawn = {0,0,0};
 
-    void Start()
+
+    System.Random rand = new System.Random();
+    private int[] times = {0,0,0};
+
+    private void Awake()
     {
-        
+        times[0] = rand.Next(1, 5);
+        times[1] = rand.Next(1, 5);
+        times[2] = rand.Next(1, 5);
     }
 
+    /*
     void Update()
     {
         if (isPlayerInRange())
@@ -42,6 +50,28 @@ public class FireballSpawner : MonoBehaviour
                 GameObject newFireball = Instantiate(fireball, vec, Quaternion.identity);
                 newFireball.SetActive(true);
                 timeSinceLastSpawn = 0;
+            }
+        }
+    }*/
+
+    private void Update()
+    {
+        for (int i = 0; i < timeSinceLastSpawn.Length;i++)
+        {
+            timeSinceLastSpawn[i] += Time.deltaTime;
+        }
+
+        if (isPlayerInRange() && !dragon.IsDestroyed())
+        {
+            for (int i = 0; i < timeSinceLastSpawn.Length; i++)
+            {
+                if (timeSinceLastSpawn[i] > times[i])
+                {
+                    GameObject newFireball = Instantiate(fireball, spawnPositions[0], Quaternion.identity);
+                    newFireball.SetActive(true);
+                    timeSinceLastSpawn[i] = 0;
+                    times[i] = rand.Next(1, 5);
+                }
             }
         }
     }
