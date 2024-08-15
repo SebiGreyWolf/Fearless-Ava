@@ -9,41 +9,41 @@ public class DialogueTrigger : MonoBehaviour
     public string[] questActiveSentences; // Sentences when the quest is active but not completed
     public string[] questCompleteSentences; // Sentences when the quest is completed
     public Quest quest;
+    //Working but not with style
+    public GameObject questReward;
 
     private int currentSentenceIndex = 0;
-    private bool questActivated = false;
 
     private void Start()
     {
         if (quest != null)
             quest.ResetQuestState();
+
+        if (questReward != null)
+        {
+            quest.reward = questReward;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.GetComponent<Player>() && Input.GetKeyDown(KeyCode.F))
-        {
+        if (collision.GetComponent<Player>() && FindObjectOfType<QuestManager>().ContainsQuest(quest) && Input.GetKeyDown(KeyCode.F))
             FindObjectOfType<DialogueManager>().StartDialogue(this);
-        }
     }
     public void ActivateQuest()
     {
-        if (!questActivated && quest != null)
-        {
+        if (quest != null)
             FindObjectOfType<QuestManager>().ActivateQuest(quest);
-            questActivated = true;
-        }
     }
     public bool RemoveQuest()
     {
         if (quest.isCompleted && quest != null)
         {
             FindObjectOfType<QuestManager>().RemoveQuest(quest);
-            questActivated = false;
+            FindObjectOfType<QuestManager>().ActivateReward(quest);
         }
         return quest.isCompleted;
     }
-
     public string GetCurrentSpeakerName()
     {
         return speakers[currentSentenceIndex % speakers.Length];

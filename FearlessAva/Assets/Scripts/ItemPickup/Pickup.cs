@@ -9,6 +9,7 @@ public class Pickup : MonoBehaviour
 
     private bool isPlayerInTrigger = false;
     private Inventory inventory;
+    private QuestManager manager;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class Pickup : MonoBehaviour
         if (gameManager != null)
         {
             inventory = gameManager.GetComponent<Inventory>();
+            manager = gameManager.GetComponent<QuestManager>();
         }
         else
         {
@@ -65,16 +67,14 @@ public class Pickup : MonoBehaviour
     // Method to handle item pickup and adding it to the inventory
     public void PickupItem()
     {
-        if (inventory != null)
+
+        if (inventory != null && manager.CanPickup(item))
         {
             inventory.AddItem(item);
+            FindObjectOfType<AudioManagement>().PlaySound("PickUp");   
             Destroy(gameObject);  // Destroy the pickup item after it's collected
             if (canvas != null)
                 canvas.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("Inventory not found. Make sure the GameManager has an Inventory component.");
         }
     }
 

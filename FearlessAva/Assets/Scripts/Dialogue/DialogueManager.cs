@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +10,14 @@ public class DialogueManager : MonoBehaviour
     public Text dialogueText;
     public GameObject dialogueBox;
     public GameObject questUI;
-    public Text questListText; // Reference to the UI Text component that displays the quest list
+    public TextMeshProUGUI questListText; // Reference to the UI Text component that displays the quest list
     private Queue<string> sentences;
 
     private DialogueTrigger currentDialogueTrigger;
     void Start()
     {
         sentences = new Queue<string>();
+        ClearQuestUI();
     }
 
     public void StartDialogue(DialogueTrigger dialogueTrigger)
@@ -74,27 +76,53 @@ public class DialogueManager : MonoBehaviour
     {
         ClearQuestUI();
 
+        bool allItemsCompleted = true; // Flag to check if all items are completed
         string questText = "";
 
+        // Check if the quest is completed
         if (quest.isCompleted)
         {
-            questText += "<s>"; // Start strikethrough tag
+            questText += "<s>"; // Start strikethrough tag for the entire quest
         }
 
         questText += $"<b>{quest.questName}</b>:\n"; // Quest name in bold
 
+        // Iterate through each required item
         foreach (Item item in quest.requiredItems)
         {
+            if (item.currentCount >= item.maxCount)
+            {
+                questText += "<s>"; // Start strikethrough tag for the item
+            }
+            else
+            {
+                allItemsCompleted = false; // Set flag to false if any item is incomplete
+            }
+
             questText += $"{item.name}: {item.currentCount}/{item.maxCount}\n"; // Item name and amount
+
+            if (item.currentCount >= item.maxCount)
+            {
+                questText += "</s>"; // End strikethrough tag for the item
+            }
         }
 
+        // If all items are completed and the quest was not already marked as completed
+        if (allItemsCompleted && !quest.isCompleted)
+        {
+            quest.isCompleted = true;
+            questText = "<s>" + questText + "</s>"; // Apply strikethrough to the entire quest
+        }
+
+        // If the quest was marked as completed earlier, close the strikethrough tag
         if (quest.isCompleted)
         {
-            questText += "</s>"; // End strikethrough tag
+            questText += "</s>";
         }
 
         questListText.text += questText + "\n"; // Append quest text to the quest list UI
     }
+
 
     public void ClearQuestUI()
     {

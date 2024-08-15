@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c486200dd8d74e439d68895b2b06f44, type: 3}
+  m_Name: Children
+  m_EditorClassIdentifier: 
+  questName: Collect Flowers
+  questDescription: Collect all sorts of Flowers
+  isCompleted: 0
+  isActive: 0
+  requiredItems:
+  - {fileID: 11400000, guid: 601e1e68a41413648b2b1dc01e00e1cd, type: 2}
+  - {fileID: 11400000, guid: ae0ba6088e465b142bfde5cef38cdff8, type: 2}
+  reward: {fileID: 2074038672846751783, guid: b33ba66332953264a9dcdd73f82b91df, type: 3}
+  shouldResetOnPlay: 1

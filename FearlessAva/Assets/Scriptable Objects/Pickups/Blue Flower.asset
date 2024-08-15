@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Blue Flowers
   currentCount: 0
-  maxCount: 3
+  maxCount: 8
+  shouldResetOnPlay: 1

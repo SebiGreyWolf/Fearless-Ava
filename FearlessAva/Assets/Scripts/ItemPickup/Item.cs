@@ -8,7 +8,7 @@ public class Item : ScriptableObject
 {
     public string itemName;
     //public Sprite itemIcon;
-    public int currentCount;
+    public int currentCount = 0;
     public int maxCount;
 
 

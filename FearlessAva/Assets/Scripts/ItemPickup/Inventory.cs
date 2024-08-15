@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
         Item existingItem = items.Find(i => i.name == item.name);
         if (existingItem != null && existingItem.currentCount < existingItem.maxCount)
         {
-            existingItem.currentCount += item.currentCount;
+            existingItem.currentCount++;
         }
         else
         {

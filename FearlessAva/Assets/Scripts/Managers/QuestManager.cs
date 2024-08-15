@@ -24,6 +24,15 @@ public class QuestManager : MonoBehaviour
 
     public void ActivateQuest(Quest quest)
     {
+        foreach (var q in allQuests)
+        {
+            if (q.isActive)
+            {
+                Debug.Log("ActiveQuest");
+                return;
+            }
+        }
+        Debug.Log("Got Quest");
         quest.isActive = true;
         dialogueManager.UpdateQuestUI(quest);
     }
@@ -40,9 +49,11 @@ public class QuestManager : MonoBehaviour
     {
         if (quest.reward != null)
         {
+            //Instantiate(quest.reward, FindObjectOfType<Player>().transform);
             quest.reward.SetActive(true);
         }
     }
+
     public void RemoveQuest(Quest quest)
     {
         foreach (var item in quest.requiredItems)
@@ -82,6 +93,22 @@ public class QuestManager : MonoBehaviour
             }
         }
         quest.isCompleted = true;
-        ActivateReward(quest);
+    }
+
+    public bool ContainsQuest(Quest quest)
+    {
+        return allQuests.Contains(quest);
+    }
+    public bool CanPickup(Item item)
+    {
+        bool canPickupItem = false;
+        foreach (var quest in allQuests)
+        {
+            if (quest.isActive && !quest.isCompleted)
+            {
+                canPickupItem = quest.requiredItems.Contains(item);
+            }
+        }
+        return canPickupItem;
     }
 }

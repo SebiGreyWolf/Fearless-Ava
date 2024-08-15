@@ -5,27 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //Doing GameManaging n' Stuff just like Level loading
-    private string scene1Name = "Test";
-    private string scene2Name = "Test1";
+    public List<Item> allItems = new List<Item>();
+    public List<Quest> allQuests= new List<Quest>();
 
-    void Update()
+    //Doing GameManaging n' Stuff just like Screen loading
+   void ResetItemsAndQuests()
+   {
+
+   }
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        foreach (var item in allItems)
         {
-            SwitchScenes();
+            item.ResetItemState();
         }
-    }
-
-    void SwitchScenes()
-    {
-        // Get the current active scene
-        Scene currentScene = SceneManager.GetActiveScene();
-
-        // Determine the next scene to load
-        string nextSceneName = currentScene.name == scene1Name ? scene2Name : scene1Name;
-
-        // Load the next scene
-        SceneManager.LoadScene(nextSceneName);
+        foreach (var quest in allQuests)
+        {
+            quest.ResetQuestState();
+        }
     }
 }
