@@ -14,10 +14,21 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentences;
 
     private DialogueTrigger currentDialogueTrigger;
+    private PlayerMovement playerMovement;
     void Start()
     {
         sentences = new Queue<string>();
         ClearQuestUI();
+
+        playerMovement = FindObjectOfType<PlayerMovement>();
+    }
+    void Update()
+    {
+        // Check if the space bar is pressed to continue dialogue
+        if (Input.GetKeyDown(KeyCode.Space) && dialogueBox.activeSelf)
+        {
+            DisplayNextSentence();
+        }
     }
 
     public void StartDialogue(DialogueTrigger dialogueTrigger)
@@ -27,6 +38,11 @@ public class DialogueManager : MonoBehaviour
 
         nameText.text = dialogueTrigger.GetCurrentSpeakerName();
         sentences.Clear();
+
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = false;
+        }
 
         foreach (string sentence in dialogueTrigger.GetCurrentSentences())
         {
@@ -62,6 +78,12 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogueBox.SetActive(false);
+        
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = true;
+        }
+
         if (currentDialogueTrigger != null)
         {
             currentDialogueTrigger.ActivateQuest();

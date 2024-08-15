@@ -5,11 +5,14 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     public Item item; // The item this pickup represents
-    public GameObject canvas; // UI element to show when player is in range
+    public Material mat; // UI element to show when player is in range
 
     private bool isPlayerInTrigger = false;
     private Inventory inventory;
     private QuestManager manager;
+
+    private SpriteRenderer[] spriteRenderers;
+    private Dictionary<SpriteRenderer, Material> originalMats = new Dictionary<SpriteRenderer, Material>();
 
     private void Start()
     {
@@ -20,9 +23,10 @@ public class Pickup : MonoBehaviour
             inventory = gameManager.GetComponent<Inventory>();
             manager = gameManager.GetComponent<QuestManager>();
         }
-        else
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer renderer in spriteRenderers)
         {
-            Debug.LogError("GameManager not found in the scene.");
+            originalMats[renderer] = renderer.material; // Store original materials
         }
     }
 
@@ -49,32 +53,49 @@ public class Pickup : MonoBehaviour
     {
         if (isPlayerInTrigger)
         {
-            if (canvas != null)
-                canvas.SetActive(true);
-
-            if (Input.GetKeyDown(KeyCode.F))
+            if (manager.CanPickup(item))
             {
-                PickupItem();
+                ApplyMaterial(mat); // Apply the custom material
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    PickupItem();
+                }
             }
         }
         else
         {
-            if (canvas != null)
-                canvas.SetActive(false);
+            ResetMaterials(); // Revert to the original materials
+        }
+    }
+    private void ApplyMaterial(Material material)
+    {
+        foreach (SpriteRenderer renderer in spriteRenderers)
+        {
+            renderer.material = material;
+        }
+    }
+    private void ResetMaterials()
+    {
+        foreach (SpriteRenderer renderer in spriteRenderers)
+        {
+            if (originalMats.TryGetValue(renderer, out Material originalMat))
+            {
+                renderer.material = originalMat;
+            }
         }
     }
 
     // Method to handle item pickup and adding it to the inventory
     public void PickupItem()
     {
-
-        if (inventory != null && manager.CanPickup(item))
+        if (inventory != null)
         {
             inventory.AddItem(item);
             FindObjectOfType<AudioManagement>().PlaySound("PickUp");   
             Destroy(gameObject);  // Destroy the pickup item after it's collected
-            if (canvas != null)
-                canvas.SetActive(false);
+            //if (canvas != null)
+            //    canvas.SetActive(false);
         }
     }
 
