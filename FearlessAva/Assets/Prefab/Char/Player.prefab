@@ -888,10 +888,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633416f3164c45643ac1d19b5747f6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultForce: 200
-  upwardsForce: 600
+  defaultForce: 40
+  upwardsForce: 40
   movementTime: 0.1
-  meleeAnimator: {fileID: 3513463149393852931}
 --- !u!212 &7913940681610529256
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5835,7 +5834,7 @@ Transform:
   m_GameObject: {fileID: 6118109567414399853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.002243042, y: 3.19656, z: -12.345678}
+  m_LocalPosition: {x: 0.0033950806, y: 3.19655, z: -12.345678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6722,6 +6721,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Attack Point
       objectReference: {fileID: 0}
+    - target: {fileID: 2074038672846751783, guid: b33ba66332953264a9dcdd73f82b91df, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3606514684931229586, guid: b33ba66332953264a9dcdd73f82b91df, type: 3}
       propertyPath: m_Size.x
       value: 3.18
@@ -6805,10 +6808,5 @@ PrefabInstance:
 --- !u!4 &2358286368144716793 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7733639098990668392, guid: b33ba66332953264a9dcdd73f82b91df, type: 3}
-  m_PrefabInstance: {fileID: 5469963954186901905}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &3513463149393852931 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8875296491305690002, guid: b33ba66332953264a9dcdd73f82b91df, type: 3}
   m_PrefabInstance: {fileID: 5469963954186901905}
   m_PrefabAsset: {fileID: 0}

@@ -20,7 +20,7 @@ TagManager:
   - Wall
   - HugInteractive
   - Danger
-  - 
+  - Camera
   - 
   - 
   - 
@@ -41,18 +41,33 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: Background 1
     uniqueID: 2914988593
     locked: 0
-  - name: UnderPlayerLayer
+  - name: Background 2
     uniqueID: 1584494633
     locked: 0
-  - name: PlayerLayer
+  - name: Background 3
     uniqueID: 1197970561
+    locked: 0
+  - name: Background 4
+    uniqueID: 1895668835
+    locked: 0
+  - name: Background 5
+    uniqueID: 2126408705
+    locked: 0
+  - name: Background 6
+    uniqueID: 1028939639
+    locked: 0
+  - name: Background 7
+    uniqueID: 504718219
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 2937348753
+    locked: 0
   - name: Foreground
-    uniqueID: 1895668835
+    uniqueID: 2538320347
     locked: 0
