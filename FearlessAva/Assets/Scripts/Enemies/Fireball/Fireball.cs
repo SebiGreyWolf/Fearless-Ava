@@ -25,17 +25,17 @@ public class Fireball : MonoBehaviour
     {
         transform.position = new Vector3(transform.position.x + speed * direction , transform.position.y, transform.position.z);
 
-        if (isFireballTooFarFromPlayer())
+        if (isFireballTooFarFromSpawn())
         {
             Destroy(gameObject);
         }
     }
 
-    bool isFireballTooFarFromPlayer()
+    bool isFireballTooFarFromSpawn()
     {
         if (this != null && player != null)
         {
-            float distance = Vector3.Distance(transform.position, player.transform.position);
+            float distance = Vector3.Distance(transform.position, startPoint);
 
             if (distance >= distanceToDespawn)
             {
