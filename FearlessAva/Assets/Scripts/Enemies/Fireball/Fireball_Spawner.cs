@@ -22,37 +22,11 @@ public class FireballSpawner : MonoBehaviour
 
     private void Awake()
     {
-        times[0] = rand.Next(1, 5);
-        times[1] = rand.Next(1, 5);
-        times[2] = rand.Next(1, 5);
-    }
-
-    /*
-    void Update()
-    {
-        if (isPlayerInRange())
+        for (int i = 0; i < times.Length; i++)
         {
-            float minDistance = Vector3.Distance(spawnPositions[0], player.transform.position);
-            Vector3 vec = spawnPositions[0];
-            foreach (var spawn in spawnPositions)
-            {
-                if (minDistance > Vector3.Distance(spawn, player.transform.position))
-                {
-                    minDistance = Vector3.Distance(spawn, player.transform.position);
-                    vec = spawn;
-                }
-            }
-
-            timeSinceLastSpawn += Time.deltaTime;
-
-            if (timeSinceLastSpawn > delayInSeconds)
-            {
-                GameObject newFireball = Instantiate(fireball, vec, Quaternion.identity);
-                newFireball.SetActive(true);
-                timeSinceLastSpawn = 0;
-            }
+            times[i] = rand.Next(1, 5);
         }
-    }*/
+    }
 
     private void Update()
     {
@@ -67,7 +41,7 @@ public class FireballSpawner : MonoBehaviour
             {
                 if (timeSinceLastSpawn[i] > times[i])
                 {
-                    GameObject newFireball = Instantiate(fireball, spawnPositions[0], Quaternion.identity);
+                    GameObject newFireball = Instantiate(fireball, spawnPositions[i], Quaternion.identity);
                     newFireball.SetActive(true);
                     timeSinceLastSpawn[i] = 0;
                     times[i] = rand.Next(1, 5);
