@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeAttackManager : MonoBehaviour
-{public float defaultForce = 300;
-    public float upwardsForce = 600;
-    public float movementTime = 0.1f;
+{
+    public float defaultForce = 40;
+    public float upwardsForce = 40;
+    public float movementTime = .1f;
     private bool meleeAttack;
-    public Animator meleeAnimator;
-
-    private Animator anim;
+    private Animator meleeAnimator;
     private PlayerMovement character;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
         character = GetComponent<PlayerMovement>();
+        meleeAnimator = GetComponentInChildren<MeleeWeapon>().gameObject.GetComponent<Animator>();
     }
 
     private void Update()
@@ -25,27 +24,27 @@ public class MeleeAttackManager : MonoBehaviour
 
     private void CheckInput()
     {
-        meleeAttack = Input.GetKeyDown(KeyCode.Mouse0);
-
-        if (meleeAttack)
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            float verticalInput = Input.GetAxisRaw("Vertical"); // Use GetAxisRaw for more immediate response
+            meleeAttack = true;
+        }
+        else
+        {
+            meleeAttack = false;
+        }
 
-            if (verticalInput > 0)
-            {
-                // Immediate upward attack
-                meleeAnimator.SetTrigger("UpwardMeleeSwipe");
-            }
-            else if (verticalInput < 0 && !character.IsGrounded)
-            {
-                // Immediate downward attack
-                meleeAnimator.SetTrigger("DownwardMeleeSwipe");
-            }
-            else
-            {
-                // Immediate forward or downward (grounded) attack
-                meleeAnimator.SetTrigger("ForwardMeleeSwipe");
-            }
+        if (meleeAttack && Input.GetAxis("Vertical") > 0)
+        {
+            meleeAnimator.SetTrigger("UpwardMeleeSwipe");
+        }
+        else if (meleeAttack && Input.GetAxis("Vertical") < 0 && !character.IsGrounded)
+        {
+            meleeAnimator.SetTrigger("DownwardMeleeSwipe");
+        }
+        else if ((meleeAttack && Input.GetAxis("Vertical") == 0) ||
+                  (meleeAttack && Input.GetAxis("Vertical") < 0 && character.IsGrounded))
+        {
+            meleeAnimator.SetTrigger("ForwardMeleeSwipe");
         }
     }
 }

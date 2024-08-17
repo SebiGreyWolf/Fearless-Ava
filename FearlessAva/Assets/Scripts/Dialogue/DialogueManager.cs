@@ -38,7 +38,6 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true); // Activate the dialogue box
         currentDialogueTrigger = dialogueTrigger;
 
-        nameText.text = dialogueTrigger.GetCurrentSpeakerName();
         sentences.Clear();
 
         if (playerMovement != null)
@@ -63,6 +62,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        nameText.text = currentDialogueTrigger.GetCurrentSpeakerName();
         string sentence = sentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
@@ -81,7 +81,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogueBox.SetActive(false);
-        
+
         if (playerMovement != null)
         {
             playerMovement.enabled = true;

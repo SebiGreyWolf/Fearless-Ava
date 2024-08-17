@@ -12,7 +12,7 @@ public class DialogueTrigger : MonoBehaviour
     //Working but not with style
     public GameObject questReward;
 
-    private int currentSentenceIndex = 0;
+    private int currentSpeakerIndex = 0;
 
     private void Start()
     {
@@ -46,7 +46,15 @@ public class DialogueTrigger : MonoBehaviour
     }
     public string GetCurrentSpeakerName()
     {
-        return speakers[currentSentenceIndex % speakers.Length];
+        string currentSpeaker = speakers[currentSpeakerIndex];
+        currentSpeakerIndex++;  // Move to the next speaker index
+
+        // If the speaker index exceeds the number of available speakers, reset to the first speaker
+        if (currentSpeakerIndex >= speakers.Length)
+        {
+            currentSpeakerIndex = 0;
+        }
+        return currentSpeaker;
     }
 
     public string[] GetCurrentSentences()
