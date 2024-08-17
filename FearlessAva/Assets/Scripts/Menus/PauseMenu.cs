@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
-
+    public static bool OptionsMenuIsActive = false;
 
     public GameObject pauseMenuUI;
+    public GameObject OptionsMenuUI;
     public GameObject DialogueUI;
     public Text SaveButtonText;
 
@@ -24,6 +25,12 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape) && !DialogueUI.activeSelf)
         {
+            if (OptionsMenuIsActive)
+            {
+                ExitOptionsMenu();
+                return;
+            }
+
             if(GameIsPaused)
             {
                 Resume();
@@ -59,6 +66,20 @@ public class PauseMenu : MonoBehaviour
         ShieldAbility.SetActive(toggle);
         IceAbility.SetActive(toggle);
         QuestList.SetActive(toggle);
+    }
+
+    public void OptionsButtonMenu()
+    {
+        OptionsMenuIsActive = true;
+        pauseMenuUI.SetActive(false);
+        OptionsMenuUI.SetActive(true);
+    }
+
+    public void ExitOptionsMenu()
+    {
+        OptionsMenuUI.SetActive(false);
+        pauseMenuUI.SetActive(true);
+        OptionsMenuIsActive = false;
     }
 
     public void SaveGameButton()
