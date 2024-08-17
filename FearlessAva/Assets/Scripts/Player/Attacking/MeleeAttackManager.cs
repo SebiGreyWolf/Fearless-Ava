@@ -27,6 +27,8 @@ public class MeleeAttackManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             meleeAttack = true;
+            if (GetComponentInChildren<MeleeWeapon>())
+                FindObjectOfType<AudioManagement>().PlaySound("Attack");
         }
         else
         {
