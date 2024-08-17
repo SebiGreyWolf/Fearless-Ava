@@ -75177,7 +75177,7 @@ Transform:
   m_GameObject: {fileID: 1419763162}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -443.5, y: 91, z: 0.03389089}
+  m_LocalPosition: {x: -534.13, y: 39.639996, z: 0.03389089}
   m_LocalScale: {x: 33.824986, y: 7.211983, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75833,13 +75833,13 @@ Transform:
   m_GameObject: {fileID: 1477479030}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.038333334, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 562068523}
   - {fileID: 1370063304}
-  m_Father: {fileID: 1851489175}
+  m_Father: {fileID: 1868195190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &1477479032
 TilemapRenderer:
@@ -77319,7 +77319,7 @@ Transform:
   m_GameObject: {fileID: 1532270985}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -485.25, y: 54.2, z: -1.9661092}
+  m_LocalPosition: {x: -534.13, y: 48.38, z: -1.9661092}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98162,7 +98162,7 @@ GameObject:
   - component: {fileID: 1851489175}
   - component: {fileID: 1851489174}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: DiscardedGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98194,7 +98194,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 106359740}
-  - {fileID: 1477479031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1859491818
@@ -98318,7 +98317,7 @@ GameObject:
   - component: {fileID: 1868195190}
   - component: {fileID: 1868195189}
   m_Layer: 0
-  m_Name: Grid (1)
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98350,6 +98349,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1594326445}
+  - {fileID: 1477479031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1868744534
@@ -107762,7 +107762,6 @@ SceneRoots:
   - {fileID: 375272997}
   - {fileID: 388079968}
   - {fileID: 596907163}
-  - {fileID: 1851489175}
   - {fileID: 1719668066}
   - {fileID: 9067071848957780380}
   - {fileID: 1252384357}
@@ -107776,3 +107775,4 @@ SceneRoots:
   - {fileID: 387656635}
   - {fileID: 451179328}
   - {fileID: 1868195190}
+  - {fileID: 1851489175}
