@@ -5,11 +5,12 @@ using UnityEngine;
 public class WolfEnemy : MonoBehaviour
 {
     public Player player;
-    public float targetingDistance = 15f;
-    private float attackCooldown = 1f;
+    public float targetingDistance;
+    public float attackCooldown = 1f;
     private float cooldownTimer = 1f;
     private SpriteRenderer[] spriteRenderer;
     public Destroyable destroyable;
+    private Vector3 initScale;
 
     public GameObject projectile;
 
@@ -23,6 +24,11 @@ public class WolfEnemy : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
+    private void Awake()
+    {
+        initScale = this.transform.localScale;
+    }
+
     private void Start()
     {
         spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
@@ -32,35 +38,46 @@ public class WolfEnemy : MonoBehaviour
 
     void Update()
     {
-        //Flip();
+        Flip();
 
         cooldownTimer += Time.deltaTime;
 
         if (PlayerInTargetingDistance())
         {
 
-            if (cooldownTimer >= attackCooldown)
+            if (cooldownTimer >= attackCooldown && !animator.GetCurrentAnimatorStateInfo(0).IsName("WurfAnimation"))
             {
+                /*
                 animator.StopPlayback();
                 animator.Play("WurfAnimation");
                 animator.SetBool("isThrowing", true);
-
                 Debug.Log("Throwing");
+                */
 
-                cooldownTimer = 0;
-                GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
-                newProjectile.SetActive(true);
-                FindObjectOfType<AudioManagement>().PlaySound("BoneThrow");
+                StartCoroutine(Throwing());
             }
         }
 
         DoT();
     }
 
+    IEnumerator Throwing()
+    {
+        animator.SetTrigger("ThrowTrigger");
+
+        yield return new WaitForSeconds(0.35f);
+
+        cooldownTimer = 0;
+        GameObject newProjectile = Instantiate(projectile, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z) , Quaternion.identity);
+        newProjectile.SetActive(true);
+        FindObjectOfType<AudioManagement>().PlaySound("BoneThrow");
+    }
+
+
     public void OnThrowingAnimFinished()
     {
-        animator.SetBool("isThrowing", false);
-        animator.Play("WolfIdle");
+        //animator.SetBool("isThrowing", false);
+        //animator.Play("WolfIdle");
     }
 
     public void ApplyFireEffect(int amountOfFireDamageOverTime)
@@ -101,19 +118,19 @@ public class WolfEnemy : MonoBehaviour
             }
         }
     }
-    /*
+    
     private void Flip()
     {
         if (player.transform.position.x > transform.position.x)
         {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector3(Mathf.Abs(initScale.x) * -1, initScale.y, initScale.z);
         }
         else
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(Mathf.Abs(initScale.x), initScale.y, initScale.z);
         }
     }
-    */
+    
     public bool PlayerInTargetingDistance()
     {
         if (Vector3.Distance(player.transform.position, transform.position) <= targetingDistance)

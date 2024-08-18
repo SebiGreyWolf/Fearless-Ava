@@ -8,8 +8,8 @@ public class Projectile : MonoBehaviour
     private float travelTime;
     [SerializeField] private int damage;
 
-    public Vector3 startPoint;
-    public Vector3 endPoint;
+    private Vector3 startPoint;
+    private Vector3 endPoint;
     public float duration = 0.75f;
     public float curveHeight = 3f;
 
