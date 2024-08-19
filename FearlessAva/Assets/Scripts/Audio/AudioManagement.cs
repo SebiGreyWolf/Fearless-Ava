@@ -14,9 +14,9 @@ public class AudioManagement : MonoBehaviour
             s.audioSource.clip = s.audioClip;
 
             //Wärend dem Testen (Level1)
-            s.audioSource.volume = s.volume;
+            //s.audioSource.volume = s.volume;
             //Bei Builds (Start vom Main Menu)
-            //s.audioSource.volume = AudioListener.volume;
+            s.audioSource.volume = AudioListener.volume;
 
             s.audioSource.pitch = s.pitch;
             s.audioSource.loop = s.loop;

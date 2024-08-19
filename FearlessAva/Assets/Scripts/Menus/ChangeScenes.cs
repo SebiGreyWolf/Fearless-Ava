@@ -8,7 +8,7 @@ public class ChangeScenes : MonoBehaviour
 {
     public void GoToScenePlay()
     {
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("OpeningLetter");
         //SceneManager.LoadScene("SaveSlotMenu");
     }
 

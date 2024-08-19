@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SaveSlotMenu.unity
     guid: 2bf7f2732e1002d48a1a6ec25ba14a08
+  - enabled: 1
+    path: Assets/Scenes/OpeningLetter.unity
+    guid: 0545a8f19bbafa540b76b4b88ad5d150
   m_configObjects: {}
