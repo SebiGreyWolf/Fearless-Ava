@@ -17,6 +17,10 @@ public class FireballSpawner : MonoBehaviour
     private float[] timeSinceLastSpawn = {0,0,0};
 
 
+    public int minSecBetweenFireballs;
+    public int maxSecBetweenFireballs;
+
+
     System.Random rand = new System.Random();
     private int[] times = {0,0,0};
 
@@ -24,7 +28,7 @@ public class FireballSpawner : MonoBehaviour
     {
         for (int i = 0; i < times.Length; i++)
         {
-            times[i] = rand.Next(1, 5);
+            times[i] = rand.Next(minSecBetweenFireballs, maxSecBetweenFireballs);
         }
     }
 
@@ -44,7 +48,7 @@ public class FireballSpawner : MonoBehaviour
                     GameObject newFireball = Instantiate(fireball, spawnPositions[i], Quaternion.identity);
                     newFireball.SetActive(true);
                     timeSinceLastSpawn[i] = 0;
-                    times[i] = rand.Next(1, 5);
+                    times[i] = rand.Next(minSecBetweenFireballs, maxSecBetweenFireballs);
                 }
             }
         }
