@@ -6,14 +6,34 @@ public class FallingRock : MonoBehaviour
 {
     public Player player;
     public Dragon dragon;
+    public Material mat;
+    public Material originalMat;
+    public SpriteRenderer renderer;
+
 
     public float fallingSpeed;
     private bool isFalling = false;
+    private bool isPlayerInTrigger;
 
 
     // Update is called once per frame
     void Update()
     {
+        if (isPlayerInTrigger)
+        {
+            renderer.material = mat;
+
+            if (Input.GetKeyUp(KeyCode.F) && isPlayerInTrigger)
+            {
+                isFalling = true;
+            }
+        }
+        else
+        {
+            renderer.material = originalMat;
+        }
+
+
         if (isFalling)
         {
             FindObjectOfType<AudioManagement>().PlaySound("StoneFall");
@@ -21,22 +41,27 @@ public class FallingRock : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.GetComponent<Player>())
         {
-            isFalling = true;
+            isPlayerInTrigger = true;
         }
-
-        if (collision.gameObject.CompareTag("Dragon"))
+        else if (collision.gameObject.CompareTag("Dragon"))
         {
             dragon.CollisionWithRock();
 
             //Maybe add some particle Effects here
             Destroy(gameObject);
         }
+    }
 
-        
+    // Detect when the player exits the trigger zone
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<Player>())
+        {
+            isPlayerInTrigger = false;
+        }
     }
 }
