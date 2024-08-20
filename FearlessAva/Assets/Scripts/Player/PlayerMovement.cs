@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDashing { get; private set; }
     public bool IsSliding { get; private set; }
 
+
     public bool IsGrounded { get; private set; }
     private bool _isJumpCut;
     private bool _isJumpFalling;

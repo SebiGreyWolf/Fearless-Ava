@@ -6,6 +6,7 @@ public class DialogueTrigger : MonoBehaviour
 {
     public string[] speakers;
     public List<QuestDialogue> questDialogues; // List of all possible dialogues related to quests
+    public List<NoQuestDialogue> basicDialogues;
     public GameObject rewardObject; // The reward object to activate upon quest completion (optional)
 
     private QuestManager questManager;
@@ -19,15 +20,24 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (collision.GetComponent<Player>() && Input.GetKeyDown(KeyCode.F))
         {
-
+            // Check if there is an active quest that is not completed
             var activeQuest = questManager.allQuests.Find(q => q.isActive && !q.isCompleted);
+
             if (activeQuest != null)
             {
+                // Start the quest dialogue if an active quest is found
                 StartDialogue(activeQuest);
             }
             else
             {
-                CheckAvailableQuests();
+                // No active quest, check if there are any available quests
+                bool questDialogueStarted = CheckAvailableQuests();
+
+                // If no available quests were found, trigger no-quest dialogues
+                if (!questDialogueStarted)
+                {
+                    CheckNoQuestDialogues();
+                }
             }
         }
     }
@@ -41,7 +51,7 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-    private void CheckAvailableQuests()
+    private bool CheckAvailableQuests()
     {
         foreach (var questDialogue in questDialogues)
         {
@@ -50,10 +60,27 @@ public class DialogueTrigger : MonoBehaviour
                 if (questManager.ContainsQuest(questDialogue.currentQuest))
                 {
                     StartDialogue(questDialogue.currentQuest);
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
+    }
+    private void CheckNoQuestDialogues()
+    {
+        foreach (var noQuestDialogue in basicDialogues)
+        {
+            if (noQuestDialogue.requrementQuest == null || noQuestDialogue.requrementQuest.isCompleted)
+            {
+                StartNoQuestDialogue(noQuestDialogue);
+                return;
+            }
+        }
+    }
+    private void StartNoQuestDialogue(NoQuestDialogue noQuestDialogue)
+    {
+        var dialogueManager = FindObjectOfType<DialogueManager>();
+        dialogueManager.StartNoQuestDialogue(this, noQuestDialogue.sentences);
     }
 
     public string GetCurrentSpeakerName()
@@ -105,19 +132,28 @@ public class DialogueTrigger : MonoBehaviour
             if (!questDialogue.currentQuest.isCompleted)
                 return false;
         }
+
+        if (basicDialogues != null || basicDialogues.Count > 0)
+            if (!basicDialogues[0].requrementQuest.isCompleted || basicDialogues[0].reward == null)
+                return false;
+
         return true;
     }
-
     public void HandleReward()
     {
         if (rewardObject != null)
         {
             if (CheckForActivatingReward())
             {
+                Debug.Log("Activate Quest");
                 rewardObject.SetActive(!rewardObject.activeInHierarchy); // Activates the reward object when quest is completed
                 FindObjectOfType<AudioManagement>().PlaySound("QuestReward");
             }
 
         }
+    }
+    public void RemoveDialogue()
+    {
+        basicDialogues.RemoveAt(0);
     }
 }

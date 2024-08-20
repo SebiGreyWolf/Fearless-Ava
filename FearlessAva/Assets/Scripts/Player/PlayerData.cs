@@ -101,4 +101,15 @@ public class PlayerData : ScriptableObject
 		runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
 		#endregion
 	}
+	public void RecalculateJumpVariables()
+	{
+		// Calculate gravity strength using the formula: gravity = 2 * jumpHeight / timeToJumpApex^2
+		gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
+
+		// Calculate the rigidbody's gravity scale relative to unity's gravity value (see project settings/Physics2D)
+		gravityScale = gravityStrength / Physics2D.gravity.y;
+
+		// Calculate jumpForce using the formula: jumpForce = gravity * timeToJumpApex
+		jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
+	}
 }

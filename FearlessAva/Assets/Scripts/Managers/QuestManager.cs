@@ -89,6 +89,7 @@ public class QuestManager : MonoBehaviour
         {
             quest.isActive = false;
             allQuests.Remove(quest);
+            FindObjectOfType<AudioManagement>().PlaySound("QuestReward");
             UpdateQuestUI();
         }
     }

@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         }
         player = FindObjectOfType<Player>();
         playerData.jumpHeight = overworldJump;
+        playerData.RecalculateJumpVariables();
         if (virtualCamera.m_Lens.Orthographic)
         {
             virtualCamera.m_Lens.OrthographicSize = OverworldViewSize;
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         {
             confiner.m_BoundingShape2D = CameraBoundsUp;
             playerData.jumpHeight = overworldJump;
+            playerData.RecalculateJumpVariables();
             if (virtualCamera.m_Lens.Orthographic)
             {
                 virtualCamera.m_Lens.OrthographicSize = OverworldViewSize;
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         {
             confiner.m_BoundingShape2D = CameraBoundsDown;
             playerData.jumpHeight = undergroundJump;
+            playerData.RecalculateJumpVariables();
             if (virtualCamera.m_Lens.Orthographic)
             {
                 virtualCamera.m_Lens.OrthographicSize = UnderworldViewSize;

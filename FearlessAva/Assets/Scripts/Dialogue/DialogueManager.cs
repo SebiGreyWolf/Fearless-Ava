@@ -18,7 +18,7 @@ public class DialogueManager : MonoBehaviour
     private Rigidbody2D playerRigidbody;
     private Quest currentQuestToUse;
 
-    private NoQuestDialogueTrigger tempNoQuestTrigger;
+    private NoQuestDialogue tempNoQuestTrigger;
     private DialogueTrigger currentTrigger;
     void Start()
     {
@@ -36,10 +36,7 @@ public class DialogueManager : MonoBehaviour
         // Check for spacebar input to display the next sentence
         if (Input.GetKeyDown(KeyCode.Space) && dialogueBox.activeSelf)
         {
-            if (tempNoQuestTrigger == null)
-                DisplayNextSentence();
-            else
-                DisplayNoQuestNextSentence(tempNoQuestTrigger);
+            DisplayNextSentence();
         }
     }
 
@@ -59,6 +56,30 @@ public class DialogueManager : MonoBehaviour
         // Enqueue the new sentences for the current quest state
         string[] dialogueSentences = trigger.GetDialogueForQuest(currentQuest);
         foreach (string sentence in dialogueSentences)
+        {
+            sentences.Enqueue(sentence);
+        }
+
+        // Display the first sentence
+        DisplayNextSentence();
+    }
+
+    public void StartNoQuestDialogue(DialogueTrigger trigger, string[] sentencesToUse)
+    {
+        playerMovement.enabled = false;
+        playerRigidbody.velocity = Vector2.zero;
+
+        currentTrigger = trigger;
+
+        // Clear previous dialogue sentences
+        sentences.Clear();
+        dialogueBox.SetActive(true);
+
+        // Set the NPC's name in the UI
+        nameText.text = trigger.GetCurrentSpeakerName();
+
+        // Enqueue the non-quest dialogue sentences
+        foreach (string sentence in sentencesToUse)
         {
             sentences.Enqueue(sentence);
         }
@@ -101,22 +122,40 @@ public class DialogueManager : MonoBehaviour
         // Hide the dialogue box
         dialogueBox.SetActive(false);
 
+        // Re-enable player movement
         playerMovement.enabled = true;
 
-        if (!currentQuestToUse.isActive)
+        // Check if we are dealing with a quest-related dialogue
+        if (currentQuestToUse != null)
         {
+            // Handle quest activation or completion logic
             QuestManager questManager = FindObjectOfType<QuestManager>();
-            questManager.ActivateQuest(currentQuestToUse);
+
+            if (!currentQuestToUse.isActive)
+            {
+                // Activate the quest if it was not active before
+                questManager.ActivateQuest(currentQuestToUse);
+            }
+
+            if (currentQuestToUse.isCompleted)
+            {
+                // If the quest is completed, remove it
+                questManager.RemoveQuest(currentQuestToUse);
+                currentQuestToUse = null;
+            }
+
+            // Update the quest UI if there was a change to the quest state
+            UpdateQuestUI();
+        }
+        else if (currentTrigger != null)
+        {
+            // If it's not a quest dialogue, check for reward associated with the no-quest dialogue
+            currentTrigger.HandleReward();
+            currentTrigger.RemoveDialogue();
         }
 
-        if (currentQuestToUse.isCompleted)
-        {
-            QuestManager questManager = FindObjectOfType<QuestManager>();
-            questManager.RemoveQuest(currentQuestToUse);
-            currentQuestToUse = null;
-        }
-        // Update the quest UI in case the dialogue triggered a quest change
-        UpdateQuestUI();
+        // Optionally reset the current trigger reference
+        currentTrigger = null;
     }
 
     public void UpdateQuestUI()
@@ -149,43 +188,5 @@ public class DialogueManager : MonoBehaviour
     public void ClearDialogue()
     {
         questListText.text = "";
-    }
-
-
-    public void StartNoQuestDialogue(NoQuestDialogueTrigger trigger, string[] Dsentences)
-    {
-        tempNoQuestTrigger = trigger;
-
-        // Set the NPC's name in the UI
-        nameText.text = trigger.GetCurrentSpeakerName();
-
-        // Clear previous dialogue sentences
-        sentences.Clear();
-        dialogueBox.SetActive(true);
-        foreach (string sentence in Dsentences)
-        {
-            sentences.Enqueue(sentence);
-        }
-
-        // Display the first sentence
-        DisplayNoQuestNextSentence(trigger);
-    }
-
-    public void DisplayNoQuestNextSentence(NoQuestDialogueTrigger trigger)
-    {
-        // Check if there are more sentences to display
-        if (sentences.Count == 0)
-        {
-            dialogueBox.SetActive(false);
-            trigger.ActivateReward();
-            return;
-        }
-
-        // Get the next sentence from the queue
-        string sentence = sentences.Dequeue();
-
-        // Stop any ongoing typing effect and start typing the new sentence
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
     }
 }
