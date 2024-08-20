@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,17 @@ public class GameManager : MonoBehaviour
     public List<Item> allItems = new List<Item>();
     public List<Quest> allQuests = new List<Quest>();
 
-    //Doing GameManaging n' Stuff just like Screen loading
+    public Transform cameraChangePoint;
+    public CinemachineConfiner2D confiner;
+    public Collider2D CameraBoundsUp;
+    public Collider2D CameraBoundsDown;
 
+    public PlayerData playerData;
+    public float overworldJump = 9;
+    public float undergroundJump = 13;
+
+    //Doing GameManaging n' Stuff just like Screen loading
+    private Player player;
     private void Start()
     {
         foreach (var item in allItems)
@@ -19,6 +29,22 @@ public class GameManager : MonoBehaviour
         foreach (var quest in allQuests)
         {
             quest.ResetQuestState();
+        }
+        player = FindObjectOfType<Player>();
+        playerData.jumpHeight = overworldJump;
+    }
+
+    private void Update()
+    {
+        if (player.gameObject.transform.position.y > cameraChangePoint.transform.position.y)
+        {
+            confiner.m_BoundingShape2D = CameraBoundsUp;
+            playerData.jumpHeight = overworldJump;
+        }
+        else
+        {
+            confiner.m_BoundingShape2D = CameraBoundsDown;
+            playerData.jumpHeight = undergroundJump;
         }
     }
 }

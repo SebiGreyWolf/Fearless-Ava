@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
     private Quest currentQuestToUse;
 
     private NoQuestDialogueTrigger tempNoQuestTrigger;
+    private DialogueTrigger currentTrigger;
     void Start()
     {
         sentences = new Queue<string>();
@@ -44,8 +45,10 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueTrigger trigger, Quest currentQuest)
     {
-        // Set the NPC's name in the UI
-        nameText.text = trigger.GetCurrentSpeakerName();
+        playerMovement.enabled = false;
+        playerRigidbody.velocity = Vector2.zero;
+
+        currentTrigger = trigger;
 
         currentQuestToUse = currentQuest;
 
@@ -72,7 +75,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-
+        nameText.text = currentTrigger.GetCurrentSpeakerName();
         // Get the next sentence from the queue
         string sentence = sentences.Dequeue();
 
@@ -97,6 +100,8 @@ public class DialogueManager : MonoBehaviour
     {
         // Hide the dialogue box
         dialogueBox.SetActive(false);
+
+        playerMovement.enabled = true;
 
         if (!currentQuestToUse.isActive)
         {

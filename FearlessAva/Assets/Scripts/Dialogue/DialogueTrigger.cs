@@ -59,6 +59,7 @@ public class DialogueTrigger : MonoBehaviour
     public string GetCurrentSpeakerName()
     {
         string currentSpeaker = speakers[currentSpeakerIndex];
+        Debug.Log(currentSpeaker);
         currentSpeakerIndex++;
         if (currentSpeakerIndex >= speakers.Length)
         {
