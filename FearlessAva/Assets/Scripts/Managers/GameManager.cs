@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public Collider2D CameraBoundsUp;
     public Collider2D CameraBoundsDown;
 
+    public CinemachineVirtualCamera virtualCamera;
+    public float OverworldViewSize = 9.25f;
+    public float UnderworldViewSize = 12f;
+
     public PlayerData playerData;
     public float overworldJump = 9;
     public float undergroundJump = 13;
@@ -32,6 +36,10 @@ public class GameManager : MonoBehaviour
         }
         player = FindObjectOfType<Player>();
         playerData.jumpHeight = overworldJump;
+        if (virtualCamera.m_Lens.Orthographic)
+        {
+            virtualCamera.m_Lens.OrthographicSize = OverworldViewSize;
+        }
     }
 
     private void Update()
@@ -40,11 +48,19 @@ public class GameManager : MonoBehaviour
         {
             confiner.m_BoundingShape2D = CameraBoundsUp;
             playerData.jumpHeight = overworldJump;
+            if (virtualCamera.m_Lens.Orthographic)
+            {
+                virtualCamera.m_Lens.OrthographicSize = OverworldViewSize;
+            }
         }
         else
         {
             confiner.m_BoundingShape2D = CameraBoundsDown;
             playerData.jumpHeight = undergroundJump;
+            if (virtualCamera.m_Lens.Orthographic)
+            {
+                virtualCamera.m_Lens.OrthographicSize = UnderworldViewSize;
+            }
         }
     }
 }
