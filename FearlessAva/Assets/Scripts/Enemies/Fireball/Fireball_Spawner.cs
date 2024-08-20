@@ -61,7 +61,7 @@ public class FireballSpawner : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, player.transform.position);
 
-            if (distance <= detectionRange)
+            if (distance <= detectionRange && player.transform.position.y < -30)
             {
                 return true;
             }
