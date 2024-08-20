@@ -23,7 +23,14 @@ public class Fireball : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(transform.position.x + speed * direction , transform.position.y, transform.position.z);
+        float currentSpeed = speed;
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+        if(distance > 30 )
+        {
+            currentSpeed = speed * 2;
+        }
+
+        transform.position = new Vector3(transform.position.x + currentSpeed * direction , transform.position.y, transform.position.z);
 
         if (isFireballTooFarFromSpawn())
         {
