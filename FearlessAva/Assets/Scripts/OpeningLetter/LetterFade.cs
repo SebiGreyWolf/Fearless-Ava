@@ -86,7 +86,5 @@ public class LetterFade : MonoBehaviour
             backstoryTextField.text += letter;
             yield return new WaitForSeconds(0.03f);
         }
-
-        StartCoroutine(TextFadeIn());
     }
 }
