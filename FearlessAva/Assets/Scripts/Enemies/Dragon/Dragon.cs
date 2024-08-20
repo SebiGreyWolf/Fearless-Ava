@@ -14,7 +14,7 @@ public class Dragon : MonoBehaviour
 
         StartCoroutine(SkipToNextScene());
 
-        destroyable.Destroy();
+        //destroyable.Destroy();
     }
 
     IEnumerator SkipToNextScene()
