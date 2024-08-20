@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Berry
   m_EditorClassIdentifier: 
   itemName: Berry
-  currentCount: 0
+  currentCount: 5
   maxCount: 5
   shouldResetOnPlay: 1

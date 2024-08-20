@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c800154d7ff8374c8eaa947af454668, type: 3}
   m_Name: Red Flower
   m_EditorClassIdentifier: 
-  itemName: Red Flowers
-  currentCount: 0
+  itemName: Red Flower
+  currentCount: 5
   maxCount: 4
   shouldResetOnPlay: 1

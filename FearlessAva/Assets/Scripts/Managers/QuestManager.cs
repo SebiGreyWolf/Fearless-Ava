@@ -3,102 +3,117 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    public List<Quest> allQuests = new List<Quest>();
-    public DialogueManager dialogueManager;
-    private Inventory inventory;
+    public List<Quest> allQuests; // List of all quests in the game
+
+    private Inventory inventory; // Reference to the player's inventory
+    private DialogueManager dialogueManager; // Reference to the dialogue manager
 
     void Start()
     {
         inventory = FindObjectOfType<Inventory>();
-
-        if (inventory != null)
-        {
-            inventory.OnInventoryChanged += UpdateQuest;
-        }
-
-        foreach (Quest quest in allQuests)
-        {
-            quest.ResetQuestState();
-        }
+        dialogueManager = FindObjectOfType<DialogueManager>();
+        inventory.OnInventoryChanged += UpdateActiveQuests; // Subscribe to inventory changes
     }
 
     public void ActivateQuest(Quest quest)
     {
-        foreach (var q in allQuests)
+        if (quest != null && !quest.isActive)
         {
-            if (q.isActive)
-            {
-                Debug.Log("ActiveQuest");
-                return;
-            }
+            quest.isActive = true;
+            UpdateQuestUI();
         }
-        Debug.Log("Got Quest");
-        quest.isActive = true;
-        dialogueManager.UpdateQuestUI(quest);
     }
 
-    void UpdateQuest()
+    public void UpdateActiveQuests()
     {
-        foreach (Quest quest in allQuests)
+        foreach (var quest in allQuests)
         {
-            UpdateQuestStatuses(quest);
+            if (quest.isActive && !quest.isCompleted)
+            {
+                UpdateQuest(quest);
+            }
+        }
+    }
+
+    public void UpdateQuest(Quest quest)
+    {
+        bool completed = true;
+
+        foreach (var item in quest.requiredItems)
+        {
+            if (inventory.GetItemCount(item.itemName) < item.maxCount)
+            {
+                completed = false;
+                break;
+            }
+        }
+
+        if (completed)
+        {
+            Debug.Log("Is comlpeted");
+            CompleteQuest(quest);
+        }
+
+        UpdateQuestUI();
+    }
+
+    public void CompleteQuest(Quest quest)
+    {
+        if (quest.isActive && !quest.isCompleted)
+        {
+            quest.isCompleted = true;
+            ActivateReward(quest);
+            UpdateQuestUI();
         }
     }
 
     public void ActivateReward(Quest quest)
     {
-        if (quest.reward != null)
+        // Locate the DialogueTrigger associated with this quest
+        DialogueTrigger[] triggers = FindObjectsOfType<DialogueTrigger>();
+        foreach (var trigger in triggers)
         {
-            //Instantiate(quest.reward, FindObjectOfType<Player>().transform);
-            quest.reward.SetActive(true);
+            
+            var relevantDialogue = trigger.questDialogues.Find(q => q.currentQuest == quest);
+            if (relevantDialogue != null)
+            {
+                trigger.HandleReward();
+                break;
+            }
         }
     }
 
     public void RemoveQuest(Quest quest)
     {
-        foreach (var item in quest.requiredItems)
+        if (quest.isActive)
         {
-            inventory.RemoveItem(item);
+            quest.isActive = false;
+            allQuests.Remove(quest);
+            UpdateQuestUI();
         }
-        allQuests.Remove(quest);
-    }
-    public void UpdateQuestStatuses(Quest quest)
-    {
-        if (quest.isActive && !quest.isCompleted)
-        {
-            bool questCompleted = true;
-            foreach (Item item in quest.requiredItems)
-            {
-                if (!inventory.HasItem(item.name, item.maxCount))
-                {
-                    questCompleted = false;
-                    break;
-                }
-            }
-
-            quest.isCompleted = questCompleted;
-            CheckQuestCompletion(quest);
-            dialogueManager.UpdateQuestUI(quest);
-        }
-    }
-
-    public void CheckQuestCompletion(Quest quest)
-    {
-        foreach (Item item in quest.requiredItems)
-        {
-            if (!inventory.HasItem(item.name, item.maxCount))
-            {
-                quest.isCompleted = false;
-                return;
-            }
-        }
-        quest.isCompleted = true;
     }
 
     public bool ContainsQuest(Quest quest)
     {
         return allQuests.Contains(quest);
     }
+
+    public bool CheckQuestCompletion(Quest quest)
+    {
+        return quest.isCompleted;
+    }
+
+    public bool CanPickup(Quest quest)
+    {
+        return quest.requirement == null || quest.requirement.isCompleted;
+    }
+
+    private void UpdateQuestUI()
+    {
+        // Notify the DialogueManager or UI system to update the quest display
+        dialogueManager.UpdateQuestUI();
+    }
+
     public bool CanPickup(Item item)
     {
         bool canPickupItem = false;

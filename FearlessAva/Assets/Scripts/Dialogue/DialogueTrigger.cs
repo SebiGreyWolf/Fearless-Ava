@@ -5,51 +5,61 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     public string[] speakers;
-    public string[] questStartSentences; // Sentences when the quest is first taken
-    public string[] questActiveSentences; // Sentences when the quest is active but not completed
-    public string[] questCompleteSentences; // Sentences when the quest is completed
-    public Quest quest;
-    //Working but not with style
-    public GameObject questReward;
+    public List<QuestDialogue> questDialogues; // List of all possible dialogues related to quests
+    public GameObject rewardObject; // The reward object to activate upon quest completion (optional)
 
-    private int currentSpeakerIndex = 0;
+    private QuestManager questManager;
+    private int currentSpeakerIndex;
 
-    private void Start()
+    void Start()
     {
-        if (quest != null)
-            quest.ResetQuestState();
-
-        if (questReward != null)
-        {
-            quest.reward = questReward;
-        }
+        questManager = FindObjectOfType<QuestManager>();
     }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.GetComponent<Player>() && FindObjectOfType<QuestManager>().ContainsQuest(quest) && Input.GetKeyDown(KeyCode.F))
-            FindObjectOfType<DialogueManager>().StartDialogue(this);
-    }
-    public void ActivateQuest()
-    {
-        if (quest != null)
-            FindObjectOfType<QuestManager>().ActivateQuest(quest);
-    }
-    public bool RemoveQuest()
-    {
-        if (quest.isCompleted && quest != null)
+        if (collision.GetComponent<Player>() && Input.GetKeyDown(KeyCode.F))
         {
-            FindObjectOfType<QuestManager>().RemoveQuest(quest);
-            FindObjectOfType<QuestManager>().ActivateReward(quest);
+
+            var activeQuest = questManager.allQuests.Find(q => q.isActive && !q.isCompleted);
+            if (activeQuest != null)
+            {
+                StartDialogue(activeQuest);
+            }
+            else
+            {
+                CheckAvailableQuests();
+            }
         }
-        return quest.isCompleted;
     }
+    private void StartDialogue(Quest activeQuest)
+    {
+        var dialogueManager = FindObjectOfType<DialogueManager>();
+        var sentences = GetDialogueForQuest(activeQuest);
+        if (sentences != null)
+        {
+            dialogueManager.StartDialogue(this, activeQuest);
+        }
+    }
+
+    private void CheckAvailableQuests()
+    {
+        foreach (var questDialogue in questDialogues)
+        {
+            if (questDialogue.requirement == null || questDialogue.requirement.isCompleted)
+            {
+                if (questManager.ContainsQuest(questDialogue.currentQuest))
+                {
+                    StartDialogue(questDialogue.currentQuest);
+                    return;
+                }
+            }
+        }
+    }
+
     public string GetCurrentSpeakerName()
     {
         string currentSpeaker = speakers[currentSpeakerIndex];
-        currentSpeakerIndex++;  // Move to the next speaker index
-
-        // If the speaker index exceeds the number of available speakers, reset to the first speaker
+        currentSpeakerIndex++;
         if (currentSpeakerIndex >= speakers.Length)
         {
             currentSpeakerIndex = 0;
@@ -57,23 +67,27 @@ public class DialogueTrigger : MonoBehaviour
         return currentSpeaker;
     }
 
-    public string[] GetCurrentSentences()
+    public string[] GetDialogueForQuest(Quest currentQuest)
     {
-        if (quest.isCompleted)
+        // Find the relevant QuestDialogue based on the current quest
+        var dialogue = questDialogues.Find(q => q.currentQuest == currentQuest);
+        if (dialogue == null) return null;
+
+        if (!currentQuest.isActive)
         {
-            return FormatSentences(questCompleteSentences); // Sentences for a completed quest
+            return dialogue.questStartSentences;
         }
-        else if (quest.isActive)
+        else if (!currentQuest.isCompleted)
         {
-            return FormatSentences(questActiveSentences); // Sentences for an active but incomplete quest
+            return dialogue.questActiveSentences;
         }
         else
         {
-            return FormatSentences(questStartSentences); // Sentences for when the quest is being activated
+            return dialogue.questCompleteSentences;
         }
     }
 
-    private string[] FormatSentences(string[] sentences)
+    public string[] FormatSentences(string[] sentences)
     {
         for (int i = 0; i < sentences.Length; i++)
         {
@@ -81,5 +95,28 @@ public class DialogueTrigger : MonoBehaviour
             sentences[i] = sentences[i].Replace("[i]", "<i>").Replace("[/i]", "</i>");
         }
         return sentences;
+    }
+
+    private bool CheckForActivatingReward()
+    {
+        foreach (var questDialogue in questDialogues)
+        {
+            if (!questDialogue.currentQuest.isCompleted)
+                return false;
+        }
+        return true;
+    }
+
+    public void HandleReward()
+    {
+        if (rewardObject != null)
+        {
+            if (CheckForActivatingReward())
+            {
+                rewardObject.SetActive(!rewardObject.activeInHierarchy); // Activates the reward object when quest is completed
+                FindObjectOfType<AudioManagement>().PlaySound("QuestReward");
+            }
+
+        }
     }
 }

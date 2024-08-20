@@ -15,9 +15,11 @@ MonoBehaviour:
   questName: Collect Flowers
   questDescription: Collect all sorts of Flowers
   isCompleted: 0
-  isActive: 1
+  isActive: 0
+  showInUI: 1
   requiredItems:
   - {fileID: 11400000, guid: 601e1e68a41413648b2b1dc01e00e1cd, type: 2}
   - {fileID: 11400000, guid: ae0ba6088e465b142bfde5cef38cdff8, type: 2}
-  reward: {fileID: 0}
+  reward: {fileID: 1316726376189712317, guid: 314d4e9c6169f624a92d4e3df54054a3, type: 3}
+  requirement: {fileID: 11400000, guid: 9c0c1fc19995b104b81bbe121d950a0b, type: 2}
   shouldResetOnPlay: 1

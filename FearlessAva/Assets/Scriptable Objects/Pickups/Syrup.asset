@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Syrup
   m_EditorClassIdentifier: 
   itemName: Syrup
-  currentCount: 0
+  currentCount: 2
   maxCount: 2
+  shouldResetOnPlay: 1

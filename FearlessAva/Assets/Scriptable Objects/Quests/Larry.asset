@@ -16,8 +16,10 @@ MonoBehaviour:
   questDescription: Collect Stuff for a bonfire
   isCompleted: 0
   isActive: 0
+  showInUI: 1
   requiredItems:
   - {fileID: 11400000, guid: 464293726c81a3e4b932719a779b88a6, type: 2}
   - {fileID: 11400000, guid: 4afd958c1e521d34da451c395a6cef6a, type: 2}
   reward: {fileID: 1316726376189712317, guid: 314d4e9c6169f624a92d4e3df54054a3, type: 3}
+  requirement: {fileID: 0}
   shouldResetOnPlay: 1

@@ -15,6 +15,7 @@ public class MeleeAttackManager : MonoBehaviour
     {
         character = GetComponent<PlayerMovement>();
         meleeAnimator = GetComponentInChildren<MeleeWeapon>().gameObject.GetComponent<Animator>();
+        GetComponentInChildren<MeleeWeapon>().gameObject.SetActive(false);
     }
 
     private void Update()

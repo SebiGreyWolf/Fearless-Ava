@@ -14,6 +14,7 @@ public class Dragon : MonoBehaviour
 
     public void CollisionWithRock()
     {
+        FindObjectOfType<AudioManagement>().PlaySound("DragonRoar");
         Debug.Log("The Dragon has been defeated! *Airhorn Noises*");
         destroyable.Destroy();
     }

@@ -6,151 +6,181 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    public Text nameText;
-    public Text dialogueText;
-    public GameObject dialogueBox;
-    public GameObject questUI;
-    public TextMeshProUGUI questListText; // Reference to the UI Text component that displays the quest list
-    private Queue<string> sentences;
 
-    private DialogueTrigger currentDialogueTrigger;
+    public Text nameText; // The UI element for displaying the NPC's name
+    public Text dialogueText; // The UI element for displaying the dialogue text
+    public GameObject dialogueBox; // The UI container for the dialogue system
+    public GameObject questUI; // The UI container for the quest list
+    public TextMeshProUGUI questListText; // The UI element for displaying the active quests
+
+    private Queue<string> sentences; // A queue to store sentences of the current dialogue
     private PlayerMovement playerMovement;
     private Rigidbody2D playerRigidbody;
+    private Quest currentQuestToUse;
+
+    private NoQuestDialogueTrigger tempNoQuestTrigger;
     void Start()
     {
         sentences = new Queue<string>();
-        ClearQuestUI();
+        dialogueBox.SetActive(false); // Ensure the dialogue box is hidden initially
 
         playerMovement = FindObjectOfType<PlayerMovement>();
         playerRigidbody = playerMovement.GetComponent<Rigidbody2D>();
+
+        currentQuestToUse = null;
+        tempNoQuestTrigger = null;
     }
     void Update()
     {
-        // Check if the space bar is pressed to continue dialogue
+        // Check for spacebar input to display the next sentence
         if (Input.GetKeyDown(KeyCode.Space) && dialogueBox.activeSelf)
         {
-            DisplayNextSentence();
+            if (tempNoQuestTrigger == null)
+                DisplayNextSentence();
+            else
+                DisplayNoQuestNextSentence(tempNoQuestTrigger);
         }
     }
 
-    public void StartDialogue(DialogueTrigger dialogueTrigger)
+    public void StartDialogue(DialogueTrigger trigger, Quest currentQuest)
     {
-        dialogueBox.SetActive(true); // Activate the dialogue box
-        currentDialogueTrigger = dialogueTrigger;
+        // Set the NPC's name in the UI
+        nameText.text = trigger.GetCurrentSpeakerName();
 
+        currentQuestToUse = currentQuest;
+
+        // Clear previous dialogue sentences
         sentences.Clear();
+        dialogueBox.SetActive(true);
 
-        if (playerMovement != null)
-        {
-            playerMovement.enabled = false;
-            playerRigidbody.velocity = Vector2.zero;
-        }
-
-        foreach (string sentence in dialogueTrigger.GetCurrentSentences())
+        // Enqueue the new sentences for the current quest state
+        string[] dialogueSentences = trigger.GetDialogueForQuest(currentQuest);
+        foreach (string sentence in dialogueSentences)
         {
             sentences.Enqueue(sentence);
         }
 
+        // Display the first sentence
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
+        // Check if there are more sentences to display
         if (sentences.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        nameText.text = currentDialogueTrigger.GetCurrentSpeakerName();
+        // Get the next sentence from the queue
         string sentence = sentences.Dequeue();
+
+        // Stop any ongoing typing effect and start typing the new sentence
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
     }
 
     IEnumerator TypeSentence(string sentence)
     {
-        dialogueText.text = "";
+        dialogueText.text = ""; // Clear the dialogue text field
+
+        // Type out the sentence character by character
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return null;
+            yield return null; // Wait until the next frame
         }
     }
 
-    void EndDialogue()
+    public void EndDialogue()
     {
+        // Hide the dialogue box
         dialogueBox.SetActive(false);
 
-        if (playerMovement != null)
+        if (!currentQuestToUse.isActive)
         {
-            playerMovement.enabled = true;
+            QuestManager questManager = FindObjectOfType<QuestManager>();
+            questManager.ActivateQuest(currentQuestToUse);
         }
 
-        if (currentDialogueTrigger != null)
+        if (currentQuestToUse.isCompleted)
         {
-            currentDialogueTrigger.ActivateQuest();
-            if (currentDialogueTrigger.RemoveQuest())
-            {
-                ClearQuestUI();
-            }
+            QuestManager questManager = FindObjectOfType<QuestManager>();
+            questManager.RemoveQuest(currentQuestToUse);
+            currentQuestToUse = null;
         }
+        // Update the quest UI in case the dialogue triggered a quest change
+        UpdateQuestUI();
     }
 
-    public void UpdateQuestUI(Quest quest)
+    public void UpdateQuestUI()
     {
-        ClearQuestUI();
+        // Retrieve the current active quests from the QuestManager
+        QuestManager questManager = FindObjectOfType<QuestManager>();
+        List<Quest> activeQuests = questManager.allQuests.FindAll(q => q.isActive);
+        // Clear the quest list UI text
+        questListText.text = "";
 
-        bool allItemsCompleted = true; // Flag to check if all items are completed
-        string questText = "";
-
-        // Check if the quest is completed
-        if (quest.isCompleted)
+        // Display each active quest and its completion status
+        foreach (Quest quest in activeQuests)
         {
-            questText += "<s>"; // Start strikethrough tag for the entire quest
-        }
-
-        questText += $"<b>{quest.questName}</b>:\n"; // Quest name in bold
-
-        // Iterate through each required item
-        foreach (Item item in quest.requiredItems)
-        {
-            if (item.currentCount >= item.maxCount)
+            if (quest.showInUI) // Only include quests that should be shown in the UI
             {
-                questText += "<s>"; // Start strikethrough tag for the item
-            }
-            else
-            {
-                allItemsCompleted = false; // Set flag to false if any item is incomplete
-            }
+                string questStatus = quest.isCompleted ? "<s>" + quest.questName + "</s>" : quest.questName;
+                questListText.text += questStatus + "\n";
 
-            questText += $"{item.name}: {item.currentCount}/{item.maxCount}\n"; // Item name and amount
-
-            if (item.currentCount >= item.maxCount)
-            {
-                questText += "</s>"; // End strikethrough tag for the item
+                foreach (Item item in quest.requiredItems)
+                {
+                    string itemStatus = item.currentCount >= item.maxCount ? "<s>" + item.itemName + ": " + item.currentCount + "/" + item.maxCount + "</s>" : item.itemName + ": " + item.currentCount + "/" + item.maxCount;
+                    questListText.text += "  - " + itemStatus + "\n";
+                }
             }
         }
 
-        // If all items are completed and the quest was not already marked as completed
-        if (allItemsCompleted && !quest.isCompleted)
-        {
-            quest.isCompleted = true;
-            questText = "<s>" + questText + "</s>"; // Apply strikethrough to the entire quest
-        }
-
-        // If the quest was marked as completed earlier, close the strikethrough tag
-        if (quest.isCompleted)
-        {
-            questText += "</s>";
-        }
-
-        questListText.text += questText + "\n"; // Append quest text to the quest list UI
+        // Show the quest UI if there are active quests
+        //questUI.SetActive(activeQuests.Count > 0);
+    }
+    public void ClearDialogue()
+    {
+        questListText.text = "";
     }
 
 
-    public void ClearQuestUI()
+    public void StartNoQuestDialogue(NoQuestDialogueTrigger trigger, string[] Dsentences)
     {
-        questListText.text = ""; // Clear the quest list UI when needed
+        tempNoQuestTrigger = trigger;
+
+        // Set the NPC's name in the UI
+        nameText.text = trigger.GetCurrentSpeakerName();
+
+        // Clear previous dialogue sentences
+        sentences.Clear();
+        dialogueBox.SetActive(true);
+        foreach (string sentence in Dsentences)
+        {
+            sentences.Enqueue(sentence);
+        }
+
+        // Display the first sentence
+        DisplayNoQuestNextSentence(trigger);
+    }
+
+    public void DisplayNoQuestNextSentence(NoQuestDialogueTrigger trigger)
+    {
+        // Check if there are more sentences to display
+        if (sentences.Count == 0)
+        {
+            dialogueBox.SetActive(false);
+            trigger.ActivateReward();
+            return;
+        }
+
+        // Get the next sentence from the queue
+        string sentence = sentences.Dequeue();
+
+        // Stop any ongoing typing effect and start typing the new sentence
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(sentence));
     }
 }

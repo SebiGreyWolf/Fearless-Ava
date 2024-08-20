@@ -16,6 +16,7 @@ public class FallingRock : MonoBehaviour
     {
         if (isFalling)
         {
+            FindObjectOfType<AudioManagement>().PlaySound("StoneFall");
             transform.position = new Vector3(transform.position.x, transform.position.y - fallingSpeed, transform.position.z);
         }
     }

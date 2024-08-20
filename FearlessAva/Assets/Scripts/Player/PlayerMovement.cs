@@ -302,6 +302,7 @@ public class PlayerMovement : MonoBehaviour
             else if (RB.velocity.y < 0)
             {
                 //Higher gravity if falling
+                animator.SetTrigger("Falling");
                 SetGravityScale(Data.gravityScale * Data.fallGravityMult);
                 //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));

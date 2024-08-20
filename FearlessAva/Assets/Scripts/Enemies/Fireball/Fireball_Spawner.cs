@@ -46,6 +46,7 @@ public class FireballSpawner : MonoBehaviour
                 if (timeSinceLastSpawn[i] > times[i])
                 {
                     GameObject newFireball = Instantiate(fireball, spawnPositions[i], Quaternion.identity);
+                    FindObjectOfType<AudioManagement>().PlaySound("Fireball");
                     newFireball.SetActive(true);
                     timeSinceLastSpawn[i] = 0;
                     times[i] = rand.Next(minSecBetweenFireballs, maxSecBetweenFireballs);

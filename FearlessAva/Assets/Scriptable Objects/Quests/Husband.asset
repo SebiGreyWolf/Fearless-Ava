@@ -15,10 +15,12 @@ MonoBehaviour:
   questName: Collect Basics
   questDescription: Collect Shit
   isCompleted: 0
-  isActive: 1
+  isActive: 0
+  showInUI: 1
   requiredItems:
   - {fileID: 11400000, guid: 5c48f08d2a0e64744bf8211df313832e, type: 2}
   - {fileID: 11400000, guid: eb056fa03daa5064892e7a0ca89024bb, type: 2}
   - {fileID: 11400000, guid: afc85e77455879d429d81c31c418fc7b, type: 2}
   reward: {fileID: 1316726376189712317, guid: 314d4e9c6169f624a92d4e3df54054a3, type: 3}
+  requirement: {fileID: 0}
   shouldResetOnPlay: 1

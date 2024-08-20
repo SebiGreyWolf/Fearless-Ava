@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Wood
   currentCount: 0
-  maxCount: 3
+  maxCount: 2
+  shouldResetOnPlay: 1

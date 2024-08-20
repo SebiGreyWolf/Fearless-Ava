@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Spice
   m_EditorClassIdentifier: 
   itemName: Spice
-  currentCount: 0
+  currentCount: 4
   maxCount: 4
+  shouldResetOnPlay: 1

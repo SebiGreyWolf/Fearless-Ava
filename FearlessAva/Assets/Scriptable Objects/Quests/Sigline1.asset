@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c486200dd8d74e439d68895b2b06f44, type: 3}
+  m_Name: Sigline1
+  m_EditorClassIdentifier: 
+  questName: Collect Syrup
+  questDescription: 
+  isCompleted: 0
+  isActive: 1
+  showInUI: 1
+  requiredItems:
+  - {fileID: 11400000, guid: 7a7277761b07c634fbe2c7c443dcf6a0, type: 2}
+  reward: {fileID: 1316726376189712317, guid: 314d4e9c6169f624a92d4e3df54054a3, type: 3}
+  requirement: {fileID: 11400000, guid: c2c47adc4afa1004294377c0870bc7b3, type: 2}
+  shouldResetOnPlay: 1

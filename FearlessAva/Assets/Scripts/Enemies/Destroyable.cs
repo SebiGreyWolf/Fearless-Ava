@@ -23,7 +23,7 @@ public class Destroyable : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
+        FindObjectOfType<AudioManagement>().PlaySound("EnemyHit");
         if (currentHealth <= 0)
         {
             Destroy();
