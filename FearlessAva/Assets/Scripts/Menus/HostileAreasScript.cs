@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class HostileAreasScript : MonoBehaviour
 {
-    public GameObject healthbar;
+    public HealthBar healthbar;
     public Player player;
 
+    private void Start()
+    {
+        healthbar = GetComponentInChildren<HealthBar>();
+    }
 
     void Update()
     {
-        if(player.transform.position.x < -270 || player.transform.position.y < -85)
+        if (player.transform.position.x < -270 || player.transform.position.y < -85)
         {
-            healthbar.SetActive(true);
+            healthbar.gameObject.SetActive(true);
         }
         else
         {
-            healthbar.SetActive(false);
+            healthbar.gameObject.SetActive(false);
+            healthbar.SetHealth(100);
         }
     }
 }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Meat
   currentCount: 0
-  maxCount: 2
+  maxCount: 4
   shouldResetOnPlay: 1

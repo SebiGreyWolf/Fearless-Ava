@@ -26,8 +26,8 @@ public class PlayerMovement : MonoBehaviour
     private bool _isJumpFalling;
 
     [Header("Audio Footsteps")]
-    public float footstepInterval = 0.5f;
-    private float nextFootstepTime = 0f;
+    public float footstepDelay = 0.5f; // Time between each footstep sound
+    private float footstepTimer = 0f;
     #endregion
 
     [Header("Layers & Tags")]
@@ -122,11 +122,18 @@ public class PlayerMovement : MonoBehaviour
     }
     private void HandleAnimation()
     {
+        footstepTimer -= Time.deltaTime;
         // Set walking/idle animation
         if (IsGrounded && Mathf.Abs(_moveInput.x) > 0.01f)
         {
             animator.SetBool("IsWalking", true);
             animator.SetBool("IsIdle", false);
+            if (footstepTimer <= 0f)
+            {
+                FindObjectOfType<AudioManagement>().PlaySound("Footsteps");
+                footstepTimer = footstepDelay; // Reset the timer
+            }
+            
         }
         else if (IsGrounded)
         {

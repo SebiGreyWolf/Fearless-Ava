@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c800154d7ff8374c8eaa947af454668, type: 3}
-  m_Name: Lianas
+  m_Name: Vines
   m_EditorClassIdentifier: 
-  itemName: Lianas
+  itemName: Vines
   currentCount: 3
   maxCount: 3
   shouldResetOnPlay: 1

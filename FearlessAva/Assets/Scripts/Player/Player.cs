@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, IDataPersistance
     public HealthBar healthBar;
     public Transform respawnPoint;
 
-    public int maxHealth = 16;
+    public int maxHealth = 100;
     public float invulnerabilityDuration = 0.5f;
 
     public bool isFullyShieldBlock;
