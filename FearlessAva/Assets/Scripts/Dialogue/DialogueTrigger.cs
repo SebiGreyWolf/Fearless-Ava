@@ -133,7 +133,7 @@ public class DialogueTrigger : MonoBehaviour
                 return false;
         }
 
-        if (basicDialogues != null || basicDialogues.Count > 0)
+        if (basicDialogues != null && basicDialogues.Count > 0)
             if (!basicDialogues[0].requrementQuest.isCompleted || basicDialogues[0].reward == null)
                 return false;
 
