@@ -1,0 +1,44 @@
+Fearless Ava 
+
+
+#####FEATURES#####
+
+- Objekte aufsammeln/abgeben 
+- Quests annehmen/abgeben (Quests werden automatisch angenommen und abgegeben)
+
+
+#####STEUERUNG#####
+
+- A, D - Interaktion mit Objekten (Objekte aufsammeln, Quests annehmen) - F  
+
+- Mit dem Dialog fortfahren – Leertaste („continue“) 
+
+- Sprung - Leertaste gedrückt halten
+
+- Pogo-Jump - Leertaste + S + Linksklick (über einer Jumpshell) 
+
+
+#####STORY#####
+
+Ava the adventurer receives a letter from her adventure Guild:
+
+“Dear Ava, we ask of you to slay the Dragon in the Silverwood Forest. This task needs to be completed in the next 5 days, since it will attack the nearby town if not slain in time. We are unsure of its location, but there is a small community living in the forest, perhaps they know more about the Dragons whereabouts.”
+
+After that Ava has made her way over to the forest as soon as possible. It took her four days until she arrived there, leaving her with just a day to find and kill the dragon. As she arrived in a familiar area, she was greeted by her husband who was surprised but happy to see her. When he had asked why she was suddenly back, a shower of guild overcame Ava not wanting to admit that she didn’t come to visit her family but to slay a dragon. So, she kept her Mission a secret, lying to her husband that she came back to see her family. As a welcome back the Husband suggested a Grill-party, which still needs a lot of preparation, since it was so sudden. Ava now has to help make the Grill party work, while at the same time having to find the Dragons-Layer and kill it, while keeping it a secret from her family.
+
+
+#####WALKTHROUGH - REIHENFOLGE DER QUESTS#####
+
+Quest 1: Die Aufgabe besteht darin, die Beeren, Gewürze und Sirup zu besorgen. 
+Quest 2: Die Aufgabe besteht darin, die Blumen zu besorgen. 
+Quest 3: Die Aufgabe besteht darin, Steine und Feuerholz zu besorgen.
+Quest 4: Die Aufgabe besteht darin, Glühwürmchen, Sirup, Lianen zu besorgen.
+Quest 5: Die Aufgabe besteht darin, Fleisch von Wolf/Schildkröte zu besorgen.
+
+Nach dem Abschluss der letzten Quest soll der Spieler den Drachen töten. 
+
+
+#####KNOWN ISSUES#####
+Sounds nicht wirklich angepasst an Lautstärke. 
+
+

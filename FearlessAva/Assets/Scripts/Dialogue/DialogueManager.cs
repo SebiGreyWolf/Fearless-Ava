@@ -181,9 +181,6 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-
-        // Show the quest UI if there are active quests
-        //questUI.SetActive(activeQuests.Count > 0);
     }
     public void ClearDialogue()
     {
