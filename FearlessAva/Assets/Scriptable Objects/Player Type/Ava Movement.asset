@@ -18,10 +18,10 @@ MonoBehaviour:
   maxFallSpeed: 15
   fastFallGravityMult: 1
   maxFastFallSpeed: 20
-  runMaxSpeed: 7
-  runAcceleration: 7
+  runMaxSpeed: 13
+  runAcceleration: 13
   runAccelAmount: 50
-  runDecceleration: 7
+  runDecceleration: 13
   runDeccelAmount: 50
   accelInAir: 1
   deccelInAir: 1
